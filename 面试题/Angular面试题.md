@@ -37,11 +37,11 @@
 | 31 | [什么是 Observer？](#什么是 Observer？) |
 | 32 | [Promise 和 Observable 之间的区别是什么？](#Promise 和 Observable 之间的区别是什么？) |
 | 33 | [subscribe 方法的简写是什么？](#subscribe 方法的简写是什么？) |
-| 34 |  |
-| 35 |  |
-| 36 |  |
-|  |  |
-|  |  |
+| 34 | [如何在非 Angular 应用程序中使用 Angular 组件？](#如何在非 Angular 应用程序中使用 Angular 组件？) |
+| 35 | [指令有哪些种类？](#指令有哪些种类？) |
+| 36 | [base href 标签的目的是什么？](#base href 标签的目的是什么？) |
+| 37 | [什么是RouterLinkActive？](#什么是RouterLinkActive？) |
+| 38 | [router events是什么？](#router events是什么？) |
 |  |  |
 
 
@@ -775,4 +775,152 @@
 
     
 
-34. 
+34. ### 如何在非 Angular 应用程序中使用 Angular 组件？
+
+    使用 `@angular/elements` 模块中的 `createCustomElement` 函数将 Angular 组件转换为自定义元素，并将其在不同的 Web 应用程序中使用。
+
+    假设我们有一个简单的 Angular 组件 `HelloComponent`，它只是显示一个简单的问候语。现在我们希望将这个组件转换为自定义元素，并在普通的 HTML 页面中使用它。
+
+    首先，创建 `HelloComponent` 组件：
+
+    ```typescript
+    // hello.component.ts
+    
+    import { Component } from '@angular/core';
+    
+    @Component({
+      selector: 'app-hello',
+      template: '<h1>Hello, World!</h1>',
+    })
+    export class HelloComponent {}
+    ```
+
+    接下来，创建一个 Angular 模块，并将 `HelloComponent` 声明为 `entryComponents`，以便 `@angular/elements` 能够将其转换为自定义元素：
+
+    ```typescript
+    // app.module.ts
+    
+    import { BrowserModule } from '@angular/platform-browser';
+    import { Injector, NgModule } from '@angular/core';
+    import { createCustomElement } from '@angular/elements';
+    
+    import { HelloComponent } from './hello.component';
+    
+    @NgModule({
+      declarations: [
+        HelloComponent,
+      ],
+      imports: [
+        BrowserModule,
+      ],
+      entryComponents: [
+        HelloComponent,
+      ],
+    })
+    export class AppModule {
+      constructor(private injector: Injector) {
+        const customElement = createCustomElement(HelloComponent, { injector });
+        customElements.define('app-hello', customElement);
+      }
+    
+      ngDoBootstrap() {}
+    }
+    ```
+
+    在上面的代码中，我们使用 `createCustomElement` 函数将 `HelloComponent` 转换为自定义元素，并在模块的构造函数中使用 `customElements.define` 方法注册该自定义元素。
+
+    然后，编译 Angular 应用程序并生成单个脚本包：
+
+    ```bash
+    ng build --prod --output-hashing none
+    ```
+
+    生成的脚本包将在 `dist` 目录下生成一个 JavaScript 文件，我们将在 HTML 页面中使用它。
+
+    最后，在 HTML 页面中使用自定义元素：
+
+    ```html
+    <!-- index.html -->
+    
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Angular Custom Element Example</title>
+      <script src="path/to/angular-elements-bundle.js"></script>
+    </head>
+    <body>
+      <app-hello></app-hello>
+    </body>
+    </html>
+    ```
+
+    在上面的 HTML 页面中，我们只需引入生成的 JavaScript 文件，并使用 `<app-hello>` 标签来使用自定义元素。
+
+    这样，我们就可以将 Angular 组件转换为自定义元素，并在任何支持自定义元素的 Web 应用程序中使用它。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+35. ### 指令有哪些种类？
+    主要有三种类型的指令：
+
+    1. **Components** — 这些指令带有一个模板。
+    2. **Structural directives** — 这些指令通过添加和移除 DOM 元素来改变 DOM 布局。
+    3. **Attribute directives** — 这些指令改变元素、组件或其他指令的外观或行为。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+36. ### base href 标签的目的是什么？
+
+    路由应用程序应该在 index.html 中的 `<head>` 标签中作为第一个子元素添加 `<base>` 元素，以指示如何组合导航 URL。如果 app 文件夹是应用程序根目录，则可以将 href 值设置为以下内容：
+
+    ```html
+    <base href="/">
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+37. ### 什么是RouterLinkActive？
+
+    RouterLinkActive 是一个指令，根据当前 RouterState，在活动的 RouterLink 绑定上切换 CSS 类。即当此链接处于活动状态时，路由器会添加 CSS 类，当链接处于非活动状态时，它会移除。
+
+    [点这里看在线例子](https://stackblitz.com/edit/angular-routerlinkactive?file=app%2Fapp.component.ts)
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+38. ### router events是什么？
+
+    在每次导航期间，路由器通过 Router.events 属性发出导航事件，允许你跟踪路由的生命周期。
+
+    路由器事件的顺序如下：
+
+    1. NavigationStart,
+    2. RouteConfigLoadStart,
+    3. RouteConfigLoadEnd,
+    4. RoutesRecognized,
+    5. GuardsCheckStart,
+    6. ChildActivationStart,
+    7. ActivationStart,
+    8. GuardsCheckEnd,
+    9. ResolveStart,
+    10. ResolveEnd,
+    11. ActivationEnd
+    12. ChildActivationEnd
+    13. NavigationEnd,
+    14. NavigationCancel,
+    15. NavigationError
+    16. Scroll
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+39. 
