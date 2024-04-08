@@ -32,6 +32,17 @@
 | 26 | [如何读取完整的HttpClient响应？](#如何读取完整的HttpClient响应？) |
 | 27 | [如何进行HttpClient的错误处理？](#如何进行HttpClient的错误处理？) |
 | 28 | [RxJS 是什么？](#RxJS 是什么？) |
+| 29 | [订阅是什么？](#订阅是什么？) |
+| 30 | [什么是 Observable？](#什么是 Observable？) |
+| 31 | [什么是 Observer？](#什么是 Observer？) |
+| 32 | [Promise 和 Observable 之间的区别是什么？](#Promise 和 Observable 之间的区别是什么？) |
+| 33 | [subscribe 方法的简写是什么？](#subscribe 方法的简写是什么？) |
+| 34 |  |
+| 35 |  |
+| 36 |  |
+|  |  |
+|  |  |
+|  |  |
 
 
 
@@ -607,3 +618,161 @@
     ```
 
     **[⬆ 返回顶部](#目录)**
+
+    
+
+29. ### 订阅是什么？
+
+    只有当有人订阅 Observable 实例时，它才开始发布值。因此，你需要通过调用实例的 `subscribe()` 方法进行订阅，并传递一个观察者对象来接收通知。
+
+    让我们以创建和订阅一个简单的 observable 为例，使用一个观察者将接收到的消息记录到控制台上。
+
+    ```javascript
+    // 创建一个包含 5 个整数的 observable 序列，从 1 开始
+    const source = range(1, 5);
+    
+    // 创建观察者对象
+    const myObserver = {
+      next: x => console.log('Observer got a next value: ' + x),
+      error: err => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Observer got a complete notification'),
+    };
+    
+    // 使用观察者对象执行并打印每个项
+    source.subscribe(myObserver);
+    // => Observer got a next value: 1
+    // => Observer got a next value: 2
+    // => Observer got a next value: 3
+    // => Observer got a next value: 4
+    // => Observer got a next value: 5
+    // => Observer got a complete notification
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+30. ### 什么是 Observable？
+
+    Observable 是一种类似于 Promise 的独特对象，可以帮助管理异步代码。Observables 不是 JavaScript 语言的一部分，因此我们需要依赖一个流行的 Observable 库，称为 RxJS。
+    Observables 是使用 `new` 关键字创建的。
+
+    让我们看一个简单的 Observable 示例：
+
+    ```javascript
+    import { Observable } from 'rxjs';
+    
+    const observable = new Observable(observer => {
+      setTimeout(() => {
+        observer.next('Hello from a Observable!');
+      }, 2000);
+    });
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+31. ### 什么是 Observer？
+
+    在 RxJS 中，观察者（Observer）是一种消费者接口，用于接收 Observable 发出的通知。观察者通常由三个回调函数组成：
+
+    1. `next(value)`：用于处理 Observable 发出的每个值。
+    2. `error(err)`：用于处理 Observable 发出的任何错误。
+    3. `complete()`：用于处理 Observable 完成的通知。
+
+    观察者可以通过调用 `subscribe()` 方法订阅 Observable 来接收通知。当 Observable 发出值、错误或完成通知时，观察者的相应回调函数将被调用。
+
+    以下是一个简单的观察者示例：
+
+    ```javascript
+    const observer = {
+      next: (value) => console.log('Received value:', value),
+      error: (err) => console.error('Received error:', err),
+      complete: () => console.log('Received complete notification')
+    };
+    
+    observable.subscribe(observer);
+    ```
+
+    在这个示例中，当 Observable 发出值时，`next` 回调将被调用来处理这些值。如果 Observable 发出错误，则 `error` 回调将被调用来处理错误。当 Observable 完成时，`complete` 回调将被调用来处理完成通知。
+
+    > 可以将 Observer 中的 `next` 类比为 Promise 中的 `resolve`，而 `error` 则类比为 `reject`
+
+    - `next` 回调函数用于处理 Observable 发出的值，类似于 Promise 的 `resolve` 处理异步操作成功时的情况。
+    - `error` 回调函数用于处理 Observable 发生的错误，类似于 Promise 的 `reject` 处理异步操作失败时的情况。
+    - `complete` 回调函数表示 Observable 完成了数据流的发射，不再发出任何值，这与 Promise 中没有对应的情况。
+
+    因此，在某种程度上，Observable 和 Promise 都是用于处理异步操作的方式，Observer 中的回调函数与 Promise 的状态（resolved/rejected）处理方式相似。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+32. ### Promise 和 Observable 之间的区别是什么？
+
+    下面是 Promise 和 Observable 之间的区别列表：
+
+    | 特征     | Promise                                           | Observable                               |
+    | -------- | ------------------------------------------------- | ---------------------------------------- |
+    | 执行时间 | 创建时立即执行                                    | 订阅时才开始执行                         |
+    | 返回值   | 提供单个值                                        | 可以提供多个值                           |
+    | 错误处理 | 通过 `.catch()` 或 `.then()` 方法链中的第二个参数 | 通过订阅方法的第二个参数（错误处理程序） |
+    | 可取消性 | 不支持取消                                        | 支持取消订阅                             |
+    | 链式调用 | 使用 `.then()` 和 `.catch()` 方法                 | 可以使用操作符和订阅方法进行链式调用     |
+
+    **Observable的错误处理：**
+
+    ```typescript
+    someObservable.subscribe(
+      result => {
+        // 处理成功情况
+      },
+      error => {
+        // 处理失败情况
+      }
+    );
+    ```
+
+    **Observable的链式调用：**
+
+    Observable 使用操作符和订阅方法进行链式调用。
+
+    ```typescript
+    someObservable
+      .pipe(
+        // 应用操作符
+        map(data => processData(data)),
+        catchError(error => handleError(error))
+      )
+      .subscribe(
+        result => {
+          // 处理成功情况
+        },
+        error => {
+          // 处理失败情况
+        }
+      );
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+33. ### subscribe 方法的简写是什么？
+
+    `subscribe()` 方法可以接受内联的回调函数定义，用于 `next`、`error` 和 `complete` 处理程序。这被称为简写表示法或具有位置参数的 Subscribe 方法。
+
+     ```javascript
+     myObservable.subscribe(
+         x => console.log('Observer got a next value: ' + x),
+         err => console.error('Observer got an error: ' + err),
+         () => console.log('Observer got a complete notification')
+     );
+     ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+34. 
