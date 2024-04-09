@@ -42,6 +42,39 @@
 | 36 | [base href 标签的目的是什么？](#base href 标签的目的是什么？) |
 | 37 | [什么是RouterLinkActive？](#什么是RouterLinkActive？) |
 | 38 | [router events是什么？](#router events是什么？) |
+| 39 | [Angular中两种不同的编译模式是什么？性能差异是什么？](#Angular中两种不同的编译模式是什么？性能差异是什么？) |
+| 40 | [如何控制AOT编译的方式？](#如何控制AOT编译的方式？) |
+| 41 | [AOT有哪三个阶段？](#AOT有哪三个阶段？) |
+| 42 | [Angular中元数据 JSON 文件是什么？目的是什么？](#Angular中元数据 JSON 文件是什么？目的是什么？) |
+| 43 | [如何提供配置继承？](#如何提供配置继承？) |
+| 44 | [什么是非空断言操作符？](#什么是非空断言操作符？) |
+| 45 | [什么是 Zone（区域）？](#什么是 Zone（区域）？) |
+| 46 | [什么是 Codelyzer？](#什么是 Codelyzer？) |
+| 47 | [什么是 Angular 动画？](#什么是 Angular 动画？) |
+| 48 | [如何在 Angular 中注入动态脚本？](#如何在 Angular 中注入动态脚本？) |
+| 49 | [什么是 Angular Ivy？](#什么是 Angular Ivy？) |
+| 50 | [Angular 中有哪些命名规则类型？](#Angular 中有哪些命名规则类型？) |
+| 51 | [Angular的DSL是什么？](#Angular的DSL是什么？) |
+| 52 | [什么是 Angular 中的 RxJS 的 Subject？](#什么是 Angular 中的 RxJS 的 Subject？) |
+| 53 | [单播和多播的区别是什么？](#单播和多播的区别是什么？) |
+| 54 | [什么是 Bazel 工具？](#什么是 Bazel 工具？) |
+| 55 | [如何在 Angular 中检测路由变化？](#如何在 Angular 中检测路由变化？) |
+| 56 | [如何为 HTTP 客户端传递标头？](#如何为 HTTP 客户端传递标头？) |
+| 57 | [Angular 支持动态导入吗？](#Angular 支持动态导入吗？) |
+| 58 | [什么是懒加载？](#什么是懒加载？) |
+| 59 | [什么是workspace APIs？](#什么是workspace APIs？) |
+| 60 | [Angular怎么升级版本？](#Angular怎么升级版本？) |
+| 61 | [如何使用 CLI 测试 Angular 应用程序？](#如何使用 CLI 测试 Angular 应用程序？) |
+| 62 | [如何在 Angular 应用程序中使用 polyfills？](#如何在 Angular 应用程序中使用 polyfills？) |
+| 63 | [触发 Angular 中变更检测的方式有哪些？](#触发 Angular 中变更检测的方式有哪些？) |
+| 64 | [Angular 的各个版本有什么区别？](#Angular 的各个版本有什么区别？)**（仅了解即可）** |
+| 65 | [Angular 中的安全原则是什么？](#Angular 中的安全原则是什么？) |
+| 66 | [Angular 针对预防 XSS 攻击的安全模型是什么？](#Angular 针对预防 XSS 攻击的安全模型是什么？) |
+| 67 | [模板编译器(AOT)在预防 XSS 攻击中的作用是什么？](#模板编译器(AOT)在预防 XSS 攻击中的作用是什么？) |
+| 68 | [什么是Sanitization（消毒）？Angular是否支持它？](#什么是Sanitization（消毒）？Angular是否支持它？) |
+|  |  |
+|  |  |
+|  |  |
 |  |  |
 
 
@@ -923,4 +956,792 @@
 
     
 
-39. 
+39. ### Angular中两种不同的编译模式是什么？性能差异是什么？
+
+    1. Just-in-Time (JIT)
+
+       即时编译（JIT）是一种在运行时在浏览器中编译应用程序的编译类型。在 Angular 8 之前，JIT 编译是默认的，现在默认是 AOT。当你运行 ng build（仅构建）或 ng serve（构建并本地提供服务）CLI 命令时，编译类型（JIT 或 AOT）取决于在 angular.json 中指定的构建配置中的 aot 属性的值。默认情况下，aot 设置为 true。
+
+    2. Ahead-of-Time (AOT)
+
+       预编译（AOT）是一种在构建时编译您的应用程序的编译类型。这是从 Angular 9 开始的默认值。当你运行 ng build（仅构建）或 ng serve（构建并本地提供服务）CLI 命令时，编译类型（JIT 或 AOT）取决于在 angular.json 中指定的构建配置中的 aot 属性的值。默认情况下，aot 设置为 true。
+
+    **差异：**
+
+    ​	在Angular中，JIT编译和AOT编译对性能的影响主要表现在应用程序的启动速度、响应速度和包的大小上。下面详细说明这两种编译方式的性能差异：
+
+    - 启动速度：
+
+      - **JIT**：启动速度较慢，因为浏览器需要加载Angular编译器以及应用程序本身的代码，然后在客户端实时编译模板和组件。这一过程会增加首次加载的时间。
+
+      - **AOT**：启动速度更快，因为应用程序的模板和组件在构建阶段已被编译成有效的JavaScript代码，浏览器可以直接执行这些预编译的代码，无需等待编译过程。
+
+    - 响应速度：
+
+      - **JIT**：由于需要在运行时编译视图，可能会导致应用程序在运行时的响应速度稍慢。
+
+      - **AOT**：应用程序的视图已经被预编译，因此响应速度通常更快，特别是在复杂的数据绑定和模板渲染时。
+
+    - 包的大小：
+
+      - **JIT**：生成的包会包含Angular的编译器，这会导致应用程序的最终体积更大。
+
+      - **AOT**：由于不需要将Angular编译器包含在最终的JavaScript包中，因此AOT编译的结果通常会有更小的体积。
+
+    **总结：**
+
+    AOT编译能够提供更快的应用程序启动速度和更小的文件体积，这对于用户体验和性能优化都是有利的。在用户设备上不需要额外进行编译，这可以减少首次加载时间并提高应用的响应速度。而JIT编译则适合开发过程中，因为它能够提供快速的编译周期和灵活的调试选项。
+
+    在生产环境中使用AOT编译是Angular官方推荐的最佳实践，因为它为最终用户提供了更好的性能。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+40. ### 如何控制AOT编译的方式？
+
+    您可以通过两种方式来控制应用程序的编译：
+
+    1. 在 `tsconfig.json` 文件中提供模板编译器选项。
+    2. 使用`装饰器`（@Injectable @Component等等）配置 Angular 元数据。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+41. ### AOT有哪三个阶段？
+
+    AOT 编译器分为三个阶段：
+
+    1. **代码分析：** 编译器记录源代码的表示形式。
+    2. **代码生成：** 处理解释并对其进行限制。
+    3. **验证：** 在此阶段，Angular 模板编译器使用 TypeScript 编译器验证模板中的绑定表达式。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+42. ### Angular中元数据 JSON 文件是什么？目的是什么？
+
+    metadata.json 文件可以被视为装饰器元数据整体结构的图表，表示为抽象语法树（AST）。
+
+    当您构建一个 Angular 应用时，会生成许多 `.metadata.json` 文件，这些文件包含了各个组件、指令、服务等的元数据信息。让我们以一个简单的组件为例：
+
+    假设您有一个名为 `app.component.ts` 的组件文件，其中定义了一个简单的 Angular 组件：
+
+    ```typescript
+    import { Component } from '@angular/core';
+    
+    @Component({
+      selector: 'app-root',
+      templateUrl: './app.component.html',
+      styleUrls: ['./app.component.css']
+    })
+    export class AppComponent {
+      title = 'My App';
+    }
+    ```
+
+    在构建 Angular 应用时，会生成一个 `app.component.metadata.json` 文件，其中包含了 `AppComponent` 类装饰器的元数据信息。这个 `.metadata.json` 文件可能包含类似以下内容的信息：
+
+    ```json
+    {
+      "decorators": [
+        {
+          "type": "Component",
+          "args": [
+            {
+              "selector": "app-root",
+              "templateUrl": "./app.component.html",
+              "styleUrls": [
+                "./app.component.css"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
+    这个 JSON 文件中描述了 `AppComponent` 类的装饰器的元数据，包括了组件的选择器、模板 URL 和样式表 URL。这些信息在构建时或运行时被 Angular 框架使用，以便正确渲染和处理组件。在分析阶段，AOT 收集器会扫描记录在 Angular 装饰器中的元数据，并将元数据信息输出到 .metadata.json 文件中，每个 .d.ts 文件对应一个文件。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+43. ### 如何提供配置继承？
+
+    Angular 编译器通过在 tsconfig.json 中的 angularCompilerOptions 上使用 extends 实现配置继承。即，首先加载基本文件中的配置（例如，tsconfig.base.json），然后由继承配置文件中的配置进行覆盖。
+
+    ```json
+    {
+      "extends": "../tsconfig.base.json",
+      "compilerOptions": {
+        "experimentalDecorators": true,
+        ...
+      },
+      "angularCompilerOptions": {
+        "fullTemplateTypeCheck": true,
+        "preserveWhitespaces": true,
+        ...
+      }
+    }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+44. ### 什么是非空断言操作符？
+
+    在 Angular 中，非空断言操作符 `!` 用于告诉 TypeScript 编译器一个表达式的结果一定不会为 `null` 或 `undefined`。这通常用于在模板中访问对象的属性时，明确告诉编译器对象不会为空。这有助于避免 TypeScript 编译器可能产生的 "Object is possibly 'null' or 'undefined'" 错误。
+
+    在 Angular 模板中，当你有一个对象并且确定该对象不会为 `null` 或 `undefined` 时，你可以使用非空断言操作符来访问该对象的属性。例如：
+
+    ```html
+    <div *ngIf="user">
+      {{ user!.name }} <!-- 使用非空断言操作符 -->
+    </div>
+    ```
+
+    在这个例子中，我们假设 `user` 对象不会为 `null` 或 `undefined`，因此我们使用 `user!.name` 来访问 `user` 对象的 `name` 属性，而不需要进行空值检查。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+45. ### 什么是 Zone（区域）？
+
+    在 Web 开发中，Zone（区域）是一种执行上下文的概念，用于跟踪和管理异步任务。Zone.js 是一个库，用于实现和管理 Zones 的概念。**Angular 应用程序利用 Zone.js 来管理变更检测和事件循环**。
+
+    具体来说，Zone 可以捕获和跟踪异步任务的开始和结束，并在任务执行期间拦截和处理错误。这使得 Angular 能够在每次发生异步操作时执行变更检测，并在异步任务结束时更新视图。Zone 还提供了对事件循环的控制，使得 Angular 能够在适当的时间点执行变更检测，确保应用程序状态和视图保持同步。
+
+    总的来说，Zone 提供了一种机制，使得 Angular 能够**感知**和响应异步操作，从而确保应用程序的稳定性和性能。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+46. ### 什么是 Codelyzer？
+
+    Codelyzer 提供了一组用于 Angular TypeScript 项目的静态代码分析的 tslint 规则。你可以在 Web 应用程序、NativeScript、Ionic 等上运行静态代码分析器。Angular CLI 对此提供了支持，可以像下面这样使用：
+
+    ```bash
+    ng new codelyzer
+    ng lint
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+47. ### 什么是 Angular 动画？
+
+    Angular 的动画系统是建立在 CSS 功能之上的，可以用来动画化浏览器认为可动画的任何属性。这些属性包括位置、尺寸、变换、颜色、边框等。Angular 动画模块是 **@angular/animations** 和 **@angular/platform-browser**，在使用 Angular CLI 创建项目时，这些依赖项会自动添加到你的项目中。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+48. ### 如何在 Angular 中注入动态脚本？
+
+    使用 DomSanitizer，我们可以注入动态的 HTML、样式、脚本和 URL。
+
+    ```typescript
+    import { Component } from '@angular/core';
+    import { DomSanitizer } from '@angular/platform-browser';
+    
+    @Component({
+      selector: 'my-app',
+      template: `
+        <div [innerHTML]="htmlSnippet"></div>
+      `,
+    })
+    export class AppComponent {
+      htmlSnippet: string = this.sanitizer.bypassSecurityTrustScript("<script>safeCode()</script>");
+      
+      constructor(protected sanitizer: DomSanitizer) {}
+    }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+49. ### 什么是 Angular Ivy？
+
+    Angular Ivy 是 Angular 的新渲染引擎。您可以选择从 Angular 8 版本开始使用 Ivy 的预览版本。
+
+    1. 您可以通过在 ng new 命令中使用 --enable-ivy 标志，在新项目中启用 ivy。
+
+       ```bash
+       ng new ivy-demo-app --enable-ivy
+       ```
+
+    2. 您可以通过在项目的 tsconfig.app.json 中的 angularCompilerOptions 中添加 enableIvy 选项来将其添加到现有项目中。
+
+       ```json
+       {
+         "compilerOptions": { ... },
+         "angularCompilerOptions": {
+           "enableIvy": true
+         }
+       }
+       ```
+
+    **Ivy优势：**
+
+    1. 生成的代码在运行时更易于阅读和调试
+    2. 更快的重新构建时间
+    3. 改进的载荷大小
+    4. 改进的模板类型检查
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+50. ### Angular 中有哪些命名规则类型？
+
+    1. **驼峰命名法（camelCase）**：
+       - 符号、属性、方法： `selectedUser`, `firstName`, `getUserById()`
+       - 管道名称： `truncateText`, `formatDate`
+       - 非组件指令选择器： `appHeader`, `appFooter`
+       - 常量： `maxItemCount`, `apiBaseUrl`
+    2. **大驼峰命名法（PascalCase）**：
+       - 类名： `AppComponent`, `UserService`, `ProductDetailComponent`
+       - 定义组件、接口、NgModules、指令和管道的类： `UserListComponent`, `ProductService`
+    3. **短划线命名法（kebab-case）**：
+       - 文件名的描述性部分： `app.component.ts`, `user-list.component.html`, `product-detail.component.css`
+       - 组件选择器： `<app-header>`, `<app-footer>`, `<user-list>`
+    4. **大写下划线命名法**：
+       - 常量： `MAX_NUMBER_OF_USERS`, `DEFAULT_API_BASE_URL`, `PI_VALUE`
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+51. ### Angular的DSL是什么？
+
+    领域特定语言（DSL）是专门针对特定应用领域的计算机语言。Angular 有自己的领域特定语言（DSL），它允许我们在普通 HTML 之上编写 Angular 特定的类似 HTML 的语法。它有自己的编译器，用于将此语法编译为浏览器能够理解的 HTML。此 DSL 在 NgModules 中定义，例如动画、表单和路由导航。
+
+    1. `()`：用于输出和 DOM 事件。
+    2. `[]`：用于输入和特定的 DOM 元素属性。
+    3. `*`：结构指令（*ngFor 或 *ngIf）将影响/更改 DOM 结构。、
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+52. ### 什么是 Angular 中的 RxJS 的 Subject？
+
+    RxJS（Subject）是一种特殊类型的 Observable，它允许值被多播到许多观察者。而普通的 Observables 是单播的（每个订阅的观察者都拥有一个独立的 Observable 执行），主题（Subject）是多播的。
+
+    Subject类似于 Observable，但可以向许多观察者进行多播。主题（Subject）类似于 EventEmitter：它们维护一个许多监听器的注册表。
+
+    **Observable：**
+
+    - **基础构建块**：`Observable` 是 RxJS 中定义和处理数据流的核心概念。它代表了可随时间推送值的数据流。
+    - **单播**：`Observable` 是单播的，这意味着每个订阅者都会获得对数据流的独立执行。每次调用 `.subscribe()` 方法时，都会创建一个新的执行环境。
+    - **只是数据生产者**：`Observable` 仅负责数据的产出，它不持有状态，不分享执行上下文。
+
+    **Subject：**
+
+    - **多播**：`Subject` 是多播的，也就是说它可以共享单个执行环境给多个订阅者。因此，使用 `Subject`，每个订阅者都会接收到相同的数据流。
+    - **既是数据生产者，也是数据消费者**：`Subject` 可以发出新的值，这使其可以作为数据的生产者。同时，它也能够被订阅，充当数据的消费者。
+    - **持有状态**：`Subject` 能够通过 `.next()` 方法持有并发送新的值，这种特性使得它可以在多个订阅者之间广播值。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+53. ### 单播和多播的区别是什么？
+
+    让我们通过一个简单的例子来说明单播（Unicast）和多播（Multicast）的区别。首先是单播的例子，我们使用 `Observable` 来创建一个单播数据流：
+
+    **单播（Unicast）示例：**
+
+    ```javascript
+    import { Observable } from 'rxjs';
+    
+    // 创建一个Observable对象
+    const unicastObservable = new Observable(subscriber => {
+      // 模拟网络请求
+      setTimeout(() => {
+        subscriber.next(Math.random()); // 发送一个随机数
+        subscriber.complete();
+      }, 1000);
+    });
+    
+    // 第一个订阅者
+    unicastObservable.subscribe(value => {
+      console.log(`订阅者1收到的值: ${value}`);
+    });
+    
+    // 第二个订阅者，稍后订阅
+    setTimeout(() => {
+      unicastObservable.subscribe(value => {
+        console.log(`订阅者2收到的值: ${value}`);
+      });
+    }, 1500);
+    ```
+
+    在上面的例子中，每个订阅者都会收到一个不同的随机数，因为每次调用 `subscribe` 方法都会触发 `Observable` 的新执行，导致每个订阅者收到的数据流是独立的。
+
+    **多播（Multicast）示例：**
+
+    ```javascript
+    import { Subject } from 'rxjs';
+    
+    // 创建一个Subject对象
+    const multicastSubject = new Subject();
+    
+    // 第一个订阅者
+    multicastSubject.subscribe(value => {
+      console.log(`订阅者1收到的值: ${value}`);
+    });
+    
+    // 第二个订阅者
+    multicastSubject.subscribe(value => {
+      console.log(`订阅者2收到的值: ${value}`);
+    });
+    
+    // 模拟网络请求，并发出一个随机数
+    setTimeout(() => {
+      multicastSubject.next(Math.random());
+      multicastSubject.complete();
+    }, 1000);
+    ```
+
+    在多播的例子中，使用 `Subject` 对象时，不管有多少订阅者，当我们通过 `.next()` 发送数据时，所有的订阅者都会收到相同的数据。这就是多播的行为，`Subject` 共享了数据流给所有的订阅者。
+
+    这两个例子清晰地展示了单播和多播的不同行为。在单播中，每次订阅都获得独立的数据流；而在多播中，所有的订阅者共享同一个数据流。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+54. ### 什么是 Bazel 工具？
+
+    Bazel 是一个强大的构建工具，由 Google 开发并广泛使用，它可以跟踪不同包和构建目标之间的依赖关系。在 Angular8 中，你可以使用 Bazel 来构建你的 CLI 应用程序。 **注意：** Angular 框架本身就是使用 Bazel 构建的。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+55. ### 如何在 Angular 中检测路由变化？
+
+    在 Angular7 中，你可以订阅路由事件来检测变化。订阅路由事件的方式如下：
+
+    ```javascript
+    this.router.events.subscribe((event: Event) => {})
+    ```
+
+    让我们来看一个简单的组件来检测路由变化：
+
+    ```javascript
+    import { Component } from '@angular/core';
+    import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+    
+    @Component({
+        selector: 'app-root',
+        template: `<router-outlet></router-outlet>`
+    })
+    export class AppComponent {
+    
+        constructor(private router: Router) {
+    
+            this.router.events.subscribe((event: Event) => {
+                if (event instanceof NavigationStart) {
+                    // 显示加载指示器并执行操作
+                }
+    
+                if (event instanceof NavigationEnd) {
+                    // 隐藏加载指示器并执行操作
+                }
+    
+                if (event instanceof NavigationError) {
+                    // 隐藏加载指示器并执行操作
+                    console.log(event.error); // 用于调试的错误日志
+                }
+            });
+       }
+    }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+56. ### 如何为 HTTP 客户端传递标头？
+
+    你可以直接传递对象映射给 http 客户端，或者创建 HttpHeaders 类来提供标头。
+
+    ```javascript
+    constructor(private _http: HttpClient) {}
+    this._http.get('someUrl',{
+       headers: {'header1':'value1','header2':'value2'}
+    });
+    
+    (or)
+    let headers = new HttpHeaders().set('header1', headerValue1); // 创建标头对象
+    headers = headers.append('header2', headerValue2); // 添加一个新标头，创建一个新对象
+    headers = headers.append('header3', headerValue3); // 再添加一个标头
+    
+    let params = new HttpParams().set('param1', value1); // 创建参数对象
+    params = params.append('param2', value2); // 添加一个新参数，创建一个新对象
+    params = params.append('param3', value3); // 再添加一个参数
+    
+    return this._http.get<any[]>('someUrl', { headers: headers, params: params })
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+57. ### Angular 支持动态导入吗？
+
+    ```javascript
+    {path: ‘user’, loadChildren: () => import('./users/user.module').then(m => m.UserModule)};
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+58. ### 什么是懒加载？
+    懒加载是 Angular 路由中最有用的概念之一。它帮助我们将网页以块的方式下载，而不是一次性下载所有内容。它通过异步加载特性模块来实现懒加载，每当需要路由时就加载。我们可以按以下方式懒加载 `Customer` 和 `Order` 特性模块：
+    ```javascript
+    const routes: Routes = [
+      {
+        path: 'customers',
+        loadChildren: () => import('./customers/customers.module').then(module => module.CustomersModule)
+      },
+      {
+        path: 'orders',
+        loadChildren: () => import('./orders/orders.module').then(module => module.OrdersModule)
+      },
+      {
+        path: '',
+        redirectTo: '',
+        pathMatch: 'full'
+      }
+    ];
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+59. ### 什么是workspace APIs？
+
+    Angular 8.0 版本引入了工作区 API，以使开发人员更轻松地读取和修改 angular.json 文件，而不是手动修改它。当前，唯一支持的存储格式是 Angular CLI 使用的基于 JSON 的格式。您可以按以下方式启用或添加构建目标的优化选项：
+
+    ```javascript
+    import { NodeJsSyncHost } from '@angular-devkit/core/node';
+    import { workspaces } from '@angular-devkit/core';
+    
+    async function addBuildTargetOption() {
+        const host = workspaces.createWorkspaceHost(new NodeJsSyncHost());
+        const workspace = await workspaces.readWorkspace('path/to/workspace/directory/', host);
+    
+        const project = workspace.projects.get('my-app');
+        if (!project) {
+          throw new Error('my-app 不存在');
+        }
+    
+        const buildTarget = project.targets.get('build');
+        if (!buildTarget) {
+          throw new Error('构建目标不存在');
+        }
+    
+        buildTarget.options.optimization = true;
+    
+        await workspaces.writeWorkspace(workspace, host);
+    }
+    
+    addBuildTargetOption();
+    ```
+
+    - 首先，我们导入了 `NodeJsSyncHost` 和 `workspaces` 模块，它们是 Angular 工作区 API 的一部分。
+    - 然后，我们创建了一个异步函数 `addBuildTargetOption()`，用于向构建目标添加优化选项。
+    - 在函数内部，我们创建了一个工作区主机实例，并使用 `readWorkspace()` 方法读取工作区。您需要将工作区的路径作为参数传递给 `readWorkspace()` 方法。
+    - 接下来，我们获取了名为 `my-app` 的项目，并检查它是否存在。如果项目不存在，则抛出错误。
+    - 然后，我们获取了构建目标，并检查它是否存在。如果构建目标不存在，则抛出错误。
+    - 最后，我们将 `optimization` 选项设置为 `true`，表示启用了优化。
+    - 最后，我们使用 `writeWorkspace()` 方法将更新后的工作区写回到 `angular.json` 文件中。
+
+    这段代码允许您通过编程方式修改 Angular 项目的配置，而无需手动编辑 `angular.json` 文件。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+60. ### Angular怎么升级版本？
+
+    参考官方升级文档(#https://update.angular.io/)
+
+    ```cmd
+    $ ng update @angular/cli @angular/core
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+61. ### 如何使用 CLI 测试 Angular 应用程序？
+
+    Angular CLI 会使用 Jasmine 测试框架下载并安装所需的一切。你只需要运行 `ng test` 来查看测试结果。默认情况下，此命令会在观察模式下构建应用程序，并启动 `Karma 测试运行器`。测试结果的输出如下，
+
+    ```bash
+    10% building modules 1/1 modules 0 active
+    ...INFO [karma]: Karma v1.7.1 server started at http://0.0.0.0:9876/
+    ...INFO [launcher]: Launching browser Chrome ...
+    ...INFO [launcher]: Starting browser Chrome
+    ...INFO [Chrome ...]: Connected on socket ...
+    Chrome ...: Executed 3 of 3 SUCCESS (0.135 secs / 0.205 secs)
+    ```
+
+    **注意：** Chrome 浏览器也会打开，并在 "Jasmine HTML Reporter" 中显示测试输出。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+62. ### 如何在 Angular 应用程序中使用 polyfills？
+
+    Angular CLI 官方提供了对 polyfills 的支持。当你使用 ng new 命令创建新项目时，会在项目文件夹中创建一个 `src/polyfills.ts` 配置文件。该文件包含了必需的和许多可选的 polyfills 作为 JavaScript import 语句。让我们将 polyfills 分类，
+
+    1. **必需的 polyfills：** 在使用 ng new 命令创建项目时会自动安装这些 polyfills，并在 'src/polyfills.ts' 文件中启用相应的导入语句。
+    2. **可选的 polyfills：** 你需要安装它的 npm 包，然后在 'src/polyfills.ts' 文件中创建导入语句。 例如，首先你需要安装以下 npm 包以添加 web 动画（可选）polyfill。 `bash npm install --save web-animations-js `然后在 polyfill 文件中创建导入语句。 `javascript import 'web-animations-js';`
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+63. ### 触发 Angular 中变更检测的方式有哪些？
+
+    你可以将 ApplicationRef、NgZone 或 ChangeDetectorRef 注入到你的组件中，并应用以下特定方法来触发 Angular 中的变更检测。也就是说，有 3 种可能的方式：
+
+    1. **ApplicationRef.tick():** 调用此方法来显式处理变更检测及其副作用。它会检查整个组件树。
+    2. **NgZone.run(callback):** 它在 Angular 区域内评估回调函数。
+    3. **ChangeDetectorRef.detectChanges():** 它仅检测组件及其子组件。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+64. ### Angular 的各个版本有什么区别？
+
+    Angular 框架有不同的版本。让我们看看各个版本的特性，
+
+    1. Angular 1:
+
+       - Angular 1（AngularJS）是于 2010 年发布的第一个 Angular 框架。
+       - AngularJS 不适用于移动设备。
+       - 它基于具有 MVC 架构的控制器。
+
+    2. Angular 2:
+
+       - Angular 2 于 2016 年发布。Angular 2 是 Angular1 版本的完全重写。
+       - Angular 2 解决了 Angular 1 版本存在的性能问题。
+       - Angular 2 从头开始为移动设备构建。
+       - Angular 2 是基于组件的。
+
+    3. Angular 3:
+
+       - Angular 2 中有不同的包版本：
+         - @angular/core v2.3.0
+         - @angular/compiler v2.3.0
+         - @angular/http v2.3.0
+         - @angular/router v3.3.0
+       - 路由器包已经版本化为 3，为了避免混淆，跳过了 3 版本，直接切换到 Angular 4 版本。
+
+    4. Angular 4:
+
+       - AOT 模式下编译器生成的代码文件大小大大减少。
+       - Angular 4 中的生产包大小减少了数百 KB。
+       - 动画功能从 angular/core 中删除，并形成了一个单独的包。
+       - 支持 TypeScript 2.1 和 2.2。
+       - Angular Universal
+       - 新的 HttpClient
+
+    5. Angular 5:
+
+       - Angular 5 使 Angular 更快。它改进了加载时间和执行时间。
+       - 附带了新的构建优化器。
+       - 支持 TypeScript 2.5。
+       - Service Worker
+
+    6. Angular 6:
+
+       - 它于 2018 年 5 月发布。
+       - 包括 Angular 命令行界面（CLI）、组件开发工具包（CDK）、Angular 材料包和 Angular 元素。
+       - Service Worker 问题修复。
+       - 国际化（i18n）
+       - Ivy 的实验模式。
+       - RxJS 6.0
+       - 树摇（Tree Shaking）
+
+    7. Angular 7:
+
+       - 它于 2018 年 10 月发布。
+       - TypeScript 3.1
+       - RxJS 6.3
+       - 新的 Angular CLI
+       - CLI 提示功能提供了在用户运行之前向用户询问问题的能力。它类似于用户和 CLI 之间的交互式对话。
+       - 借助改进的 CLI 提示功能，开发人员可以做出决策。新的 ng 命令在询问用户路由和 CSS 样式类型（SCSS）以及 ng add @angular/material 在询问主题、手势或动画。
+
+    8. Angular 8:
+
+       - 它于 2019 年 5 月发布。
+       - TypeScript 3.4
+
+    9. Angular 9:
+
+       - 它于 2020 年 2 月发布。
+       - TypeScript 3.7
+       - 默认启用 Ivy
+
+    10. Angular 10:
+
+        - 它于 2020 年 6 月发布。
+        - TypeScript 3.9
+        - TSlib 2.0
+
+    11. Angular 11:
+
+        - 发布于 2020 年 11 月。
+        - 改进了 Angular 的构建和部署速度。
+        - 更好的组件测试速度和质量。
+        - 支持 TypeScript 4.0。
+        - 更新了对 Webpack 5 的实验性支持。
+        - 引入了自动内联字体的功能。
+
+    12. Angular 12:
+
+        - 发布于 2021 年 5 月。
+        - 正式废弃了对 IE11 的支持。
+        - 支持 TypeScript 4.2。
+        - 引入了对 Webpack 5 的稳定支持。
+        - 为了简化 API，对表单验证有所优化。
+        - Nullish Coalescing 的支持在模板中添加。
+
+    13. Angular 13:
+
+        - 发布于 2021 年 11 月。
+        - 支持 TypeScript 4.4。
+        - Ivy 库的全面采用，不再支持 View Engine。
+        - 更简单的 Angular Package Format (APF)，以简化第三方库的构建和发布。
+        - RxJS 7.4 默认支持，提高性能和更小的打包体积。
+        - 改进了对严格模式的支持。
+
+    14. Angular 14:
+
+        - 发布于 2022 年 6 月。
+        - 引入了独立的组件，无需 Angular 模块即可使用。
+        - 支持类型化的表单，增强了静态类型检查。
+        - 改进了开发者诊断和错误消息。
+        - 支持 TypeScript 4.7。
+        - 加强了对宽松模式的支持，使得严格模式下的迁移更容易。
+
+    15. Angular 15:
+
+        - 发布于 2022 年 11 月。
+        - 继续改进了性能和开发体验。
+        - 引入了新的特性和 API 改进。
+        - 更好的路由功能和开发者工具。
+        - 更新了对最新 JavaScript 和 TypeScript 特性的支持。
+
+        **[⬆ 返回顶部](#目录)**
+
+    
+
+65. ### Angular 中的安全原则是什么？
+
+    下面是 Angular 中的安全原则列表，
+
+    1. 应避免直接使用 DOM API。
+    2. 应启用内容安全策略 (CSP) 并配置您的 Web 服务器以返回适当的 CSP HTTP 标头。
+    3. 应使用离线模板编译器。
+    4. 应使用服务器端 XSS 保护。
+    5. 应使用 DOM Sanitizer。
+    6. 应防止 CSRF 或 XSRF 攻击。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+66. ### Angular 针对预防 XSS 攻击的安全模型是什么？
+
+    Angular 默认将所有值视为不受信任。也就是说，当从模板中插入值到 DOM 时，通过属性、属性绑定、样式绑定或插值等方式，Angular 会对不受信任的值进行消毒和转义。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+67. ### 模板编译器(AOT)在预防 XSS 攻击中的作用是什么？
+
+    离线模板编译器可以防止模板注入导致的漏洞，并极大提高了应用程序的性能。因此，建议在生产部署中使用离线模板编译器，不要动态生成任何模板。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+68. ### 什么是Sanitization（消毒）？Angular是否支持它？
+
+    **Sanitization（消毒）** 是对不受信任的值进行检查，将其转换为可以安全插入DOM的值。是的，Angular支持消毒。它会为HTML、样式和URL对不受信任的值进行消毒，但无法对包含任意代码的资源URL进行消毒。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+69. ### 插值内容和innerHTML之间有什么区别？
+
+    插值内容和innerHTML代码的主要区别在于代码解释的行为。
+
+    **插值内容始终会被转义，即HTML不会被解释，浏览器会在元素的文本内容中显示角括号。**
+
+    而在innerHTML绑定中，内容会被解释，即浏览器会将< and >字符转换为HTML实体。例如，模板中的用法如下：
+
+    ```html
+    <p>Interpolated value:</p>
+    <div >{{htmlSnippet}}</div>
+    <p>Binding of innerHTML:</p>
+    <div [innerHTML]="htmlSnippet"></div>
+    ```
+
+    以及组件中定义的属性。
+
+    ```javascript
+    export class InnerHtmlBindingComponent {
+        htmlSnippet = 'Template <script>alert("XSS Attack")</script> <b>Code attached</b>';
+    }
+    ```
+
+    即使innerHTML绑定存在XSS攻击的可能性，但Angular将该值识别为不安全，并自动对其进行消毒处理。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+70. ### 如何防止自动消毒？
+
+    1. 注入DomSanitizer：您可以将DomSanitizer作为构造函数中的参数注入组件。
+
+    2. 调用以下某些方法标记可信值
+
+       - bypassSecurityTrustHtml
+
+       - bypassSecurityTrustScript
+
+       - bypassSecurityTrustStyle
+
+       - bypassSecurityTrustUrl
+
+       - bypassSecurityTrustResourceUrl
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+71. 
