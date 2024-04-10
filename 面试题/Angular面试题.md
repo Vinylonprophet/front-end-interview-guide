@@ -72,10 +72,63 @@
 | 66 | [Angular 针对预防 XSS 攻击的安全模型是什么？](#Angular 针对预防 XSS 攻击的安全模型是什么？) |
 | 67 | [模板编译器(AOT)在预防 XSS 攻击中的作用是什么？](#模板编译器(AOT)在预防 XSS 攻击中的作用是什么？) |
 | 68 | [什么是Sanitization（消毒）？Angular是否支持它？](#什么是Sanitization（消毒）？Angular是否支持它？) |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
+| 69 | [插值内容和innerHTML之间有什么区别？](#插值内容和innerHTML之间有什么区别？) |
+| 70 | [如何防止自动消毒？](#如何防止自动消毒？) |
+| 71 | [Angular是否能防止HTTP级别的漏洞？](#Angular是否能防止HTTP级别的漏洞？) |
+| 72 | [什么是HTTP拦截器？](#什么是HTTP拦截器？) |
+| 73 | [HTTP拦截器的应用有哪些？](#HTTP拦截器的应用有哪些？) |
+| 74 | [Angular是否支持多个拦截器？](#Angular是否支持多个拦截器？) |
+| 75 | [Angular如何简化国际化？](#Angular如何简化国际化？) |
+| 76 | [如何手动注册区域数据？](#如何手动注册区域数据？)**（仅了解即可）** |
+| 77 | [ngIf和hidden属性之间的区别是什么？](#ngIf和hidden属性之间的区别是什么？) |
+| 78 | [ngFor 的 trackBy 属性的目的是什么？](#ngFor 的 trackBy 属性的目的是什么？) |
+| 79 | [ngSwitch指令的目的是什么？](#ngSwitch指令的目的是什么？) |
+| 80 | [什么是安全导航运算符？](#什么是安全导航运算符？) |
+| 81 | [什么是入口组件？](#什么是入口组件？) |
+| 82 | [什么是引导组件？](#什么是引导组件？) |
+| 83 | [什么是路由入口组件？](#什么是路由入口组件？) |
+| 84 | [什么是 Angular 编译器？](#什么是 Angular 编译器？) |
+| 85 | [ngModule 元数据在编译过程中的作用是什么？](#ngModule 元数据在编译过程中的作用是什么？) |
+| 86 | [什么是特性模块？](#什么是特性模块？) |
+| 87 | [如果在特性模块中使用 BrowserModule 会发生什么？](#如果在特性模块中使用 BrowserModule 会发生什么？) |
+| 88 | [特性模块的类型有哪些？](#特性模块的类型有哪些？) |
+| 89 | [什么是提供者（Provider）？](#什么是提供者（Provider）？) |
+| 90 | [对提供者的作用域有何推荐？](#对提供者的作用域有何推荐？) |
+| 91 | [如何将提供者作用域限制在一个模块内？](#如何将提供者作用域限制在一个模块内？) |
+| 92 | [如何提供一个单例服务？](#如何提供一个单例服务？) |
+| 93 | [有哪些消除重复Service注册的不同方法？](#有哪些消除重复Service注册的不同方法？) |
+| 94 | [forRoot方法如何帮助避免重复的路由实例？](#forRoot方法如何帮助避免重复的路由实例？) |
+| 95 | [什么是shared共享模块？](#什么是shared共享模块？) |
+| 96 | [可以使用模块共享服务吗？](#可以使用模块共享服务吗？) |
+| 97 | [什么是 ngcc？](#什么是 ngcc？) |
+| 98 | [什么是 NgZone？](#什么是 NgZone？) |
+| 99 | [什么是 NoopZone？](#什么是 NoopZone？) |
+| 100 | [变更检测的可能数据更新场景有哪些？](#变更检测的可能数据更新场景有哪些？) |
+| 101 | [什么是zone context（区域上下文）？](#什么是zone context（区域上下文）？) |
+| 102 | [zone的生命周期钩子是什么？](#zone的生命周期钩子是什么？) |
+| 103 | [NgZone 的哪些方法用于控制变更检测？](#NgZone 的哪些方法用于控制变更检测？) |
+| 104 | [如何更改 zonejs 的设置？](#如何更改 zonejs 的设置？) |
+| 105 | [什么是可选依赖项？](#什么是可选依赖项？) |
+| 106 | [注入器层次结构有哪些类型？](#注入器层次结构有哪些类型？) |
+| 107 | [什么是响应式表单？](#什么是响应式表单？) |
+| 108 | [什么是模板驱动表单？](#什么是模板驱动表单？) |
+| 109 | [响应式表单和模板驱动表单之间有哪些区别？](#响应式表单和模板驱动表单之间有哪些区别？) |
+| 110 | [表单控件分组有哪些不同的方法？](#表单控件分组有哪些不同的方法？) |
+| 111 | [如何更新表单模型的特定属性？](#如何更新表单模型的特定属性？) |
+| 112 | [FormBuilder 的目的是什么？](#FormBuilder 的目的是什么？) |
+| 113 | [如何验证表单中模型的更改？](#如何验证表单中模型的更改？) |
+| 114 | [ngModel 提供的状态 CSS 类是什么？](#ngModel 提供的状态 CSS 类是什么？) |
+| 115 | [验证器函数有哪些类型？](#验证器函数有哪些类型？) |
+| 116 | [能举一个内置验证器的例子吗？](#能举一个内置验证器的例子吗？) |
+| 117 | [如何优化异步验证器的性能？](#如何优化异步验证器的性能？) |
+| 118 | [如何在同一个元素上设置 ngFor 和 ngIf？](#如何在同一个元素上设置 ngFor 和 ngIf？) |
+| 119 | [CSS 中的 host 属性是什么？](#CSS 中的 host 属性是什么？) |
+| 120 | [什么是内容投影（Content Projection）？](#什么是内容投影（Content Projection）？) |
+| 121 | [什么是ng-template？](#什么是ng-template？) |
+|  | |
+|  | |
+|  | |
+|  | |
 
 
 
@@ -1744,4 +1797,1469 @@
 
     
 
-71. 
+71. ### Angular是否能防止HTTP级别的漏洞？
+
+    Angular内置支持防止诸如跨站请求伪造（CSRF或XSRF）和跨站脚本包含（XSSI）等HTTP级别漏洞。尽管这些漏洞需要在服务器端进行缓解，但Angular提供了辅助工具，使客户端集成更容易。
+
+    1. HttpClient支持令牌机制，用于防止XSRF攻击。
+
+       当使用Angular的HttpClient进行HTTP通信时，可以通过以下方式使用令牌机制来防止XSRF攻击：
+
+       假设服务器在每次用户会话期间生成一个名为 `csrfToken` 的令牌，并将其包含在响应的HTTP头部中。客户端在发出请求时，需要将这个令牌作为请求的一部分发送给服务器。
+
+       下面是一个示例代码片段，演示了如何使用HttpClient发送带有XSRF令牌的POST请求：
+
+       ```typescript
+       import { HttpClient, HttpHeaders } from '@angular/common/http';
+       
+       @Injectable()
+       export class MyDataService {
+         constructor(private http: HttpClient) {}
+       
+         postData(data: any): Observable<any> {
+           // 假设从服务器获取的XSRF令牌存储在cookie或者local storage中
+           const xsrfToken = localStorage.getItem('csrfToken');
+       
+           // 设置请求头部，包含XSRF令牌
+           const headers = new HttpHeaders({
+             'Content-Type': 'application/json',
+             'X-XSRF-TOKEN': xsrfToken  // 在请求头中添加XSRF令牌
+           });
+       
+           // 发送POST请求
+           return this.http.post<any>('https://example.com/api/data', data, { headers });
+         }
+       }
+       ```
+
+    2. HttpClient库识别了带有前缀JSON响应的约定（其中包含非可执行的js代码和 ")]}',\n" 字符），并在进一步解析之前自动从所有响应中剥离字符串 ")]}',\n" 。
+
+       演示代码片段：
+
+       ```json
+       )]}',
+       {
+         "id": 1,
+         "name": "John Doe"
+       }
+       ```
+
+       会自动剥离
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+72. ### 什么是HTTP拦截器？
+
+    HTTP拦截器是@angular/common/http的一部分，它检查并转换您的应用程序发送到服务器的HTTP请求，以及HTTP响应。这些拦截器可以执行各种隐式任务，从身份验证到日志记录。
+
+    HttpInterceptor接口的语法如下所示，
+
+    ```typescript
+    interface HttpInterceptor {
+      intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+    }
+    ```
+
+    您可以通过声明实现HttpInterceptor接口的intercept()方法的服务类来使用拦截器。
+
+    ```typescript
+    @Injectable()
+    export class MyInterceptor implements HttpInterceptor {
+        constructor() {}
+        intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+            ...
+        }
+    }
+    ```
+
+    然后，您可以在您的模块中使用它，
+
+    ```typescript
+    @NgModule({
+        ...
+        providers: [
+            {
+                provide: HTTP_INTERCEPTORS,
+                useClass: MyInterceptor,
+                multi: true
+            }
+        ]
+        ...
+    })
+    export class AppModule {}
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+73. ### HTTP拦截器的应用有哪些？
+
+    HTTP拦截器可以用于各种任务，
+
+    1. 身份验证
+    2. 日志记录
+    3. 缓存
+    4. 伪造后端
+    5. URL转换
+    6. 修改标头
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+74. ### Angular是否支持多个拦截器？
+
+    是的，Angular支持同时使用多个拦截器。您可以在providers属性中定义多个拦截器：
+
+    ```typescript
+    providers: [
+      { provide: HTTP_INTERCEPTORS, useClass: MyFirstInterceptor, multi: true },
+      { provide: HTTP_INTERCEPTORS, useClass: MySecondInterceptor, multi: true }
+    ],
+    ```
+
+    拦截器将按提供的顺序调用。即，在上述拦截器配置中，MyFirstInterceptor将首先被调用。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+75. ### Angular如何简化国际化？
+
+    Angular简化了以下国际化方面的处理：
+
+    1. 以本地格式显示日期、数字、百分比和货币。
+    2. 为组件模板中的文本进行翻译准备。
+    3. 处理单词的复数形式。
+    4. 处理备用文本。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+76. ### 如何手动注册区域数据？
+
+    默认情况下，Angular只包含了en-US（美国英语）的区域数据。但如果你想设置其他区域，你必须导入该新区域的区域数据。之后，你可以使用 `registerLocaleData` 方法注册它，该方法的语法如下所示：
+
+    ```typescript
+    registerLocaleData(data: any, localeId?: any, extraData?: any): void
+    ```
+
+    例如，让我们导入德语区域数据并在应用程序中注册它：
+
+    ```typescript
+    import { registerLocaleData } from '@angular/common';
+    import localeDe from '@angular/common/locales/de';
+    
+    registerLocaleData(localeDe, 'de');
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+77. ### ngIf和hidden属性之间的区别是什么？
+
+    主要区别在于*ngIf会从DOM中移除元素，而[hidden]实际上通过设置`display:none`来操纵CSS样式。通常在频繁的操作中，向DOM中添加和移除元素是比较昂贵的。
+
+    1. **隐藏方式：**
+       - `hidden` 属性：隐藏元素是通过在DOM中保留元素的位置并设置其 `display` 属性为 `none` 来实现的。这意味着元素在DOM中仍然存在，只是不可见。
+       - `ngIf` 指令：隐藏元素是通过从DOM中完全移除元素来实现的。这意味着当 `ngIf` 的条件为假时，元素将从DOM中移除，不再存在于DOM树中。
+    2. **性能：**
+       - `hidden` 属性：即使元素被隐藏，但它仍然存在于DOM中，可能会影响性能，尤其是在处理大量隐藏元素时。
+       - `ngIf` 指令：当条件为假时，元素将从DOM中移除，因此不会影响性能。
+    3. **应用场景：**
+       - `hidden` 属性：适用于当元素需要在页面上保留位置，但在某些条件下需要隐藏时，比如根据用户权限隐藏某些功能。
+       - `ngIf` 指令：适用于当元素在某些条件下需要完全移除时，比如根据用户登录状态显示不同的视图。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+78. ### ngFor 的 trackBy 属性的目的是什么？
+
+    使用 *ngFor 和 trackBy 选项的主要目的是性能优化。通常，如果你使用 NgFor 处理大型数据集，对一个项目进行小的更改（删除或添加一个项目）可能会触发一系列 DOM 操作。在这种情况下，Angular 只会看到一组新的对象引用，然后用所有新的 DOM 元素替换旧的 DOM 元素。通过提供一个 `trackBy` 函数，你可以帮助 Angular 跟踪添加或删除的项目，该函数接受索引和当前项目作为参数，并需要返回该项目的唯一标识符。
+
+    假设你有一个待办事项（todo）的列表，每个待办事项都有一个唯一的标识符（ID）和一个名称。
+
+    ```typescript
+    interface Todo {
+      id: number;
+      name: string;
+    }
+    
+    @Component({
+      selector: 'todo-list',
+      template: `
+        <div *ngFor="let todo of todos; trackBy: trackByTodos">
+          ({{ todo.id }}) {{ todo.name }}
+        </div>
+      `
+    })
+    export class TodoListComponent {
+      todos: Todo[] = [
+        { id: 1, name: '完成 Angular 项目' },
+        { id: 2, name: '学习 TypeScript' },
+        { id: 3, name: '阅读一本好书' }
+      ];
+    
+      trackByTodos(index: number, item: Todo): number {
+        return item.id;
+      }
+    }
+    ```
+
+    在这个组件中，我们有一个 `todos` 数组，其中包含了几个待办事项。组件的模板使用 *ngFor 指令来循环遍历 `todos` 数组中的每个待办事项，并为每个待办事项显示其 ID 和名称。
+
+    这里有几个要点：
+
+    1. `*ngFor` 指令会循环遍历 `todos` 数组，并为数组中的每个元素生成一个 div 元素。
+    2. `trackBy: trackByTodos` 部分告诉 Angular 使用 `trackByTodos` 方法来跟踪循环的每个元素。
+    3. `trackByTodos` 方法接收两个参数：`index` 表示当前元素在数组中的索引，`item` 表示当前循环的元素。该方法返回当前待办事项的唯一标识符，这里我们选择使用每个待办事项的 ID 作为标识符。
+    4. 当数据发生变化时，Angular 使用 `trackBy` 函数来比较新数据和旧数据，以确定哪些元素发生了变化，从而减少 DOM 更新的数量，提高性能。
+
+    总的来说，这段代码实现了一个简单的待办事项列表组件，并使用 `trackBy` 函数来优化性能，以避免在数据更新时重新渲染整个列表。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+79. ### ngSwitch指令的目的是什么？
+
+    **ngSwitch** 指令类似于 JavaScript 的 switch 语句，根据一个条件切换来显示多个可能的元素中的一个。在这种情况下，只有选定的元素放置到 DOM 中。它通常与 `NgSwitch`、`NgSwitchCase` 和 `NgSwitchDefault` 指令一起使用。
+
+    例如，让我们使用 ngSwitch 指令根据选择的浏览器显示浏览器详情。
+
+    ```html
+    <div [ngSwitch]="currentBrowser.name">
+      <chrome-browser    *ngSwitchCase="'chrome'"    [item]="currentBrowser"></chrome-browser>
+      <firefox-browser   *ngSwitchCase="'firefox'"     [item]="currentBrowser"></firefox-browser>
+      <opera-browser     *ngSwitchCase="'opera'"  [item]="currentBrowser"></opera-browser>
+      <safari-browser     *ngSwitchCase="'safari'"   [item]="currentBrowser"></safari-browser>
+      <ie-browser  *ngSwitchDefault           [item]="currentItem"></ie-browser>
+    </div>
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+80. ### 什么是安全导航运算符？
+
+    安全导航运算符（?）（也称为 Elvis 运算符）用于在属性路径中防止 `null` 和 `undefined` 值，当您不确定路径是否存在时。即，如果对象路径存在，则返回该路径的值，否则返回 null 值。
+
+    例如，您可以轻松访问用户配置文件的嵌套属性，而不会出现空引用错误，如下所示：
+
+    ```html
+    <p>用户的 firstName 是：{{user?.fullName.firstName}}</p>
+    ```
+
+    使用这个安全导航运算符，Angular 框架在第一个空值出现时停止评估表达式，并在没有任何错误的情况下渲染视图。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+81. ### 什么是入口组件？
+
+    入口组件是 Angular 根据类型在 imperative 方式下加载的任何组件（即，在模板中没有引用的组件）。由于这种行为，它们在编译过程中无法被 Angular 编译器找到。这些组件是通过 `ComponentFactoryResolver` 动态创建的。
+
+    基本上，有两种主要类型的入口组件，分别是
+
+    1. 在路由中指定的引导根组件
+    2. 通过路由加载的组件
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+82. ### 什么是引导组件？
+
+    引导组件是在启动过程或应用程序启动时由 Angular 加载到 DOM 中的入口组件。通常，这个引导或根组件在根模块中使用 `bootstrap` 属性命名为 `AppComponent`：
+
+    ```typescript
+    @NgModule({
+      declarations: [
+        AppComponent
+      ],
+      imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        AppRoutingModule
+      ],
+      providers: [],
+      bootstrap: [AppComponent] // 需要在此处声明引导的入口组件
+    })
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+83. ### 什么是路由入口组件？
+
+    在路由配置中引用的组件称为路由入口组件。在路由定义中，将这些路由入口组件定义如下：
+
+    ```typescript
+    const routes: Routes = [
+      {
+        path: '',
+        component: TodoListComponent // 路由入口组件
+      }
+    ];
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+84. ### 什么是 Angular 编译器？
+
+    Angular 编译器用于将应用程序代码转换为 JavaScript 代码。它读取模板标记，将其与相应的组件类代码组合，并发出组件工厂，该工厂创建组件的 JavaScript 表示以及 @Component 元数据的元素。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+85. ### ngModule 元数据在编译过程中的作用是什么？
+
+    `@NgModule` 元数据用于告诉 Angular 编译器应该为该模块编译哪些组件，并且如何将此模块与其他模块链接。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+86. ### 什么是特性模块？
+
+    特性模块是用于组织代码的 NgModules。可以使用 Angular CLI 在根目录中使用以下命令创建特性模块：
+
+    ```cmd
+    ng generate module MyCustomFeature
+    ```
+
+    Angular CLI 将在根目录中创建一个名为 `my-custom-feature` 的文件夹，并在其中创建一个名为 `my-custom-feature.module.ts` 的文件，内容如下：
+
+    ```typescript
+    import { NgModule } from '@angular/core';
+    import { CommonModule } from '@angular/common';
+    
+    @NgModule({
+      imports: [
+        CommonModule
+      ],
+      declarations: []
+    })
+    export class MyCustomFeature { }
+    ```
+
+    **注意：** 名称中不应该包含 "Module" 后缀，因为 CLI 会自动添加它。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+87. ### 如果在特性模块中使用 BrowserModule 会发生什么？
+
+    如果将 `BrowserModule` 导入到延迟加载的特性模块中，则 Angular 会返回错误消息，告诉您使用 `CommonModule` 替代。因为 BrowserModule 的提供者适用于整个应用程序，所以它只应该在根模块中使用，而不是在特性模块中。特性模块只需要 CommonModule 中的常见指令。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+88. ### 特性模块的类型有哪些？
+
+    以下是特性模块的五种类型：
+
+    1. **领域模块：** 专门为特定应用领域提供用户体验（例如，下订单、注册等）。
+    2. **路由模块：** 这些是领域特性模块，其顶级组件是路由导航路由的目标。
+    3. **路由配置模块：** 为其他模块提供路由配置。
+    4. **服务模块：** 提供实用服务，如数据访问和消息传递（例如，HttpClientModule）。
+    5. **小部件模块：** 将组件、指令和管道提供给外部模块（例如，Material UI 等第三方库）。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+89. ### 什么是提供者（Provider）？
+
+    提供者是对依赖注入系统的一条指令，用于告诉系统如何获取依赖项的值（也就是创建的服务）。你可以使用 Angular CLI 提供服务，例如：
+
+    ```cmd
+    ng generate service my-service
+    ```
+
+    Angular CLI 创建的服务如下所示：
+
+    ```typescript
+    import { Injectable } from '@angular/core';
+    
+    @Injectable({
+      providedIn: 'root', //Angular 在根注入器中提供服务
+    })
+    export class MyService {
+    }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+90. ### 对提供者的作用域有何推荐？
+
+    除非有特定的情况需要，否则应该始终将服务提供给根注入器。除此之外，你还可以选择将服务提供给特定模块。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+91. ### 如何将提供者作用域限制在一个模块内？
+
+    可以通过以下两种方式将服务提供者的作用域限制在特定模块内：
+
+    1. 在服务的 @Injectable() 装饰器中设置 providedIn 属性。
+
+       ```typescript
+       import { Injectable } from '@angular/core';
+       
+       @Injectable({
+         providedIn: 'root' // 或者指定其他模块，如 'MyModule'
+       })
+       export class MyService {
+         constructor() { }
+       }
+       ```
+
+    2. 在模块的 providers 数组中声明服务。
+
+       ```typescript
+       import { NgModule } from '@angular/core';
+       import { MyService } from './my.service';
+       
+       @NgModule({
+         providers: [MyService] // 在 providers 数组中提供 MyService
+       })
+       export class MyModule { }
+       ```
+
+       **[⬆ 返回顶部](#目录)**
+
+    
+
+92. ### 如何提供一个单例服务？
+
+    有两种常见的方法来提供一个单例服务。
+
+    1. 将 @Injectable() 的 providedIn 属性设置为 "root"。这是创建单例服务的首选方式（从 Angular 6.0 开始），因为它使你的服务可被树摇晃（tree-shakable）。
+
+       ```typescript
+       import { Injectable } from '@angular/core';
+       
+       @Injectable({
+         providedIn: 'root',
+       })
+       export class MyService {
+       }
+       ```
+
+    2. 将服务包含在根模块或仅由根模块导入的模块中。
+
+       ```typescript
+       @NgModule({
+         ...
+         providers: [MyService],
+         ...
+       })
+       ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+93. ### 有哪些消除重复Service注册的不同方法？
+
+    如果一个模块同时定义了提供商（provides）和声明（declarations），那么在多个特性模块中加载该模块将导致服务的注册重复。以下是消除此重复行为的不同方法。
+
+    1. 使用providedIn语法，而不是在模块中注册服务。
+    2. 将服务分离到它们自己的模块中。
+    3. 在模块中定义forRoot()和forChild()方法。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+94. ### forRoot方法如何帮助避免重复的路由实例？
+
+    如果`RouterModule`模块没有forRoot()静态方法，那么每个特性模块都会实例化一个新的路由器实例，这会导致应用程序出现问题，因为会存在重复的实例。使用forRoot()方法后，根应用程序模块导入`RouterModule.forRoot(...)`并获取一个路由器实例，所有特性模块导入`RouterModule.forChild(...)`，这样就不会实例化另一个路由器。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+95. ### 什么是shared共享模块？
+
+    共享模块是一个模块，您可以在其中将常用的指令、管道和组件放入一个模块中，并在整个应用程序中共享（导入它）。
+
+    例如，下面的共享模块根据需要导入了CommonModule、FormsModule用于常见的指令和组件，以及基于需要的管道和指令。
+
+    ```typescript
+    import { CommonModule } from '@angular/common';
+    import { NgModule } from '@angular/core';
+    import { FormsModule } from '@angular/forms';
+    import { UserComponent } from './user.component';
+    import { NewUserDirective } from './new-user.directive';
+    import { OrdersPipe } from './orders.pipe';
+    
+    @NgModule({
+     imports:      [ CommonModule ],
+     declarations: [ UserComponent, NewUserDirective, OrdersPipe ],
+     exports:      [ UserComponent, NewUserDirective, OrdersPipe,
+                     CommonModule, FormsModule ]
+    })
+    export class SharedModule { }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+96. ### 可以使用模块共享服务吗？
+
+    不推荐通过导入模块来共享服务。即，只有在您想要使用指令、管道和组件时才导入模块。获取共享服务的最佳方法是通过“Angular依赖注入”，因为**导入模块将导致新的服务实例**。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+97. ### 什么是 ngcc？
+
+    ngcc（Angular 兼容编译器）是一个工具，用于将使用非 Ivy ngc 编译的 node_module 升级为符合 Ivy 规范的格式。package.json 中的 `postinstall` 脚本将确保您的 node_modules 与 Ivy 渲染器兼容。
+
+    ```typescript
+    "scripts": {
+       "postinstall": "ngcc"
+    }
+    ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+98. ### 什么是 NgZone？
+
+    Angular 提供了一个名为 NgZone 的服务，它创建了一个名为 `angular` 的区域，当满足以下条件时会自动触发变更检测。
+
+    1. 当同步或异步函数被执行时。
+    2. 当没有微任务被调度时。
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+99. ### 什么是 NoopZone？
+
+    在 Angular 应用中，默认加载/需要 Zone，并且它帮助 Angular 知道何时触发变更检测。这样，它确保开发人员专注于应用程序开发而不是 Angular 的核心部分。你也可以在没有 Zone 的情况下使用 Angular，但需要自行实现变更检测，并在引导过程中配置 `noop zone`。 下面是移除 zone.js 的两个步骤：
+
+    1. 从 polyfills.ts 中移除 zone.js 的导入。
+
+       ```typescript
+       /***************************************************************************************************
+        * Angular 自身默认需要 Zone JS。
+        */
+       // import 'zone.js/dist/zone';  // 包含在 Angular CLI 中。
+       ```
+
+    2. 在 src/main.ts 中使用 noop 区域来引导 Angular。
+
+       ```typescript
+       platformBrowserDynamic().bootstrapModule(AppModule, {ngZone: 'noop'})
+         .catch(err => console.error(err));
+       ```
+
+    **[⬆ 返回顶部](#目录)**
+
+    
+
+100. ### 变更检测的可能数据更新场景有哪些？
+
+     变更检测在以下情景下起作用，即数据发生变化时需要更新应用程序的 HTML。
+
+     1. 组件初始化： 在引导 Angular 应用程序时，Angular 会触发 `ApplicationRef.tick()` 来调用变更检测和视图渲染。
+
+     2. 事件监听器：
+
+         DOM 事件监听器可以更新 Angular 组件中的数据并触发变更检测。
+
+        ```typescript
+        @Component({
+          selector: 'app-event-listener',
+          template: `
+            <button (click)="onClick()">Click</button>
+            {{message}}`
+        })
+        export class EventListenerComponent {
+          message = '';
+        
+          onClick() {
+            this.message = '数据已更新';
+          }
+        }
+        ```
+
+     3. HTTP 数据请求：
+
+         可以通过 HTTP 请求从服务器获取数据。
+
+        ```typescript
+        data = '默认值';
+        constructor(private httpClient: HttpClient) {}
+        
+        ngOnInit() {
+            this.httpClient.get(this.serverUrl).subscribe(response => {
+              this.data = response.data; // 变更检测将自动发生
+            });
+        }
+        ```
+
+     4. 宏任务 setTimeout() 或 setInterval()：
+
+         可以在 setTimeout 或 setInterval 的回调函数中更新数据。
+
+        ```typescript
+        data = '默认值';
+        
+        ngOnInit() {
+            setTimeout(() => {
+                this.data = '数据已更新'; // 变更检测将自动发生
+            });
+        }
+        ```
+
+     5. 微任务 Promises：
+
+         可以在 promise 的回调函数中更新数据。
+
+        ```typescript
+        data = '初始值';
+        
+        ngOnInit() {
+            Promise.resolve(1).then(v => {
+                this.data = v; // 变更检测将自动发生
+            });
+        }
+        ```
+
+     6. 异步操作，如 WebSockets 和 Canvas： 可以使用 WebSocket.onmessage() 和 Canvas.toBlob() 异步地更新数据。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+101. ### 什么是zone context（区域上下文）？
+
+     执行上下文是一个抽象概念，它保存了当前代码执行的环境信息。区域提供了一个跨异步操作持久存在的执行上下文，称为区域上下文。例如，区域上下文在 setTimeout 回调函数的外部和内部都是相同的
+
+     ```typescript
+     zone.run(() => {
+        // 在区域外部
+        expect(zoneThis).toBe(zone);
+        setTimeout(function() {
+          // 同样的区域外部也存在于此处
+          expect(zoneThis).toBe(zone);
+        });
+     });
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+102. ### zone的生命周期钩子是什么？
+
+     zone.js 提供了四个针对异步操作的生命周期钩子。
+
+     1. **onScheduleTask:** 当一个新的异步任务被调度时触发该钩子。例如，当调用 setTimeout() 时。
+
+        ```typescript
+        onScheduleTask: function(delegate, curr, target, task) {
+            console.log('new task is scheduled:', task.type, task.source);
+            return delegate.scheduleTask(target, task);
+        }
+        ```
+
+     2. **onInvokeTask:** 当一个异步任务即将执行时触发该钩子。例如，当 setTimeout() 的回调即将执行时。
+
+        ```typescript
+        onInvokeTask: function(delegate, curr, target, task, applyThis, applyArgs) {
+            console.log('task will be invoked:', task.type, task.source);
+            return delegate.invokeTask(target, task, applyThis, applyArgs);
+        }
+        ```
+
+     3. **onHasTask:** 当区域内某种类型的任务状态从稳定（区域内无任务）变为不稳定（区域内调度了新任务）或从不稳定变为稳定时触发该钩子。
+
+        ```typescript
+        onHasTask: function(delegate, curr, target, hasTaskState) {
+            console.log('task state changed in the zone:', hasTaskState);
+            return delegate.hasTask(target, hasTaskState);
+        }
+        ```
+
+     4. **onInvoke:** 当一个同步函数即将在区域中执行时触发该钩子。
+
+        ```typescript
+        onInvoke: function(delegate, curr, target, callback, applyThis, applyArgs) {
+            console.log('the callback will be invoked:', callback);
+            return delegate.invoke(target, callback, applyThis, applyArgs);
+        }
+        ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+103. ### NgZone 的哪些方法用于控制变更检测？
+
+     NgZone 服务提供了一个 `run()` 方法，允许您在 Angular 区域内执行函数。此函数用于执行第三方 API，这些 API 不受 Zone 控制，并在正确的时间自动触发变更检测。
+
+     ```typescript
+     export class AppComponent implements OnInit {
+       constructor(private ngZone: NgZone) {}
+       ngOnInit() {
+         // 使用 ngZone.run() 在 Angular 区域内执行异步操作
+         this.ngZone.run(() => {
+           someNewAsyncAPI(() => {
+             // 更新组件的数据
+           });
+         });
+       }
+     }
+     ```
+
+     而 `runOutsideAngular()` 方法用于在您不希望触发变更检测时使用。
+
+     ```typescript
+     export class AppComponent implements OnInit {
+       constructor(private ngZone: NgZone) {}
+       ngOnInit() {
+         // 当您知道不会更新数据时使用此方法
+         this.ngZone.runOutsideAngular(() => {
+           setTimeout(() => {
+             // 更新组件数据，但不触发变更检测
+           });
+         });
+       }
+     }
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+104. ### 如何更改 zonejs 的设置？
+
+     你可以通过在一个单独的文件中配置来更改 zone 的设置，并在导入 zonejs 后立即导入该文件。
+
+     例如，你可以禁用 `requestAnimationFrame()` 的猴子补丁，以防止在没有数据更新时触发变更检测，还可以防止 DOM 事件（如鼠标移动或滚动事件）触发变更检测。假设新文件名为 `zone-flags.js`，
+
+     ```typescript
+     // 禁用 requestAnimationFrame 补丁
+     (window as any).__Zone_disable_requestAnimationFrame = true;
+     
+     // 禁用指定事件名称的补丁
+     (window as any).__zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove'];
+     ```
+
+     上述配置文件可以在 `polyfills.ts` 文件中导入，如下所示：
+
+     ```typescript
+     /***************************************************************************************************
+      * Angular 默认需要 Zone JS。
+      */
+     import './zone-flags';
+     import 'zone.js/dist/zone';  // 包含在 Angular CLI 中。
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+105. ### 什么是可选依赖项？
+
+     可选依赖项是一个参数装饰器，用于标记构造函数参数，表示该参数是一个可选依赖项。因此，如果找不到依赖项，DI 框架将提供 null。
+
+     例如，如果你没有在任何地方注册日志记录器提供程序，则注入器会将 logger（或日志记录器服务）的值设置为 null，如下所示：
+
+     ```typescript
+     import { Optional } from '@angular/core';
+     
+     constructor(@Optional() private logger?: Logger) {
+       if (this.logger) {
+         this.logger.log('这是一个可选的依赖项消息');
+       } else {
+         console.log('未注册日志记录器');
+       }
+     }
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+106. ### 注入器层次结构有哪些类型？
+
+     在 Angular 中有两种类型的注入器层次结构：
+
+     1. **ModuleInjector 层次结构：** 它在模块级别上使用 @NgModule() 或 @Injectable() 注解进行配置。
+     2. **ElementInjector 层次结构：** 它在每个 DOM 元素上隐式创建。默认情况下是空的，除非你在 @Directive() 或 @Component() 的 providers 属性中对其进行配置。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+107. ### 什么是响应式表单？
+
+     响应式表单是一种以响应式风格（表单输入随时间变化）创建表单的模型驱动方法。这些表单围绕可观察流建立，其中表单输入和值被提供为输入值流。以下是创建响应式表单的步骤：
+
+     1. 注册响应式表单模块，在你的应用程序中声明响应式表单指令。
+        ```typescript
+        import { ReactiveFormsModule } from '@angular/forms';
+        
+        @NgModule({
+          imports: [
+            // 其他导入...
+            ReactiveFormsModule
+          ],
+        })
+        export class AppModule { }
+        ```
+
+     2. 创建一个新的 FormControl 实例并将其保存在组件中。
+        ```typescript
+        import { Component } from '@angular/core';
+        import { FormControl } from '@angular/forms';
+        
+        @Component({
+          selector: 'user-profile',
+          styleUrls: ['./user-profile.component.css']
+        })
+        export class UserProfileComponent {
+          userName = new FormControl('');
+        }
+        ```
+
+     3. 在模板中注册 FormControl。
+        ```html
+        <label>
+          用户名：
+          <input type="text" [formControl]="userName">
+        </label>
+        ```
+
+     最终，带有响应式表单控件的组件如下所示：
+     ```typescript
+     import { Component } from '@angular/core';
+     import { FormControl } from '@angular/forms';
+     	
+     @Component({
+       selector: 'user-profile',
+       styleUrls: ['./user-profile.component.css'],
+       template: `
+         <label>
+           用户名：
+           <input type="text" [formControl]="userName">
+         </label>
+       `
+     })
+     export class UserProfileComponent {
+       userName = new FormControl('');
+     }
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+108. ### 什么是模板驱动表单？
+
+     模板驱动表单是一种模型驱动表单，其中你在代码的模板部分使用指令编写逻辑、验证、控件等。它们适用于简单的场景，并使用 [(ngModel)] 语法进行双向绑定。
+
+     例如，你可以按照以下简单步骤轻松创建注册表单：
+
+     1. 将 FormsModule 导入到应用程序模块的导入数组中。
+        ```typescript
+        import { BrowserModule } from '@angular/platform-browser';
+        import { NgModule } from '@angular/core';
+        import { FormsModule } from '@angular/forms';
+        import { RegisterComponent } from './app.component';
+        
+        @NgModule({
+          declarations: [
+            RegisterComponent,
+          ],
+          imports: [
+            BrowserModule,
+            FormsModule
+          ],
+          providers: [],
+          bootstrap: [RegisterComponent]
+        })
+        export class AppModule { }
+        ```
+
+     2. 使用 ngModel 语法将表单从模板绑定到组件。
+        ```html
+        <input type="text" class="form-control" id="name"
+          required
+          [(ngModel)]="model.name" name="name">
+        ```
+
+     3. 在 <form> 标签中附加 NgForm 指令，以创建 FormControl 实例并注册它们。
+        ```html
+        <form #registerForm="ngForm">
+        ```
+
+     4. 为表单控件应用验证消息。
+        ```html
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name"
+               required
+               [(ngModel)]="model.name" name="name"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Please enter your name
+        </div>
+        ```
+
+     5. 使用 ngSubmit 指令提交表单，并在表单底部添加 type="submit" 按钮以触发表单提交。
+        ```html
+        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+        // 表单内容
+        <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid">Submit</button>
+        ```
+
+     最终，完成的模板驱动注册表单将如下所示：
+
+     ```html
+     <div class="container">
+       <h1>Registration Form</h1>
+       <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+         <div class="form-group">
+           <label for="name">Name</label>
+             <input type="text" class="form-control" id="name"
+                    required
+                    [(ngModel)]="model.name" name="name"
+                    #name="ngModel">
+             <div [hidden]="name.valid || name.pristine"
+                  class="alert alert-danger">
+               Please enter your name
+             </div>
+         </div>
+         <button type="submit" class="btn btn-success" [disabled]="!registerForm.form.valid">Submit</button>
+         </form>
+     </div>
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+109. ### 响应式表单和模板驱动表单之间有哪些区别？
+
+     下面是响应式表单和模板驱动表单之间的主要区别：
+
+     | 特征           | 响应式                                                  | 模板驱动                              |
+     | -------------- | ------------------------------------------------------- | ------------------------------------- |
+     | 表单模型设置   | 在组件中显式创建（FormControl 实例）                    | 由指令创建                            |
+     | 数据更新       | 同步                                                    | 异步                                  |
+     | 表单自定义验证 | 定义为函数                                              | 定义为指令                            |
+     | 测试           | 不与变更检测周期交互                                    | 需要了解变更检测过程                  |
+     | 可变性         | 通过始终返回新值来保持不可变性（对于 FormControl 实例） | 可变（属性总是修改为新值）            |
+     | 可扩展性       | 使用底层 API 更具可扩展性                               | 由于 API 的抽象程度较高，可扩展性较低 |
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+110. ### 表单控件分组有哪些不同的方法？
+
+     响应式表单提供了两种将多个相关控件分组的方式。
+
+     1. **FormGroup：** 它定义了一个具有固定一组控件的表单，这些控件可以一起在一个对象中进行管理。它具有与 FormControl 实例类似的属性和方法。
+        
+        可以通过嵌套 FormGroup 来创建复杂的表单，示例如下：
+
+        ```typescript
+        import { Component } from '@angular/core';
+        import { FormGroup, FormControl } from '@angular/forms';
+        
+        @Component({
+          selector: 'user-profile',
+          templateUrl: './user-profile.component.html',
+          styleUrls: ['./user-profile.component.css']
+        })
+        export class UserProfileComponent {
+          userProfile = new FormGroup({
+            firstName: new FormControl(''),
+            lastName: new FormControl(''),
+            address: new FormGroup({
+              street: new FormControl(''),
+              city: new FormControl(''),
+              state: new FormControl(''),
+              zip: new FormControl('')
+            })
+          });
+        
+          onSubmit() {
+            // 将 this.userProfile.value 存储在数据库中
+          }
+        }
+        ```
+
+        ```html
+        <form [formGroup]="userProfile" (ngSubmit)="onSubmit()">
+        
+          <label>
+            First Name:
+            <input type="text" formControlName="firstName">
+          </label>
+        
+          <label>
+            Last Name:
+            <input type="text" formControlName="lastName">
+          </label>
+        
+          <div formGroupName="address">
+            <h3>Address</h3>
+        
+            <label>
+              Street:
+              <input type="text" formControlName="street">
+            </label>
+        
+            <label>
+              City:
+              <input type="text" formControlName="city">
+            </label>
+        
+            <label>
+              State:
+              <input type="text" formControlName="state">
+            </label>
+        
+            <label>
+              Zip Code:
+              <input type="text" formControlName="zip">
+            </label>
+           </div>
+           <button type="submit" [disabled]="!userProfile.valid">Submit</button>
+        
+        </form>
+        ```
+
+     2. **FormArray：** 它定义了一个以数组格式的动态表单，可以在运行时添加和删除控件。当您不知道组中会有多少控件时，这非常有用。
+
+        ```typescript
+        import { Component } from '@angular/core';
+        import { FormArray, FormControl } from '@angular/forms';
+        
+        @Component({
+          selector: 'order-form',
+          templateUrl: './order-form.component.html',
+          styleUrls: ['./order-form.component.css']
+        })
+        export class OrderFormComponent {
+          constructor () {
+            this.orderForm = new FormGroup({
+              firstName: new FormControl('John', Validators.minLength(3)),
+              lastName: new FormControl('Rodson'),
+              items: new FormArray([
+                new FormControl(null)
+              ])
+            });
+          }
+        
+          onSubmitForm () {
+            // 将 this.orderForm.value 中的项目保存在数据库中
+          }
+        
+          onAddItem () {
+            this.orderForm.controls.items.push(new FormControl(null));
+          }
+        
+          onRemoveItem (index) {
+            this.orderForm.controls['items'].removeAt(index);
+          }
+        }
+        ```
+
+        ```html
+        <form [formControlName]="orderForm" (ngSubmit)="onSubmit()">
+        
+          <label>
+            First Name:
+            <input type="text" formControlName="firstName">
+          </label>
+        
+          <label>
+            Last Name:
+            <input type="text" formControlName="lastName">
+          </label>
+        
+          <div>
+            <p>Add items</p>
+            <ul formArrayName="items">
+              <li *ngFor="let item of orderForm.controls.items.controls; let i = index">
+                <input type="text" formControlName="{{i}}">
+                <button type="button" title="Remove Item" (click)="onRemoveItem(i)">Remove</button>
+              </li>
+            </ul>
+            <button type="button" (click)="onAddItem">
+              Add an item
+            </button>
+          </div>
+        </form>
+        ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+111. ### 如何更新表单模型的特定属性？
+
+     您可以使用 `patchValue()` 方法来更新表单模型中定义的特定属性。例如，您可以在单击更新按钮时更新某个配置文件的名称和街道，如下所示：
+
+     ```typescript
+     updateProfile() {
+       this.userProfile.patchValue({
+         firstName: 'John',
+         address: {
+           street: '98 Crescent Street'
+         }
+       });
+     }
+     ```
+
+     ```html
+     <button (click)="updateProfile()">Update Profile</button>
+     ```
+
+     您也可以使用 `setValue` 方法来更新属性。
+
+     **注意：**请记住根据确切的模型结构更新属性。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+112. ### FormBuilder 的目的是什么？
+
+     FormBuilder 用作 FormControl、FormGroup 或 FormArray 的实例的轻量级语法糖。这有助于减少构建复杂响应式表单所需的样板代码量。它作为 `@angular/forms` 包的一个可注入辅助类而提供。
+
+     例如，用户配置文件组件的创建变得更加简单，如下所示：
+
+     ```typescript
+     export class UserProfileComponent {
+       profileForm = this.formBuilder.group({
+         firstName: [''],
+         lastName: [''],
+         address: this.formBuilder.group({
+           street: [''],
+           city: [''],
+           state: [''],
+           zip: ['']
+         }),
+       });
+         
+       constructor(private formBuilder: FormBuilder) { }
+     }
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+113. ### 如何验证表单中模型的更改？
+
+     在Angular中，有时候我们需要确保表单数据正确地流动到模型中，以及从模型正确地流向表单控件。为了方便验证这些数据流，您可以在组件中添加一个名为 `diagnostic` 的属性，用来返回模型的 JSON 表示。这样一来，您就可以轻松地检查表单数据是否正确地映射到了模型上。
+
+     首先，我们假设您有一个名为 `UserProfileComponent` 的组件，并且在组件中有一个叫做 `model` 的属性，表示用户的数据模型。现在，我们希望在开发过程中能够实时地查看模型的数据，以便验证数据流。
+
+     ```typescript
+     export class UserProfileComponent {
+       model = new User('John', 29, 'Writer');
+     
+       // 用于显示模型数据的 getter 属性
+       get diagnostic() { 
+         return JSON.stringify(this.model); 
+       }
+     }
+     ```
+
+     在模板中，我们将 `diagnostic` 属性绑定到一个地方，这样它就会在界面上显示模型的 JSON 表示。通常，您会在表单的顶部或底部添加此绑定。
+
+     ```html
+     <div class="container">
+       <!-- 显示模型数据的地方 -->
+       <p>{{ diagnostic }}</p>
+     
+       <!-- 其他表单控件 -->
+     </div>
+     ```
+
+     这样，在开发过程中，您就可以随时查看模型的实时数据，并验证表单数据是否与模型同步更新。这对于调试和确保数据正确流动非常有用。
+
+     **注意：** 一旦验证完毕，记得将 `diagnostic` 属性从组件中移除，因为这只是为了方便开发期间的调试和验证。
+
+     希望这样更详细的解释能够帮助您理解。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+114. ### ngModel 提供的状态 CSS 类是什么？
+
+     ngModel 指令通过特殊的 Angular CSS 类来更新表单控件的状态。让我们以表格形式列出这些类：
+
+     | 表单控件状态 | 如果为 true | 如果为 false |
+     | ------------ | ----------- | ------------ |
+     | 已访问       | ng-touched  | ng-untouched |
+     | 值已更改     | ng-dirty    | ng-pristine  |
+     | 值有效       | ng-valid    | ng-invalid   |
+
+     1. **已访问（Visited）**:
+        - 如果控件已经被访问过，则会添加 `ng-touched` 类。
+        - 如果控件尚未被访问，则会添加 `ng-untouched` 类。
+
+     2. **值已更改（Value has changed）**:
+        - 如果控件的值已经被修改过，则会添加 `ng-dirty` 类。
+        - 如果控件的值尚未被修改，则会添加 `ng-pristine` 类。
+
+     3. **值有效（Value is valid）**:
+        - 如果控件的值是有效的，则会添加 `ng-valid` 类。
+        - 如果控件的值是无效的，则会添加 `ng-invalid` 类。
+
+     您可以使用这些状态 CSS 类来动态地更新或修改表单控件的样式或者在模板中编写样式，以根据控件的状态进行渲染。例如，您可以根据表单控件是否已被访问过来更改其边框颜色，或者根据控件值的有效性来显示错误消息。
+
+     以下是一个简单的示例，演示了如何使用 ngModel 提供的状态 CSS 类来根据表单控件的状态修改样式：
+
+     ```html
+     <input type="text" [(ngModel)]="username" name="username" #username="ngModel" required>
+     
+     <!-- 根据控件的状态动态应用样式 -->
+     <div [ngClass]="{'visited': username.touched, 'changed': username.dirty, 'valid': username.valid, 'invalid': username.invalid}">
+       用户名：
+     </div>
+     ```
+
+     在这个示例中，我们使用了 ngClass 指令，根据 ngModel 提供的状态 CSS 类来动态地应用不同的样式类。这样，当用户访问控件、修改控件的值或者控件的值有效或无效时，会自动应用相应的样式类，从而改变控件的外观。
+
+     请注意，这只是一个简单的示例，实际上您可以根据自己的需求使用这些状态 CSS 类来设计各种不同的样式或者添加更多的行为。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+115. ### 验证器函数有哪些类型？
+     在响应式表单中，验证器函数可以是同步的或异步的函数，
+
+     1. **同步验证器（Sync validators）：** 这些是同步函数，它们接受一个控件实例，并立即返回一组验证错误或 null。此外，这些函数作为第二个参数传递给表单控件的实例化过程中。主要用例是简单的检查，比如检查字段是否为空，是否超过了最大长度等。
+     2. **异步验证器（Async validators）：** 这些是异步函数，它们接受一个控件实例，并返回一个 Promise 或 Observable，后者稍后会发出一组验证错误或 null。同样，这些函数作为第二个参数传递给表单控件的实例化过程中。主要用例是复杂的验证，比如向服务器发送请求检查用户名或电子邮件的可用性。
+
+     这些验证器的表示形式如下：
+
+     ```typescript
+     this.myForm = formBuilder.group({
+         firstName: ['value'],
+         lastName: ['value', *一些同步验证函数*],
+         email: ['value', *一些验证函数*, *一些异步验证函数*]
+     });
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+116. ### 能举一个内置验证器的例子吗？
+
+     在响应式表单中，您可以在输入表单控件上使用内置的验证器，例如 `required` 和 `minlength`。例如，注册表单可以在姓名输入字段上具有这些验证器
+
+     ```typescript
+     this.registrationForm = new FormGroup({
+         'name': new FormControl(this.hero.name, [
+           Validators.required,
+           Validators.minLength(4),
+         ])
+     });
+     ```
+
+     而在模板驱动的表单中，`required` 和 `minlength` 验证器都作为属性提供。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+117. ### 如何优化异步验证器的性能？
+
+     由于所有验证器都在每次表单值更改后运行，使用异步验证器会对性能产生重大影响，因为它会在每次按键时都向外部 API 发送请求。可以通过将 updateOn 属性从 change（默认）更改为 submit 或 blur 来延迟表单的有效性来避免这种情况。 根据表单类型，使用方式略有不同，
+
+     1. 模板驱动表单：
+
+        在 ngModelOptions指令上设置属性
+
+        ```html
+        <input [(ngModel)]="name" [ngModelOptions]="{updateOn: 'blur'}">
+        ```
+
+     2. 响应式表单：
+
+        在 FormControl 实例上设置属性
+
+        ```javascript
+        name = new FormControl('', {updateOn: 'blur'});
+        ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+118. ### 如何在同一个元素上设置 ngFor 和 ngIf？
+
+     有时您可能需要在同一个元素上同时使用 ngFor 和 ngIf，但不幸的是，您会遇到以下模板错误。
+
+     ```cmd
+     模板解析错误：无法在同一个元素上有多个模板绑定。
+     ```
+
+     在这种情况下，您需要使用 ng-container 或 ng-template。 例如，如果您尝试仅在项目可用时循环遍历项目，下面的代码将在浏览器中抛出错误
+
+     ```html
+     <ul *ngIf="items" *ngFor="let item of items">
+       <li></li>
+     </ul>
+     ```
+
+     可以通过以下方式修复
+
+     ```html
+     <ng-container *ngIf="items">
+       <ul *ngFor="let item of items">
+         <li></li>
+       </ul>
+     </ng-container>
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+119. ### CSS 中的 host 属性是什么？
+
+     `:host` 伪类选择器用于针对承载组件的元素中的样式。由于宿主元素位于父组件的模板中，您无法通过其他方式从组件内部访问宿主元素。 例如，您可以如下为父元素创建边框，
+
+     ```css
+     // app.component.css 中的其他样式
+     //...
+     :host {
+       display: block;
+       border: 1px solid black;
+       padding: 20px;
+     }
+     ```
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+120. ### 什么是内容投影（Content Projection）？
+
+     内容投影（Content Projection）是 Angular 中一种重要的模式，它允许您在一个组件内部插入、投影其他组件或 HTML 内容。通过内容投影，您可以在一个组件中定义一些特定的插槽（slots），然后在使用该组件时，将外部的内容插入到这些插槽中。这样可以使组件更加灵活和可重用，因为它可以适应各种不同的内容。
+
+     具体来说，内容投影通过使用 `<ng-content></ng-content>` 标签来实现。当 Angular 渲染组件时，`<ng-content>` 标签会被替换为组件使用时提供的内容。这样，您就可以在组件的模板中定义插槽，然后在组件的使用处插入自定义内容。
+
+     例如，假设您有一个通用的面板组件，您希望用户可以在面板中放置不同的内容。您可以在面板组件中使用 `<ng-content></ng-content>` 定义一个插槽，然后在使用该面板组件时，将内容插入到这个插槽中。
+
+     这种模式使得组件更加灵活，因为它允许开发者在组件内部动态地插入不同的内容，从而实现各种定制化的效果。
+
+     总之，内容投影是 Angular 中一种强大的模式，可用于增强组件的灵活性和可重用性。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+121. ### 什么是ng-template？
+
+     `ng-template` 是 Angular 中的一个内置指令，用于定义一个模板块，但不会在 DOM 中渲染任何内容。它通常用于延迟渲染或条件渲染，以及在组件之间共享模板。
+
+     `ng-template` 的主要作用包括：
+
+     1. **延迟渲染（Lazy Rendering）**：可以在需要时动态地将模板内容渲染到 DOM 中，而不是在页面加载时就进行渲染。
+     2. **条件渲染（Conditional Rendering）**：可以根据条件决定是否渲染特定的模板内容。
+     3. **复用模板（Template Reusability）**：可以将 `ng-template` 视为一个可重复使用的模板片段，可以在不同的地方引用和重用。
+
+     以下是一个简单的示例，展示了如何使用 `ng-template`：
+
+     ```html
+     <ng-template #myTemplate>
+       <p>This is a template content.</p>
+     </ng-template>
+     
+     <!-- 使用ng-template -->
+     <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+     ```
+
+     在上面的示例中，`ng-template` 定义了一个模板，其中包含一个段落元素。然后，通过 `ngTemplateOutlet` 指令将模板插入到 `<ng-container>` 中进行渲染。
+
+     通过 `ng-template` 可以实现更灵活的模板控制和复用，特别是在创建动态组件、条件性渲染以及自定义结构型指令时非常有用。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+122. ### ng-content、ng-template和ng-container三者的用途？
+
+     `ng-content`、`ng-template` 和 `ng-container` 是 Angular 中用于处理模板和内容的重要指令。它们各自具有不同的作用和用途：
+
+     1. **`ng-content`**：
+        - **作用**：用于在组件模板中创建内容投影，允许将外部传入的内容插入到组件的指定位置。
+        - **用途**：通常与组件的模板结构一起使用，以实现将组件的外部内容插入到组件内部的特定位置。
+        - **示例**：
+          ```html
+          <!-- 组件模板中 -->
+          <ng-content></ng-content>
+          ```
+          ```html
+          <!-- 使用组件时 -->
+          <app-my-component>
+            <!-- 这里的内容将被插入到组件的ng-content标记中 -->
+            <p>Content projected into the component</p>
+          </app-my-component>
+          ```
+
+     2. **`ng-template`**：
+        - **作用**：定义一个模板块，但不会在 DOM 中渲染任何内容，通常用于惰性渲染、条件渲染和模板重用。
+        - **用途**：用于在需要时动态地渲染内容，或者在条件满足时渲染特定的内容，也可用于创建可重用的模板片段。
+        - **示例**：
+          ```html
+          <ng-template #myTemplate>
+            <p>This is a template content.</p>
+          </ng-template>
+          
+          <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+          ```
+
+     3. **`ng-container`**：
+        - **作用**：在模板中创建一个临时容器，不会在 DOM 中留下任何痕迹，常用于组织和管理模板结构，或者与结构型指令一起使用。
+        - **用途**：用于组织模板结构、作为结构型指令的宿主，或者在需要时动态地插入模板。
+        - **示例**：
+          ```html
+          <ng-container *ngIf="condition">
+            <p>Content when condition is true</p>
+          </ng-container>
+          ```
+
+     总之，这些指令在 Angular 中起到了不同但重要的作用，使开发者能够更灵活地管理和处理组件的模板和内容。
