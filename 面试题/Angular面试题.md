@@ -125,10 +125,10 @@
 | 119 | [CSS 中的 host 属性是什么？](#CSS 中的 host 属性是什么？) |
 | 120 | [什么是内容投影（Content Projection）？](#什么是内容投影（Content Projection）？) |
 | 121 | [什么是ng-template？](#什么是ng-template？) |
-|  | |
-|  | |
-|  | |
-|  | |
+| 122 | [ng-content、ng-template和ng-container三者的用途？](#ng-content、ng-template和ng-container三者的用途？) |
+| 123 | [什么是路由守卫？](#什么是路由守卫？) |
+| 124 | [路由守卫可以用来做什么？](#路由守卫可以用来做什么？) |
+| 125 | [路由守卫怎么优化angular性能的？](#路由守卫怎么优化angular性能的？) |
 
 
 
@@ -3222,44 +3222,194 @@
 
 122. ### ng-content、ng-template和ng-container三者的用途？
 
-     `ng-content`、`ng-template` 和 `ng-container` 是 Angular 中用于处理模板和内容的重要指令。它们各自具有不同的作用和用途：
+     在Angular中，`ng-content`, `ng-container`, 和 `ng-template` 是三个非常有用的指令，它们在组件开发中扮演着不同的角色。
 
-     1. **`ng-content`**：
-        - **作用**：用于在组件模板中创建内容投影，允许将外部传入的内容插入到组件的指定位置。
-        - **用途**：通常与组件的模板结构一起使用，以实现将组件的外部内容插入到组件内部的特定位置。
-        - **示例**：
-          ```html
-          <!-- 组件模板中 -->
-          <ng-content></ng-content>
-          ```
-          ```html
-          <!-- 使用组件时 -->
-          <app-my-component>
-            <!-- 这里的内容将被插入到组件的ng-content标记中 -->
-            <p>Content projected into the component</p>
-          </app-my-component>
-          ```
+     1. `ng-content`: 它用于实现内容投影（Content Projection），允许你将外部内容传递到组件的模板中。这个指令通常用于创建可复用的组件，让你可以插入自定义的内容到组件的指定位置。
 
-     2. **`ng-template`**：
-        - **作用**：定义一个模板块，但不会在 DOM 中渲染任何内容，通常用于惰性渲染、条件渲染和模板重用。
-        - **用途**：用于在需要时动态地渲染内容，或者在条件满足时渲染特定的内容，也可用于创建可重用的模板片段。
-        - **示例**：
-          ```html
-          <ng-template #myTemplate>
-            <p>This is a template content.</p>
-          </ng-template>
-          
-          <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
-          ```
+     html
 
-     3. **`ng-container`**：
-        - **作用**：在模板中创建一个临时容器，不会在 DOM 中留下任何痕迹，常用于组织和管理模板结构，或者与结构型指令一起使用。
-        - **用途**：用于组织模板结构、作为结构型指令的宿主，或者在需要时动态地插入模板。
-        - **示例**：
-          ```html
-          <ng-container *ngIf="condition">
-            <p>Content when condition is true</p>
-          </ng-container>
-          ```
+     ```html
+     <!-- parent.component.html -->
+     <app-child-component>
+       <p>这里的内容会被投影到 ChildComponent 中的 ng-content 位置。</p>
+     </app-child-component>
+     
+     <!-- child.component.html -->
+     <div>
+       <!-- 这里的内容会被替换为父组件插入的内容 -->
+       <ng-content></ng-content>
+     </div>
+     ```
 
-     总之，这些指令在 Angular 中起到了不同但重要的作用，使开发者能够更灵活地管理和处理组件的模板和内容。
+     1. `ng-container`: 这是一个逻辑容器，用于帮助组织模板结构，但它不会被渲染成任何真实的DOM元素。它经常被用来作为结构性指令的宿主（比如 `*ngIf`, `*ngFor`）。
+
+     html
+
+     ```html
+     <ng-container *ngIf="condition">
+       <div>只有当 condition 为 true 时，这个 div 才会被渲染。</div>
+     </ng-container>
+     ```
+
+     1. `ng-template`: 它是一个Angular模板，可以定义一段HTML结构，然后可以在其他地方调用并渲染它。它通常与 `*ngIf` 和 `ngTemplateOutlet` 结合使用，用于定义可复用的模板片段。
+
+     html
+
+     ```html
+     <!-- 定义一个模板 -->
+     <ng-template #myTemplate>
+       <div>这是一个可复用的模板片段。</div>
+     </ng-template>
+     
+     <!-- 在其他地方使用这个模板 -->
+     <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+     ```
+
+     使用 `ng-template` 还可以与结构性指令一起使用，在某些条件下显示模板内容，例如使用 `*ngIf` 的 `else` 子句：
+
+     html
+
+     ```html
+     <div *ngIf="condition; else myTemplate">
+       当 condition 为 true 时显示。
+     </div>
+     
+     <ng-template #myTemplate>
+       当 condition 为 false 时显示。
+     </ng-template>
+     ```
+
+     上述代码示例可以帮助你了解这三个指令的基本用法，实际项目中它们的使用会根据不同的需求进行变化。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+123. ### 什么是路由守卫？
+
+     在Angular中，路由守卫（Route Guards）是一种用于控制导航到某个路由是否允许的机制。它们是一组接口，可以通过实现这些接口来创建守卫服务，以执行诸如认证和授权等逻辑，从而决定是否允许用户访问特定的路由或离开当前路由。
+
+     Angular提供了几种不同类型的路由守卫：
+
+     1. `CanActivate`: 决定是否可以激活某个路由。
+     2. `CanActivateChild`: 决定是否可以激活某个路由的所有子路由。
+     3. `CanDeactivate`: 决定是否可以离开当前路由。
+     4. `Resolve`: 在路由激活之前获取路由数据。
+     5. `CanLoad`: 决定是否可以异步加载某个功能模块。
+
+     下面是一个简单的`CanActivate`守卫的示例：
+
+     ```typescript
+     import { Injectable } from '@angular/core';
+     import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+     
+     @Injectable({
+       providedIn: 'root',
+     })
+     export class AuthGuard implements CanActivate {
+       constructor(private router: Router) {}
+     
+       canActivate(
+         next: ActivatedRouteSnapshot,
+         state: RouterStateSnapshot
+       ): boolean {
+         const isAuthenticated = //... 你的认证逻辑
+         if (isAuthenticated) {
+           return true;
+         } else {
+           this.router.navigate(['/login']); // 用户未认证时导航到登录页
+           return false;
+         }
+       }
+     }
+     ```
+
+     在这个示例中，`AuthGuard`服务实现了`CanActivate`接口。当用户尝试访问受保护的路由时，`canActivate`方法将被调用。如果用户已经认证（`isAuthenticated`返回`true`），则返回`true`允许导航；如果未认证，则重定向到登录页面，并返回`false`阻止导航。
+
+     要使用路由守卫，你需要在路由配置中指定它：
+
+     ```typescript
+     const routes: Routes = [
+       {
+         path: 'protected',
+         component: ProtectedComponent,
+         canActivate: [AuthGuard] // 在这里指定守卫
+       },
+       // 其他路由配置...
+     ];
+     ```
+
+     当路由被访问时，`AuthGuard`会根据其`canActivate`方法的返回值决定是否允许导航。通过这种方式，路由守卫在应用程序的安全性和用户体验方面起到了重要作用。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+124. ### 路由守卫可以用来做什么？
+
+     路由守卫在Angular中可以用来执行多种任务，主要包括但不限于：
+
+     1. **用户认证（Authentication）**: 确保用户在访问需要认证的路由时已经登录。如果用户未登录，守卫可以重定向用户到登录页面。
+     2. **用户授权（Authorization）**: 校验用户是否拥有访问特定路由的权限。如果用户没有相应的权限，守卫可以重定向到一个错误页面或主页。
+     3. **保存草稿**: 如果用户在填写表单或其他活动中并且尝试离开当前页面，守卫可以询问用户是否保存更改或确认是否真的想要离开。
+     4. **预加载数据（Pre-fetching Data）**: 在路由激活之前预先加载数据，确保当用户到达页面时所需的数据已经可用。
+     5. **防止重复加载**: 如果某个功能模块已经加载过了，守卫可以防止应用程序再次加载它。
+     6. **日志记录和分析**: 在路由变化时记录日志信息，用于后续的用户行为分析。
+     7. **动态路由**: 根据特定的业务逻辑动态决定路由的激活和重定向。
+
+     举个例子，以下是一个简单的认证守卫，用于检查用户是否登录：
+
+     ```typescript
+     @Injectable({
+       providedIn: 'root'
+     })
+     export class AuthGuard implements CanActivate {
+       constructor(private authService: AuthService, private router: Router) {}
+     
+       canActivate(
+         route: ActivatedRouteSnapshot,
+         state: RouterStateSnapshot
+       ): boolean {
+         const isLoggedIn = this.authService.isLoggedIn(); // 检查用户登录状态
+         if (isLoggedIn) {
+           return true; // 用户已登录，允许访问路由
+         } else {
+           this.router.navigate(['/login']); // 用户未登录，重定向到登录页面
+           return false; // 阻止访问路由
+         }
+       }
+     }
+     ```
+
+     在路由配置中使用这个守卫：
+
+     ```typescript
+     const routes: Routes = [
+       {
+         path: 'dashboard',
+         component: DashboardComponent,
+         canActivate: [AuthGuard] // 在这里指定AuthGuard
+       },
+       // 其他路由...
+     ];
+     ```
+
+     在这个例子中，只有当`AuthService`报告用户已登录时，`AuthGuard`才允许用户访问`dashboard`路由。如果用户未登录，守卫会将用户重定向到登录页面，并且不允许访问`dashboard`路由。这样可以保证敏感页面或需要权限的页面不会被未授权的用户访问。
+
+     **[⬆ 返回顶部](#目录)**
+
+     
+
+125. ### 路由守卫怎么优化angular性能的？
+
+     路由守卫可以帮助优化Angular应用程序的性能，主要通过以下几种方式：
+
+     1. **按需加载（Lazy Loading）**: 利用`CanLoad`守卫，你可以实现模块的按需加载，即只有当用户需要访问特定功能时才加载对应的模块。这减少了应用程序的初始加载时间和总体大小，因为不需要在启动时加载所有功能模块。
+     2. **防止不必要的视图渲染**: `CanActivate`守卫可以防止未授权或未认证的用户访问特定路由，从而避免加载不必要的组件和数据，减少了不必要的计算和渲染，这有助于保持应用程序的响应性和高效性。
+     3. **数据预加载（Pre-fetching Data）**: 使用`Resolve`守卫，可以在路由激活之前获取必要的数据。这意味着用户在到达目标页面时不需要等待数据的加载，从而提高了用户体验，并且减少了视图在数据到达之前的不必要的重复渲染。
+     4. **避免不必要的导航**: `CanDeactivate`守卫可以在用户离开当前页面之前进行检查，例如表单尚未保存时提醒用户。这防止了不必要的导航和可能的数据重新加载，节省了资源。
+     5. **动态路由管理**: 通过结合业务逻辑，路由守卫可以动态地允许或阻止访问某些路由，这意味着应用程序可以根据用户的状态、权限或其他条件来高效地管理和优化路由。
+
+     通过上述方式，路由守卫确保了只有在需要时才执行某些操作，减少了不必要的加载和渲染，提高了应用程序的整体性能。这对于大型应用程序和复杂的路由结构尤为重要，因为它们可能涉及到大量的数据处理和视图更新。
+
+     **[⬆ 返回顶部](#目录)**
