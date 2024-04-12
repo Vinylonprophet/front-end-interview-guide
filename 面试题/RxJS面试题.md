@@ -10,13 +10,15 @@
 | 4 | [Observable和Observer是什么？Observable遵循了哪些设计模式？](#Observable和Observer是什么？Observable遵循了哪些设计模式？) |
 | 5 | [Observable使用的两种形式？](#Observable使用的两种形式？) |
 | 6 | [创建同步数据流的操作符有哪些？](#创建同步数据流的操作符有哪些？) |
-| 7 | |
-| 8 | |
-|  | |
-|  | |
-|  | |
-|  | |
-|  | |
+| 7 | [complete和unsubscribe对repeat()操作符而言区别是什么？](#complete和unsubscribe对repeat()操作符而言区别是什么？) |
+| 8 | [创建异步数据流的操作符有哪些？](#创建异步数据流的操作符有哪些？) |
+| 9 | [timer(1000, 1000)的写法相当于什么？](#timer(1000, 1000)的写法相当于什么？) |
+| 10 | [defer操作符的作用是什么？](#defer操作符的作用是什么？) |
+| 11 | |
+| 12 | |
+| 13 | |
+| 14 | |
+| 15 | |
 
 
 
@@ -248,4 +250,205 @@
 
    
 
-10. 
+10. ### defer操作符的作用是什么？
+
+    `defer` 操作符用于延迟创建 Observable，直到有观察者订阅它时才创建。它可以确保 Observable 的创建是惰性的。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+11. ### 合并操作符有哪些？
+
+    - `merge`: 将多个Observables的输出合并成一个Observable，不论哪个Observable发出值，它们都会被发射到输出Observable中。它们的发出是并行的。
+    - `concat`: 按照给定的顺序连接多个Observables的输出。一个Observable的所有输出都完成后，才会订阅下一个Observable。
+    - `combineLatest`: 当任何一个输入Observable发出值时，它会从每个输入Observable中收集最新的值并将它们作为数组发射。
+    - `zip`: 当所有输入的Observables都发出一个新的项时，`zip`会将所有Observables的当前值作为数组发射。它按顺序等待每个Observable发出值。
+    - `forkJoin`: 当所有的输入Observables完成时，`forkJoin`会收集每个Observable的最后一个值，并将这些值作为数组发射。如果任何一个Observable在发出值之前完成，则不会发出任何东西。
+    - `withLatestFrom`: 当源Observable发出值时，它会将该值与其他输入Observables的最新值合并，并将它们作为数组发射。
+    - `startWith`: 在Observable开始发射之前，用一个特定的值或一系列值开始发射数据序列。
+    - `switchMap`: 对源Observable发出的每个值，都会将其映射到一个新的Observable，并发出这个新的Observable的所有值，同时自动取消之前的内部订阅。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+12. ### concat()要注意什么？
+
+    上游的流是可完结的，不然永远轮不到后面的流登场。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+13. ### merge()为什么有时会出现和concat()相同的效果？
+
+    ```typescript
+    const source$1 = Observable.of(1, 2, 3);
+    const source$2 = Observable.of(4, 5, 6);
+    
+    const merge$ = Observable.merge(source$1, source$2);
+    ```
+
+    以上代码输出的就是：
+
+    1
+
+    2
+
+    3
+
+    4
+
+    5
+
+    6
+
+    还没来得及subscribe，同步数据流就已经被吐出来了。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+14. ### Zip()什么情况下会占用很多内存？
+
+    zip()的一个流如果迟迟不吐出数据，而另一个流的数据越吐越多，就会造成数据堆积。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+15. ### 如果combineLatest()三个of()产生的数据流结果会是什么？
+
+    参考merge()操作符产生concat()的效果，前两个of()都是最后一个数据然后再跟着最后一个of()产生的数据流走。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+16. ### combineLatest最后一个参数是函数会出现什么情况？
+
+    `combineLatest` 将调用这个函数，并将所有输入 Observable 的最新值作为参数传递给它。然后，`combineLatest` 会将这个函数的**返回值作为它自己发出的值**（所以这里不一定再是数组了）。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+17. ### combineLatest和withLatestFrom的区别是什么？
+
+    `combineLatest` 和 `withLatestFrom` 都是用于将多个 Observable 的最新值进行组合的操作符，但它们的行为有所不同，适用于不同的使用场景。
+
+    1. **combineLatest**：
+       - **行为**：当任何一个输入 Observable 发出新值时，`combineLatest` 将组合所有输入 Observable 的最新值，并发出一个新值。这意味着每当任何一个输入 Observable 发出值时，都会触发组合和发出新值。
+       - **使用场景**：适用于需要同时考虑多个输入 Observable 的最新值，并将它们组合为一个值的情况。常见的应用场景包括多个输入参数的计算或者 UI 组件的状态更新。
+
+    2. **withLatestFrom**：
+       - **行为**：`withLatestFrom` 只关注主 Observable，只有当主 Observable 发出值时，才会获取其他输入 Observable 的最新值，并将它们组合为一个值，并发出。这意味着主 Observable 的值驱动了组合的发生。
+       - **使用场景**：适用于主要 Observable 驱动的场景，其中主 Observable 的值是触发其他 Observable 最新值的关键因素。常见的应用场景包括用户交互事件（如按钮点击、鼠标移动等）触发的操作。
+
+    举个例子来说明两者之间的区别和使用场景对比：
+
+    假设我们有两个 Observable：`buttonClick$` 和 `inputValue$`，分别表示按钮点击事件和输入框的值。我们想要在每次按钮点击时，将输入框的最新值与点击次数进行组合，并发出组合后的值。
+
+    使用 `combineLatest`：
+    ```javascript
+    import { combineLatest } from 'rxjs';
+    
+    const buttonClick$ = ...; // 按钮点击事件的 Observable
+    const inputValue$ = ...; // 输入框值的 Observable
+    
+    const combined$ = combineLatest(buttonClick$, inputValue$);
+    
+    combined$.subscribe(([clickEvent, inputValue]) => {
+      console.log('Button clicked:', clickEvent);
+      console.log('Input value:', inputValue);
+    });
+    ```
+
+    使用 `withLatestFrom`：
+    ```javascript
+    import { withLatestFrom } from 'rxjs/operators';
+    
+    const buttonClick$ = ...; // 按钮点击事件的 Observable
+    const inputValue$ = ...; // 输入框值的 Observable
+    
+    const combined$ = buttonClick$.pipe(
+      withLatestFrom(inputValue$)
+    );
+    
+    combined$.subscribe(([clickEvent, inputValue]) => {
+      console.log('Button clicked:', clickEvent);
+      console.log('Input value:', inputValue);
+    });
+    ```
+
+    在这个例子中，如果我们使用 `combineLatest`，那么每次按钮点击或输入框值的变化都会触发组合和发出值，而使用 `withLatestFrom`，只有按钮点击事件触发时，才会获取输入框的最新值进行组合。因此，根据主 Observable 的驱动情况来选择合适的合并操作符。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+18. ### Concat()可以实现startWith吗？
+
+    可以，但是如果实现startWith()也没办法形成连续的链式调用。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+19. ### 为什么有startWith()但没有endWith()呢？
+
+    因为concat(Observable.of('end'))就可以实现endWith()要做到的目的，而且能形成链式调用。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+20. ### 操作observable的高阶合并类操作符有哪些？
+
+    高阶Observable是指其元素本身也是Observable的Observable。在RxJS中，处理高阶Observable的合并类操作符主要有以下几种：
+
+    1. `concatAll`: 将高阶Observable中的内部Observables串行地订阅，只有当一个内部Observable完成后，才会订阅下一个内部Observable。
+    2. `mergeAll`: 将高阶Observable中的所有内部Observables同时订阅，并将它们的值合并到单个Observable中。这是一个并发的合并操作。
+    3. `switchAll`: 每当高阶Observable发出一个新的内部Observable时，`switchAll`会停止订阅当前的内部Observable，并开始订阅最新的内部Observable。只有最新的内部Observable会被订阅和发出值。
+    4. `exhaustAll` (也称为 `exhaust`): 当高阶Observable发出内部Observable时，`exhaustAll`会订阅并发出第一个内部Observable的值，忽略同时发出的其他内部Observables，直到当前订阅的内部Observable完成。该操作符不会同时处理多个内部Observables。
+    5. `zipAll` 是一个高阶Observable操作符，它需要与类似 `map` 的操作符结合使用来将值映射到内部Observables。`zipAll`操作符等待外部Observable发出内部Observables，然后它将这些内部Observables中相同索引的值配对并一起发出。当最短的内部Observable完成时，输出Observable也完成。
+
+    这些高阶合并操作符有时与映射操作符结合使用（如`concatMap`, `mergeMap`, `switchMap`, `exhaustMap`），这些映射操作符将值映射到Observable，并使用相应的合并策略处理结果。
+
+    下面是使用`mergeAll`的简单示例：
+
+    ```javascript
+    import { fromEvent, map, mergeAll } from 'rxjs';
+    
+    // 假设我们有多个按钮，当点击按钮时，会发出按钮的id
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    
+    const higherOrderObservable$ = fromEvent([button1, button2], 'click').pipe(
+      map(event => {
+        // 假设我们有一个返回Observable的函数，比如fetchData
+        return fetchData(event.target.id);
+      })
+    );
+    
+    higherOrderObservable$.pipe(
+      mergeAll()  // 合并内部Observable发出的值
+    ).subscribe(console.log);
+    ```
+
+    在这个示例中，每次按钮点击会创建一个新的Observable（`fetchData`的返回值），`mergeAll`操作符将这些内部Observables发出的值合并到一个Observable中进行处理。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+21. 切换输入Observable用哪个操作符？
+
+    switch()
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+22. 
