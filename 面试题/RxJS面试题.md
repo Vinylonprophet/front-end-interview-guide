@@ -14,11 +14,25 @@
 | 8 | [创建异步数据流的操作符有哪些？](#创建异步数据流的操作符有哪些？) |
 | 9 | [timer(1000, 1000)的写法相当于什么？](#timer(1000, 1000)的写法相当于什么？) |
 | 10 | [defer操作符的作用是什么？](#defer操作符的作用是什么？) |
-| 11 | |
-| 12 | |
-| 13 | |
-| 14 | |
-| 15 | |
+| 11 | [合并操作符有哪些？](#合并操作符有哪些？) |
+| 12 | [concat()要注意什么？](#concat()要注意什么？) |
+| 13 | [merge()为什么有时会出现和concat()相同的效果？](#merge()为什么有时会出现和concat()相同的效果？) |
+| 14 | [zip()什么情况下会占用很多内存？](#zip()什么情况下会占用很多内存？) |
+| 15 | [如果combineLatest()三个of()产生的数据流结果会是什么？](#如果combineLatest()三个of()产生的数据流结果会是什么？) |
+| 16 | [combineLatest最后一个参数是函数会出现什么情况？](#combineLatest最后一个参数是函数会出现什么情况？) |
+| 17 | [combineLatest和withLatestFrom的区别是什么？](#combineLatest和withLatestFrom的区别是什么？) |
+| 18 | [concat()可以实现startWith吗？](#concat()可以实现startWith吗？) |
+| 19 | [为什么有startWith()但没有endWith()呢？](#为什么有startWith()但没有endWith()呢？) |
+| 20 | [操作observable的高阶合并类操作符有哪些？](#操作observable的高阶合并类操作符有哪些？) |
+| 21 | [切换输入Observable用哪个操作符？](#切换输入Observable用哪个操作符？) |
+| 22 | [辅助类操作符有哪些？](#辅助类操作符有哪些？) |
+| 23 | |
+| 24 | |
+| 25 | |
+|  | |
+|  | |
+|  | |
+|  | |
 
 
 
@@ -310,7 +324,7 @@
 
     
 
-14. ### Zip()什么情况下会占用很多内存？
+14. ### zip()什么情况下会占用很多内存？
 
     zip()的一个流如果迟迟不吐出数据，而另一个流的数据越吐越多，就会造成数据堆积。
 
@@ -388,7 +402,7 @@
 
     
 
-18. ### Concat()可以实现startWith吗？
+18. ### concat()可以实现startWith吗？
 
     可以，但是如果实现startWith()也没办法形成连续的链式调用。
 
@@ -443,7 +457,7 @@
 
     
 
-21. 切换输入Observable用哪个操作符？
+21. ### 切换输入Observable用哪个操作符？
 
     switch()
 
@@ -451,4 +465,128 @@
 
     
 
-22. 
+22. ### 辅助类操作符有哪些？
+
+    RxJS 中的数学类操作符主要用于对 Observable 发出的值进行数学运算或操作。以下是一些常见的数学类操作符：
+
+    1. **reduce**: 对 Observable 发出的值进行累加、累乘或者进行自定义的累积操作。
+
+    2. **scan**: 类似于 `reduce`，但是会发出每个累积值，而不是只发出最终的累积结果。
+
+    3. **min**: 发出 Observable 中最小的值。
+
+    4. **max**: 发出 Observable 中最大的值。
+
+    5. **sum**: 计算 Observable 中所有值的总和。
+
+    6. **average**: 计算 Observable 中所有值的平均值。
+
+    7. **count**: 计算 Observable 发出值的总数。
+
+    8. **every**: 判断 Observable 中所有值是否都满足某个条件。
+
+    9. **some**: 判断 Observable 中是否有任意一个值满足某个条件。
+
+    10. **find**: 查找 Observable 中第一个满足条件的值。
+
+    11. **findIndex**: 查找 Observable 中第一个满足条件的值的索引。
+
+    12. **isEmpty**: 判断 Observable 是否为空。
+
+    这些数学类操作符可以用于对 Observable 发出的值进行各种数学运算或操作，从而进行数据处理、筛选或分析。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+23. ### 过滤数据流的操作符有哪些？
+
+    RxJS中用于过滤数据流的操作符有很多，以下是一些常用的过滤操作符：
+
+    1. `filter`: 仅通过那些满足指定谓词函数条件的项。
+
+       ```javascript
+       observable$.pipe(
+           filter(value => value % 2 === 0) // 只通过偶数
+       );
+       ```
+
+    2. `take`: 只取Observable开始发出的前N个值，然后完成。
+
+       ```javascript
+       observable$.pipe(
+           take(5) // 只取前5个值
+       );
+       ```
+
+    3. `takeUntil`: 取值直到另一个Observable发出值或完成。
+
+       ```javascript
+       observable$.pipe(
+           takeUntil(notifier$) // 直到notifier$发出值
+       );
+       ```
+
+    4. `takeWhile`: 取值直到源Observable发出的值不满足提供的条件。
+
+       ```javascript
+       observable$.pipe(
+           takeWhile(value => value < 10) // 只取值小于10的项
+       );
+       ```
+
+    5. `skip`: 跳过源Observable最初发出的前N个值。
+
+       ```javascript
+       observable$.pipe(
+           skip(3) // 跳过前3个值
+       );
+       ```
+
+    6. `skipUntil`: 跳过项直到另一个Observable发出值。
+
+       ```javascript
+       observable$.pipe(
+           skipUntil(notifier$) // 直到notifier$发出值
+       );
+       ```
+
+    7. `skipWhile`: 跳过源Observable发出的每个值，直到提供的条件第一次返回false。
+
+       ```javascript
+       observable$.pipe(
+           skipWhile(value => value < 4) // 跳过小于4的值
+       );
+       ```
+
+    8. `distinct`: 只允许还未曾发出过的值通过。
+
+       ```javascript
+       observable$.pipe(
+           distinct() // 不允许重复的值通过
+       );
+       ```
+
+    9. `distinctUntilChanged`: 如果当前值与最后一个发出的值相同，则忽略它。
+
+       ```javascript
+       observable$.pipe(
+           distinctUntilChanged() // 只有值变化了才通过
+       );
+       ```
+
+    10. `distinctUntilKeyChanged`: 这是`distinctUntilChanged`的一个变体，它根据提供的键来检查对象的变化。
+
+        ```javascript
+        observable$.pipe(
+            distinctUntilKeyChanged('id') // 根据对象的id属性判断变化
+        );
+        ```
+
+        这些操作符可以组合使用，以提供强大的数据流筛选和处理能力。使用它们可以帮助你根据特定条件控制数据流，以及管理Observable的生命周期。
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+24. 
