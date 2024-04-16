@@ -26,7 +26,7 @@
 | 20 | [操作observable的高阶合并类操作符有哪些？](#操作observable的高阶合并类操作符有哪些？) |
 | 21 | [切换输入Observable用哪个操作符？](#切换输入Observable用哪个操作符？) |
 | 22 | [辅助类操作符有哪些？](#辅助类操作符有哪些？) |
-| 23 | |
+| 23 | [过滤数据流的操作符有哪些？](#过滤数据流的操作符有哪些？) |
 | 24 | |
 | 25 | |
 |  | |
@@ -589,4 +589,106 @@
 
     
 
-24. 
+24. ### 转化数据流的操作符有哪些？
+
+    1. `map`: 将源Observable的每个值映射成一个新的形式。
+
+        ```javascript
+        observable$.pipe(
+         map(value => value * 2) // 将每个值翻倍
+        );
+        ```
+
+    2. `mapTo`: 将源Observable的每个值映射为同一个常量输出。
+
+        ```javascript
+        observable$.pipe(
+         mapTo('constant value') // 将每个值映射为'constant value'
+        );
+        ```
+
+    3. `pluck`: 选择每个发出对象的指定属性。
+
+        ```javascript
+        observable$.pipe(
+         pluck('propertyName') // 提取对象的propertyName属性
+        );
+        ```
+
+    4. `scan`: 对源Observable发出的每个值应用累加器函数，并发出每次累加后的结果。
+
+        ```javascript
+        observable$.pipe(
+         scan((acc, value) => acc + value, 0) // 累加值
+        );
+        ```
+
+    5. `reduce`: 对源Observable发出的所有值应用累加器函数，并当源Observable完成时发出最终的累加结果。
+
+        ```javascript
+        observable$.pipe(
+         reduce((acc, value) => acc + value, 0) // 累加值，只发出最终结果
+        );
+        ```
+
+    6. `buffer`: 收集输出值直到提供的Observable发出值，然后发出这些值作为数组。
+
+        ```javascript
+        observable$.pipe(
+         buffer(notifier$) // 当notifier$发出值时，缓冲收集到的值
+        );
+        ```
+
+    7. `bufferCount`: 收集Observable发出的值直到达到指定的数量，然后作为数组发出。
+
+        ```javascript
+        observable$.pipe(
+         bufferCount(10) // 每收集10个值发出一次
+        );
+        ```
+
+    8. `bufferTime`: 在指定的时间周期内收集发出的值，然后作为数组发出。
+
+        ```javascript
+        observable$.pipe(
+         bufferTime(1000) // 每1000毫秒收集并发出一次值
+        );
+        ```
+
+    9. `switchMap`: 将每个源值映射成Observable，然后订阅最新的内部Observable并发出其结果。
+
+        ```javascript
+        observable$.pipe(
+         switchMap(value => fetchData(value)) // 对每个值调用fetchData并发出结果
+        );
+        ```
+
+    10. `mergeMap` (也叫`flatMap`): 将每个源值映射成Observable，然后合并所有的内部Observable输出。
+
+        ```javascript
+        observable$.pipe(
+          mergeMap(value => fetchData(value)) // 对每个值调用fetchData并合并输出结果
+        );
+        ```
+
+    11. `concatMap`: 类似于`mergeMap`，但是按照顺序连接每一个内部Observable，等待前一个完成，再订阅下一个。
+
+        ```javascript
+        observable$.pipe(
+          concatMap(value => fetchData(value)) // 按顺序对每个值调用fetchData
+        );
+        ```
+
+    12. `exhaustMap`: 将每个源值映射成Observable，但是如果前一个内部Observable尚未完成，则忽略后续的值。
+
+        ```javascript
+        observable$.pipe(
+          exhaustMap(value => fetchData(value)) // 忽略新值，直到当前Observable完成
+        );
+        ```
+
+    **[⬆ Back to Top](#目录)**
+
+    
+
+25. 
