@@ -239,6 +239,67 @@ JavaScript 中的数据对象（Object）具有多种属性值，这些属性值
 
 
 
+### 16. ES6有哪些函数声明方式？
+
+ES6（ECMAScript 2015）引入了一些新的函数声明方式，让 JavaScript 编程更加灵活和便捷。以下是 ES6 中常见的函数声明方式：
+
+1. **箭头函数（Arrow Functions）**：
+   - 箭头函数是 ES6 中最显著的新特性之一，它提供了一种更简洁的函数声明方式。
+   - 箭头函数使用箭头 (=>) 语法来定义函数，可以省略 function 关键字、return 关键字以及大括号（当函数体只有一条语句时）。
+   - 箭头函数的 this 绑定规则与普通函数不同，它的 this 始终指向函数定义时所在的对象。
+   - 示例：
+     ```javascript
+     // 普通函数
+     function add(a, b) {
+       return a + b;
+     }
+     
+     // 箭头函数
+     const add = (a, b) => a + b;
+     ```
+
+2. **函数默认参数（Default Parameters）**：
+   - ES6 允许在函数参数列表中为参数设置默认值，当调用函数时未传递参数时，将使用默认值。
+   - 示例：
+     ```javascript
+     function greet(name = 'World') {
+       console.log('Hello, ' + name + '!');
+     }
+     greet(); // Hello, World!
+     greet('Alice'); // Hello, Alice!
+     ```
+
+3. **展开操作符（Spread Operator）**：
+   - 展开操作符（...）可以将数组或类数组对象展开为独立的参数序列，或者将字符串展开为字符数组。
+   - 在函数声明中，可以使用展开操作符来接收不定数量的参数。
+   - 示例：
+     ```javascript
+     function sum(...args) {
+       return args.reduce((acc, curr) => acc + curr, 0);
+     }
+     console.log(sum(1, 2, 3)); // 6
+     ```
+
+4. **剩余参数（Rest Parameters）**：
+   - 剩余参数（Rest Parameters）用于接收函数调用时传递的剩余参数，并将它们存储在一个数组中。
+   - 与展开操作符相反，剩余参数用于函数声明的参数列表中。
+   - 示例：
+     ```javascript
+     function printArgs(firstArg, ...restArgs) {
+       console.log('First argument:', firstArg);
+       console.log('Rest arguments:', restArgs);
+     }
+     printArgs(1, 2, 3, 4); // First argument: 1, Rest arguments: [2, 3, 4]
+     ```
+
+这些 ES6 中的函数声明方式为 JavaScript 编程带来了更多的灵活性和便捷性，使得代码更加清晰、简洁。
+
+
+
+
+
+
+
 ## API
 
 ### 1. map和foreach的异同是什么？
