@@ -116,7 +116,7 @@
 
 
 
-### 11. [] == ![]` 的结果是什么？
+### 11. [] == ![] 的结果是什么？
 
 这个表达式的结果是 `true`，因为 `![]` 被强制转换为 `false`，而 `[]` 在比较之前被强制转换为空字符串 `""`，而空字符串接着被强制转换为 `0`。因此，`0 == false` 被评估为 `true`。
 
@@ -293,6 +293,108 @@ ES6（ECMAScript 2015）引入了一些新的函数声明方式，让 JavaScript
      ```
 
 这些 ES6 中的函数声明方式为 JavaScript 编程带来了更多的灵活性和便捷性，使得代码更加清晰、简洁。
+
+
+
+### 17. 数组和对象怎么互相转换？
+
+**从对象到数组的转换**
+
+1. **Object.keys()**：将对象的键转换为一个数组。
+
+```javascript
+const obj = { a: 1, b: 2, c: 3 };
+const arr = Object.keys(obj); // ['a', 'b', 'c']
+```
+
+2. **Object.values()**：将对象的值转换为一个数组。
+
+```javascript
+const obj = { a: 1, b: 2, c: 3 };
+const arr = Object.values(obj); // [1, 2, 3]
+```
+
+3. **Object.entries()**：将对象的键值对转换为一个二维数组。
+
+```javascript
+const obj = { a: 1, b: 2, c: 3 };
+const arr = Object.entries(obj); // [['a', 1], ['b', 2], ['c', 3]]
+```
+
+**从数组到对象的转换**
+
+1. **Array.reduce()**：通过数组的某些属性来创建一个新对象。
+
+```javascript
+const arr = [['a', 1], ['b', 2], ['c', 3]];
+const obj = arr.reduce((acc, [key, value]) => {
+  acc[key] = value;
+  return acc;
+}, {});
+// { a: 1, b: 2, c: 3 }
+```
+
+2. **Array.reduceRight()**：从数组的右侧开始，按照某些属性来创建一个新对象。
+
+```javascript
+const arr = [['a', 1], ['b', 2], ['c', 3]];
+const obj = arr.reduceRight((acc, [key, value]) => {
+  acc[key] = value;
+  return acc;
+}, {});
+// { c: 3, b: 2, a: 1 }
+```
+
+3. **Object.fromEntries()**：根据一个包含键值对的数组创建一个新对象。
+
+```javascript
+const arr = [['a', 1], ['b', 2], ['c', 3]];
+const obj = Object.fromEntries(arr);
+// { a: 1, b: 2, c: 3 }
+```
+
+
+
+### 18. 数组如何进行浅拷贝？
+
+1. 使用扩展运算符（Spread Operator）
+
+```javascript
+const originalArray = [1, 2, 3, 4, 5];
+const shallowCopy = [...originalArray];
+```
+
+2. 使用Array.from()
+
+```javascript
+const originalArray = [1, 2, 3, 4, 5];
+const shallowCopy = Array.from(originalArray);
+```
+
+3. 使用Array.slice()
+
+```javascript
+const originalArray = [1, 2, 3, 4, 5];
+const shallowCopy = originalArray.slice();
+```
+
+4. 使用Array.concat()
+
+```javascript
+const originalArray = [1, 2, 3, 4, 5];
+const shallowCopy = originalArray.concat();
+```
+
+5. 使用Array.map()
+
+```javascript
+const originalArray = [1, 2, 3, 4, 5];
+const shallowCopy = originalArray.map(item => item);
+```
+
+
+
+
 
 
 
@@ -521,6 +623,14 @@ WeakMap：
 - 箭头函数通过 call() 或 apply() 方法调用一个函数时，只传入了一个参数，对 this 并没有影响。
 - 箭头函数没有原型属性 Fn.prototype 值为 undefined
 - 箭头函数不能当做Generator函数,不能使用yield关键字
+
+
+
+
+
+
+
+
 
 
 
