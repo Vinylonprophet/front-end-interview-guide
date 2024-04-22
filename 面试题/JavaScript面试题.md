@@ -394,6 +394,103 @@ const shallowCopy = originalArray.map(item => item);
 
 
 
+### 19. 数组对象和原生对象的区别是什么？
+
+**宿主对象（Host Objects）：**
+
+宿主对象是由 JavaScript 运行环境提供的对象，它们的行为由宿主环境定义。在浏览器环境中，宿主对象包括 `window`、`document`、`XMLHttpRequest` 等；在 Node.js 环境中，宿主对象包括 `global`、`process` 等。
+
+宿主对象通常是由宿主环境（如浏览器或 Node.js）提供的，它们不是 ECMAScript 标准的一部分，因此它们的行为可能会因不同的宿主环境而异。
+
+**原生对象（Native Objects）：**
+
+原生对象是由 JavaScript 语言规范定义的对象，它们是 ECMAScript 标准的一部分。原生对象包括以下几种主要类型：
+
+1. **基本数据类型的包装对象（Primitive Wrapper Objects）**：包括 `String`、`Number`、`Boolean`、`Symbol` 和 `BigInt` 等。它们允许对基本数据类型（字符串、数字、布尔值、符号和大整数）进行对象操作。
+
+2. **内置对象（Built-in Objects）**：包括 `Object`、`Array`、`Function`、`Date`、`RegExp`、`Math` 等。这些对象是 JavaScript 语言核心功能的一部分，提供了许多常见的功能和方法。
+
+3. **错误对象（Error Objects）**：包括 `Error`、`SyntaxError`、`TypeError`、`RangeError` 等。这些对象用于表示各种类型的错误。
+
+4. **其他原生对象**：还有一些其他的原生对象，如 `Promise`、`Set`、`Map`、`WeakMap`、`WeakSet` 等，它们提供了更高级的功能和数据结构。
+
+
+
+### 20. 简述attribute和property的区别 ？
+
+**Attribute（属性）：**
+
+- **定义**：属性（Attribute）是 HTML 元素在 HTML 文件中声明的特性，它们以键值对的形式出现在 HTML 标签中，用于提供附加信息或配置元素的行为。例如，`<input type="text" value="Hello">` 中的 `type` 和 `value` 就是元素的属性。
+- **访问方式**：在 JavaScript 中，可以使用 `getAttribute()` 方法来获取 HTML 元素的属性值，例如 `element.getAttribute('type')`。
+- **更新方式**：可以通过设置 HTML 元素的属性值来更新属性，例如 `element.setAttribute('value', 'New Value')`。
+- **注意事项**：属性值始终为字符串，即使在 HTML 中它们可能是其他类型的数据。
+
+**Property（属性）：**
+
+- **定义**：属性（Property）是 DOM 元素的 JavaScript 对象表示中的成员，它们是对象的属性，用于描述和控制元素的状态和行为。例如，`element.value` 就是元素的属性。
+- **访问方式**：在 JavaScript 中，可以直接访问和修改 DOM 元素的属性，例如 `element.value`。
+- **更新方式**：可以通过直接赋值来更新属性，例如 `element.value = 'New Value'`。
+- **注意事项**：属性值的数据类型可以是任意类型，取决于具体的属性。有些属性是只读的，不能通过赋值来修改。
+
+**区别总结：**
+
+1. **来源**：Attribute 是 HTML 元素在 HTML 文件中声明的特性，而 Property 是 DOM 元素的 JavaScript 对象表示中的成员。
+2. **访问方式**：Attribute 使用 `getAttribute()` 方法进行访问，而 Property 直接通过属性名进行访问。
+3. **更新方式**：Attribute 使用 `setAttribute()` 方法进行更新，而 Property 直接通过赋值来更新。
+4. **数据类型**：Attribute 的值始终为字符串，而 Property 的值可以是任意类型。
+5. **是否只读**：有些 Property 是只读的，不能通过赋值来修改，而 Attribute 可以随时通过设置来更新。
+
+
+
+### 21. 简述在Javascript中什么是伪数组？如何将伪数组转化为标准数组？
+
+在 JavaScript 中，伪数组（Pseudo-array）是指具有类似数组的结构和行为，但并不是真正的数组实例的对象。这些对象通常具有类数组的特性，例如具有 `length` 属性和按索引访问元素的能力，但缺少数组的方法和原型属性。
+
+常见的伪数组包括函数的 `arguments` 对象、DOM 元素集合（如 `document.querySelectorAll()` 返回的结果）、和一些内置方法的返回结果等。
+
+**如何将伪数组转化为标准数组？**
+
+有几种方法可以将伪数组转换为标准数组：
+
+1. **Array.from() 方法**：`Array.from()` 方法可以将具有可迭代属性的对象（包括伪数组）转换为一个新的数组。
+
+   ```javascript
+   var pseudoArray = document.querySelectorAll('div');
+   var newArray = Array.from(pseudoArray);
+   ```
+
+2. **Array.prototype.slice.call() 方法**：通过 `Array.prototype.slice.call()` 方法将伪数组转换为数组。
+
+   ```javascript
+   var pseudoArray = document.querySelectorAll('div');
+   var newArray = Array.prototype.slice.call(pseudoArray);
+   ```
+
+3. **扩展运算符 (...)**：使用扩展运算符可以将伪数组转换为数组。
+
+   ```javascript
+   var pseudoArray = document.querySelectorAll('div');
+   var newArray = [...pseudoArray];
+   ```
+
+以上方法都可以将具有类数组结构的对象转换为标准数组，使其可以使用数组的方法和属性。这在处理一些内置方法返回的伪数组或 DOM 元素集合时非常有用。
+
+
+
+### 22. ES6有哪些新引入的概念？
+
+1. 箭头函数
+2. 块级作用域
+3. 解构赋值
+4. 模板字面量
+5. 默认参数
+6. 展开运算符
+7. 类
+8. Promise
+9. 模块化
+
+
+
 
 
 
@@ -623,6 +720,110 @@ WeakMap：
 - 箭头函数通过 call() 或 apply() 方法调用一个函数时，只传入了一个参数，对 this 并没有影响。
 - 箭头函数没有原型属性 Fn.prototype 值为 undefined
 - 箭头函数不能当做Generator函数,不能使用yield关键字
+
+
+
+### 9. document.onload和document.ready两个事件的区别？
+
+**区别总结：**
+
+1. **触发时机**：`document.onload` 在整个页面和外部资源加载完成后触发，而 `document.ready` 在 DOM 结构构建完成后触发。
+2. **适用范围**：`document.onload` 适用于整个页面加载完成后执行操作，而 `document.ready` 适用于在 DOM 结构构建完成后立即执行操作，不需要等待所有外部资源加载完成。
+3. **跨浏览器兼容性**：`document.onload` 是原生 JavaScript 的事件，跨浏览器兼容性好；而 `document.ready` 是 jQuery 提供的，需要引入 jQuery 库才能使用，且不同的库可能实现方式不同。
+
+
+
+### 10. 函数参数arguments是数组吗？
+
+`arguments` 是一个类数组对象，而不是一个真正的数组。它包含了函数调用时传递的所有参数，并且具有一些数组的特性，但不是一个真正的数组。
+
+`arguments` 对象具有以下特点：
+
+1. **类数组对象**：`arguments` 对象类似于数组，可以通过索引访问参数，例如 `arguments[0]` 访问第一个参数，但它不具有数组的所有方法，如 `push()`、`pop()` 等。
+2. **动态性**：`arguments` 对象是动态的，它会随着函数调用时传递的参数而变化，无论函数定义时有多少个参数，都可以通过 `arguments.length` 访问到传递的参数数量。
+3. **不具有数组的方法**：`arguments` 对象虽然类似于数组，但不具有数组的方法，例如 `push()`、`pop()`、`forEach()` 等。但是可以使用数组的方法间接操作 `arguments`，比如通过 `Array.prototype.slice.call(arguments)` 将其转换为真正的数组后再操作。
+4. **不具有数组的原型**：`arguments` 对象不继承自 `Array`，而是继承自 `Object`，因此它不具有数组的原型方法和属性。
+
+
+
+### 11. eval 的作用？
+
+`eval()` 是 JavaScript 中的一个内置函数，用于将字符串作为代码来执行。它的作用是将传入的字符串作为 JavaScript 代码进行解析和执行，从而动态地生成并执行代码。
+
+**注意事项：**
+
+1. **性能问题**：`eval()` 函数会在执行时动态解析和执行字符串，可能会导致性能问题。此外，由于 `eval()` 可以执行任意 JavaScript 代码，因此可能存在安全风险，尤其是当执行的字符串来自不可信来源时。
+
+2. **变量提升**：在 `eval()` 中定义的变量会提升到 `eval()` 所在的作用域，而不是保持在 `eval()` 的作用域中。这可能会导致变量提升的意外行为。
+
+3. **严格模式**：在严格模式下，`eval()` 的行为会有所不同，其中一些限制和安全性提高的机制会生效。
+
+
+
+### 12. split、slice、splice函数区别？
+
+这三个函数在 JavaScript 中都用于操作字符串或数组，但它们的功能和用法有所不同。
+
+**1. `split()` 方法：**
+
+- **功能**：`split()` 方法用于将字符串分割成子字符串，并将结果存储在数组中。
+- **语法**：`string.split(separator, limit)`
+- **参数**：
+  - `separator`：指定分割字符串的分隔符。
+  - `limit`（可选）：指定返回的数组的最大长度。
+- **示例**：
+
+```javascript
+var str = "Hello, world!";
+var parts = str.split(", "); // 分割字符串，结果为 ["Hello", "world!"]
+```
+
+**2. `slice()` 方法：**
+
+- **功能**：`slice()` 方法从数组或字符串中提取指定范围的子数组或子字符串。
+- **语法**：
+  - 数组：`array.slice(start, end)`
+  - 字符串：`string.slice(start, end)`
+- **参数**：
+  - `start`：指定提取的起始位置（包含）。
+  - `end`（可选）：指定提取的结束位置（不包含）。
+- **示例**：
+
+```javascript
+var arr = [1, 2, 3, 4, 5];
+var subArray = arr.slice(1, 4); // 提取索引为 1 到 3 的子数组，结果为 [2, 3, 4]
+
+var str = "Hello, world!";
+var subString = str.slice(7); // 提取从索引为 7 开始的子字符串，结果为 "world!"
+```
+
+**3. `splice()` 方法：**
+
+- **功能**：`splice()` 方法用于修改数组，可以删除、替换或插入元素，并返回被删除的元素组成的数组。
+- **语法**：`array.splice(start, deleteCount, item1, item2, ...)`
+- **参数**：
+  - `start`：指定修改的起始位置。
+  - `deleteCount`：指定要删除的元素个数。
+  - `item1, item2, ...`（可选）：要插入到数组中的新元素。
+- **示例**：
+
+```javascript
+var arr = [1, 2, 3, 4, 5];
+var removedItems = arr.splice(1, 2); // 删除从索引为 1 开始的两个元素，结果为 [2, 3]
+// arr 变成 [1, 4, 5]
+
+var arr2 = [1, 2, 3];
+arr2.splice(1, 1, 'a', 'b'); // 从索引为 1 的位置删除一个元素，并插入 'a' 和 'b'
+// arr2 变成 [1, 'a', 'b', 3]
+```
+
+**区别总结：**
+
+1. `split()` 方法用于字符串的分割，`slice()` 方法用于提取字符串或数组的子字符串或子数组，`splice()` 方法用于修改数组。
+2. `split()` 方法返回一个新数组，`slice()` 方法返回一个新的字符串或数组，`splice()` 方法返回被删除的元素组成的数组。
+3. `split()` 方法只适用于字符串，`slice()` 方法适用于字符串和数组，`splice()` 方法只适用于数组。
+
+
 
 
 
@@ -952,3 +1153,51 @@ JavaScript 中实现继承的方式有多种，每种方式都有其特点和适
      ```
 
 以上是 JavaScript 中常见的几种继承方式，每种方式都有其优缺点，开发者根据实际需求选择适合的继承方式。
+
+
+
+### 2. 事件委托是什么？
+
+JavaScript 事件委托（Event Delegation）是一种优化技术，用于处理在父元素上监听子元素事件的方法。它的核心思想是利用事件冒泡（event bubbling）机制，将事件处理程序绑定到父级元素，而不是直接绑定到每个子元素。
+
+**工作原理：**
+
+1. 将事件处理程序绑定到父级元素上。
+2. 当事件发生时，事件会冒泡到父级元素。
+3. 在父级元素上捕获事件，并确定事件的目标（target）是哪个子元素。
+4. 根据事件的目标执行相应的操作。
+
+**优点：**
+
+1. **性能优化**：减少了事件处理程序的数量，避免了为每个子元素都绑定事件处理程序的开销，尤其是在大型页面或动态内容加载时，可以提高性能。
+2. **动态元素支持**：对于动态添加或移除的子元素，不需要重新绑定事件处理程序，因为事件委托是基于父元素的。
+
+**示例：**
+
+假设有一个 `ul` 元素，其中包含多个 `li` 元素，我们想要在点击任意 `li` 元素时输出其文本内容：
+
+```html
+<ul id="parentList">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+```
+
+使用事件委托的方式：
+
+```javascript
+// 获取父元素
+var parentList = document.getElementById('parentList');
+
+// 添加事件监听器到父元素上
+parentList.addEventListener('click', function(event) {
+  // 检查事件目标是否是 li 元素
+  if (event.target.tagName === 'LI') {
+    // 输出点击的 li 元素的文本内容
+    console.log(event.target.textContent);
+  }
+});
+```
+
+在这个示例中，我们只需将事件监听器绑定到父元素 `ul` 上，然后通过事件冒泡机制，监听到每个 `li` 元素上的点击事件，从而实现了对子元素的事件处理，而无需为每个 `li` 元素单独绑定事件处理程序。
