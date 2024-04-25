@@ -1142,6 +1142,68 @@ isNaN(-Infinity)，结果是false
 
 
 
+### 15. JavaScript中读取文件的方法是什么？
+
+在客户端 JavaScript 中，通常无法直接读取文件系统中的文件，因为浏览器限制了对文件系统的访问。然而，可以通过以下几种方式在浏览器中读取文件：
+
+1. **使用 `<input type="file">` 元素**：
+   - 可以通过在 HTML 中添加 `<input type="file">` 元素来让用户选择文件，并通过 JavaScript 来读取所选文件的内容。通过 `FileReader` 对象可以读取文件内容，并进行相应的操作。
+
+   ```html
+   <input type="file" id="fileInput">
+   ```
+
+   ```javascript
+   let fileInput = document.getElementById('fileInput');
+   
+   fileInput.addEventListener('change', function() {
+     let file = fileInput.files[0];
+     let reader = new FileReader();
+   
+     reader.onload = function(event) {
+       let contents = event.target.result;
+       console.log(contents); // 输出文件内容
+     };
+   
+     reader.readAsText(file);
+   });
+   ```
+
+2. **使用 AJAX 请求**：
+   - 可以通过 AJAX 请求来获取服务器上的文件内容。在服务器端提供一个接口，客户端发送 AJAX 请求到该接口，服务器返回文件内容。
+
+   ```javascript
+   let xhr = new XMLHttpRequest();
+   xhr.open('GET', 'file.txt', true);
+   xhr.onreadystatechange = function() {
+     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+       let contents = xhr.responseText;
+       console.log(contents); // 输出文件内容
+     }
+   };
+   xhr.send();
+   ```
+
+3. **使用 Fetch API**：
+   - Fetch API 是 JavaScript 提供的现代的网络请求 API，可以方便地进行网络请求，包括获取文件内容。
+
+   ```javascript
+   fetch('file.txt')
+     .then(response => response.text())
+     .then(contents => {
+       console.log(contents); // 输出文件内容
+     })
+     .catch(error => {
+       console.error('Error:', error);
+     });
+   ```
+
+
+
+### 16. 如何将base字符串转换为 integer？
+
+可以使用 `parseInt()` 函数，并根据需要指定进制参数。
+
 
 
 
@@ -1398,6 +1460,64 @@ HTTP 响应状态码表示服务器对请求的处理结果，分为以下几类
 ### 1. 手写防抖和节流，同时他们的区别是什么？
 
 参考手撕文件夹下的笔记。
+
+
+
+### 2. 常见的setInterval导致内存泄露的场景有哪些？
+
+以下是一些常见的可能导致 `setInterval` 导致内存泄漏的场景：
+
+1. **未清除定时器**：
+   - 如果在使用 `setInterval` 后没有及时清除定时器，定时器会一直存在并周期性地执行指定的代码，这可能导致对执行过的代码仍然保持引用，从而造成内存泄漏。
+
+   ```javascript
+   let counter = 0;
+   let intervalId = setInterval(function() {
+     console.log('Counter:', counter);
+     counter++;
+   }, 1000);
+   
+   // 忘记清除定时器
+   ```
+
+2. **在循环中创建定时器**：
+   - 如果在循环中创建定时器，并且每个定时器都在一段时间后执行，但未在每个循环迭代中清除上一个定时器，可能会导致大量的定时器实例积累，从而造成内存泄漏。
+
+   ```javascript
+   for (let i = 0; i < 10; i++) {
+     setInterval(function() {
+       console.log('Counter:', i);
+     }, 1000);
+   }
+   ```
+
+3. **定时器中保持了对外部变量的引用**：
+   - 如果在定时器中使用了闭包，并且闭包中保持了对外部变量的引用，即使定时器执行完成，这些变量也不会被释放，可能会造成内存泄漏。
+
+   ```javascript
+   let someData = fetchData(); // 获取一些数据
+   
+   setInterval(function() {
+     // 闭包中保持了对外部变量 someData 的引用
+     process(someData);
+   }, 1000);
+   ```
+
+4. **DOM 元素变量未被释放**：
+   - 如果在定时器中引用了 DOM 元素，并且这些 DOM 元素在定时器执行完成后应该被销毁，但是却未被正确清除，可能会导致 DOM 元素及其关联的事件处理器等无法被释放，从而造成内存泄漏。
+
+   ```javascript
+   let element = document.getElementById('someElement');
+   
+   setInterval(function() {
+     // 对 DOM 元素进行操作
+     element.style.color = 'red';
+   }, 1000);
+   
+   // element 应该在不需要时被清除
+   ```
+
+
 
 
 
