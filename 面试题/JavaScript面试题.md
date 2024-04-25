@@ -612,6 +612,176 @@ JavaScript 的严格模式（Strict Mode）是一种 ECMAScript 5 引入的特�
 
 
 
+### 29. 如何删除属性及其值？
+
+delete
+
+
+
+### 30. 简述标签中 defer和 async属性的区别 ？
+
+在 `<script>` 标签中用于控制脚本的加载方式和执行时机，以优化页面性能和用户体验。
+
+1. **defer 属性**：
+   - `defer` 属性用于延迟（defer）脚本的执行，直到整个文档解析完成后再执行。
+   - 多个拥有 `defer` 属性的脚本按照它们在文档中出现的顺序依次执行。
+   - 脚本会在文档的 `DOMContentLoaded` 事件之前执行，但在 `DOMContentLoaded` 事件触发时可能还没有完成执行。
+   - 适用于不需要立即执行的脚本，但需要在文档解析完成后执行的场景。
+
+```html
+<script src="script.js" defer></script>
+```
+
+2. **async 属性**：
+   - `async` 属性用于异步（asynchronously）加载脚本，即脚本的下载和执行不会阻塞文档的解析和渲染过程。
+   - 多个拥有 `async` 属性的脚本无法保证执行顺序，它们会在下载完成后立即执行，不会等待其他脚本。
+   - 脚本的执行时机不确定，可能在文档的解析过程中执行，也可能在文档解析完成后执行，取决于脚本的下载速度和执行上下文。
+   - 适用于不需要依赖其他脚本，且不需要等待其他脚本加载完成的场景。
+
+```html
+<script src="script.js" async></script>
+```
+
+总的来说，`defer` 属性用于延迟脚本的执行，保证脚本在文档解析完成后执行，而 `async` 属性用于异步加载脚本，不会阻塞文档的解析和渲染，但执行时机不确定。根据具体需求和脚本之间的依赖关系，选择合适的属性可以提高页面加载性能和用户体验。
+
+
+
+### 31. 为什么不建议在 JavaScript中使用 innerHTML？
+
+在 JavaScript 中使用 `innerHTML` 会带来一些潜在的安全风险和性能问题，因此不建议过度使用。
+
+1. **安全风险**：
+   - 直接使用 `innerHTML` 可能导致跨站脚本攻击（XSS），特别是当将未经过滤的用户输入作为 `innerHTML` 的内容插入到页面中时。攻击者可以注入恶意代码或脚本，从而对用户进行钓鱼、窃取敏感信息等攻击。
+
+2. **性能问题**：
+   - 使用 `innerHTML` 会导致浏览器重新解析整个 HTML 结构，并重新构建 DOM 树。这个过程可能会消耗大量的 CPU 和内存资源，尤其是当操作大型 HTML 结构时，性能影响会更加显著。
+   - 如果只是想更新某个元素的部分内容，使用 `innerHTML` 会比较笨重，因为它会重新渲染整个元素及其所有子元素，而不仅仅是更新目标内容。
+
+3. **可维护性**：
+   - 直接使用 `innerHTML` 会使代码变得难以理解和维护，因为它将 HTML 结构和 JavaScript 代码耦合在一起。这样会使代码变得混乱，并且不利于团队合作和代码重构。
+
+
+
+### 32. 对象的创建方式有哪些 ?
+
+1. 字面量
+2. 构造函数
+3. Object.create()
+4. ES6中的Class
+
+
+
+### 33. 为什么说函数是第一类对象？
+
+在 JavaScript 中，函数被认为是第一类对象（First-Class Citizens），这意味着函数具有与其他数据类型相同的特性，可以像普通对象一样被传递、赋值、存储和作为参数传递给其他函数。函数作为第一类对象的特性包括以下几点：
+
+1. **可以被赋值给变量**：
+   - 函数可以被赋值给变量，成为变量的值。
+
+   ```javascript
+   function greet() {
+     console.log('Hello, world!');
+   }
+   
+   let sayHello = greet;
+   sayHello(); // 输出: Hello, world!
+   ```
+
+2. **可以作为参数传递给其他函数**：
+   - 函数可以作为参数传递给其他函数。
+
+   ```javascript
+   function greet(name) {
+     console.log('Hello, ' + name + '!');
+   }
+   
+   function sayHello(callback) {
+     callback('John');
+   }
+   
+   sayHello(greet); // 输出: Hello, John!
+   ```
+
+3. **可以作为返回值从其他函数返回**：
+   - 函数可以作为另一个函数的返回值返回。
+
+   ```javascript
+   function createGreeting() {
+     return function(name) {
+       console.log('Hello, ' + name + '!');
+     };
+   }
+   
+   let greet = createGreeting();
+   greet('John'); // 输出: Hello, John!
+   ```
+
+4. **可以存储在数据结构中**：
+   - 函数可以存储在数组、对象等数据结构中。
+
+   ```javascript
+   let functions = [
+     function() { console.log('Function 1'); },
+     function() { console.log('Function 2'); }
+   ];
+   
+   functions[0](); // 输出: Function 1
+   functions[1](); // 输出: Function 2
+   ```
+
+
+
+### 34. 函数声明与函数表达式的区别？
+
+1. **语法**：
+   - 函数声明使用 `function` 关键字，后面跟着函数名和函数体，如 `function myFunction() { // 函数体 }`。
+   - 函数表达式将函数赋值给变量，可以是匿名函数或具名函数，如 `let myFunction = function() { // 函数体 }` 或 `let myFunction = function myFunc() { // 函数体 }`。
+
+2. **提升（Hoisting）**：
+   - 函数声明会被提升到当前作用域的顶部，因此可以在函数声明之前调用函数，而不会报错。
+   - 函数表达式不会被提升，只有在执行到函数表达式所在的代码行时才会被解析和赋值，因此不能在声明之前调用函数。
+
+```javascript
+// 函数声明
+myFunction(); // 可以调用，不会报错
+
+function myFunction() {
+  console.log('Function Declaration');
+}
+
+// 函数表达式
+// myFunctionExpression(); // 会报错，函数表达式尚未赋值
+
+let myFunctionExpression = function() {
+  console.log('Function Expression');
+};
+
+myFunctionExpression(); // 可以调用
+```
+
+3. **命名**：
+   - 函数声明可以有一个名称（函数名），可以在函数内部调用自身（递归调用）。
+   - 函数表达式可以是匿名的，也可以有一个名称，但是函数名只在函数内部有效，不能在外部使用。
+
+```javascript
+// 函数声明
+function myFunction() {
+  console.log('Function Declaration');
+  myFunction(); // 可以调用自身
+}
+
+// 函数表达式（匿名函数）
+let myFunctionExpression = function() {
+  console.log('Function Expression');
+};
+
+// 函数表达式（具名函数）
+let myNamedFunctionExpression = function myNamedFunc() {
+  console.log('Named Function Expression');
+  // myNamedFunc(); // 可以调用自身，但只能在函数内部调用
+};
+```
+
 
 
 
@@ -954,7 +1124,23 @@ isNaN(-Infinity)，结果是false
 
 
 
-### 14. 
+### 14. documen.wrte和 innerHTML的区别是什么？
+
+`document.write()` 和 `innerHTML` 都是用于向 HTML 文档中插入内容的方法，但它们之间有一些重要的区别：
+
+1. **作用对象**：
+   - `document.write()` 方法直接作用于整个文档，它可以在文档加载过程中的任何时候调用，并将指定的内容写入到文档流中。如果在文档已经加载完毕后调用 `document.write()`，它会清空整个文档并重写内容。
+   - `innerHTML` 属性是 DOM 元素的属性，用于设置或获取元素的 HTML 内容。它通常用于替换或更新特定元素的内容，而不影响其他部分的文档结构。
+
+2. **执行时机**：
+   - `document.write()` 方法在文档加载过程中的任何时候都可以调用，会立即将内容写入到文档流中，对页面的渲染产生影响。如果在文档加载完毕后调用 `document.write()`，它会清空整个文档并重写内容，因此通常不推荐在文档加载完成后使用。
+   - `innerHTML` 属性可以在文档加载后任何时候修改，它不会影响文档的加载和渲染过程，只会修改指定元素的内容。
+
+3. **安全性**：
+   - 由于 `document.write()` 方法直接操作文档流，因此在动态生成内容时可能会导致不可预料的结果，例如在文档加载完成后调用 `document.write()` 可能会覆盖整个文档。
+   - `innerHTML` 属性相对安全一些，因为它只会修改指定元素的内容，不会影响其他部分的文档结构。但是仍然需要注意防范 XSS 攻击，确保插入的内容是安全的。
+
+
 
 
 
@@ -1019,6 +1205,14 @@ this 的绑定和函数声明的位置没有任何关系，只取决于函数的
 
 
 
+
+
+
+
+
+
+
+
 ## 原型链
 
 ### 1. 原型，原型链 ? 有什么特点？
@@ -1041,6 +1235,14 @@ JavaScript 中的原型（prototype）和原型链（prototype chain）是理解
    - 原型链的存在使得 JavaScript 具有了动态性和灵活性，可以方便地扩展和修改对象的属性和方法。
 
 总之，JavaScript 的原型和原型链是实现对象之间继承关系的机制，通过原型链，对象可以共享原型对象上的属性和方法，实现了高效的代码复用和扩展。
+
+
+
+
+
+
+
+
 
 
 
@@ -1089,6 +1291,28 @@ Generator：
 1. **并行执行多个异步操作**：`Promise.all` 可以同时发起多个异步操作，并且在所有操作完成后才返回结果。这对于需要同时进行多个异步操作并且在所有操作完成后处理结果的场景非常有用。
 
 2. **等待所有异步操作完成**：`Promise.all` 可以用于等待多个异步操作全部完成后再执行后续操作。例如，在前端开发中，可以使用 `Promise.all` 等待多个网络请求全部完成后再更新页面。
+
+
+
+### 4. 异步编程有哪几种方式？
+
+1. **回调函数（Callbacks）**：
+   - 回调函数是 JavaScript 中最早的异步编程方式之一。通过将一个函数作为参数传递给另一个函数，在需要时调用这个函数来处理异步操作的结果。
+
+2. **Promise 对象**：
+   - Promise 是 ES6 引入的一种用于处理异步操作的对象。它表示一个异步操作的最终完成（或失败）及其结果的值。
+
+3. **async/await**：
+   - async/await 是 ES8 引入的异步编程新特性，它建立在 Promise 的基础之上，提供了一种更直观、更简洁的编程方式，使异步代码看起来像同步代码一样。
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1177,6 +1401,14 @@ HTTP 响应状态码表示服务器对请求的处理结果，分为以下几类
 
 
 
+
+
+
+
+
+
+
+
 ## 性能
 
 ### 1. 垃圾回收方法？
@@ -1194,6 +1426,14 @@ JavaScript 中的主要垃圾回收方法包括：
 ### 2. 举一个闭包会影响垃圾回收的例子？
 
 这种行为有时会导致内存泄漏的问题，特别是在使用闭包的时候需要注意避免循环引用。例如，在事件处理函数中创建了一个闭包，并将该事件处理函数绑定到 DOM 元素上，如果不及时解绑事件处理函数，那么闭包中引用的外部变量将会一直存在，即使 DOM 元素被销毁，也无法被垃圾回收器回收。
+
+
+
+
+
+
+
+
 
 
 
