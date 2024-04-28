@@ -668,6 +668,7 @@ delete
 2. 构造函数
 3. Object.create()
 4. ES6中的Class
+5. 工厂函数（就是一个函数return一个新的对象实例）
 
 
 
@@ -1313,6 +1314,101 @@ if (node.nodeType === Node.ELEMENT_NODE) {
 
 
 
+### 21. freeze() 方法有什么作用？
+
+JavaScript 中的 `Object.freeze()` 方法用于冻结对象，使其不可修改。一旦一个对象被冻结，就无法向其添加新的属性、删除现有属性或修改属性的值。被冻结的对象也无法被解冻。
+
+`Object.freeze()` 方法的作用包括：
+
+1. **防止属性被修改**：冻结对象后，无法修改对象的属性值。
+2. **防止属性被添加**：冻结对象后，无法向对象添加新的属性。
+3. **防止属性被删除**：冻结对象后，无法删除对象的属性。
+
+`Object.freeze()` 方法只能冻结对象自身的属性，而不能冻结对象内部的属性。如果对象的属性值是对象或数组等可变对象，则需要递归调用 `Object.freeze()` 来冻结其内部对象。
+
+
+
+### 22. 如何获取对象的键列表？
+
+要获取 JavaScript 对象的键列表，你可以使用以下方法：
+
+1. **使用 Object.keys() 方法**：
+   - `Object.keys()` 方法返回一个包含对象自身可枚举属性的键的数组。
+   ```javascript
+   const obj = {
+     name: 'John',
+     age: 30,
+     gender: 'male'
+   };
+   
+   const keys = Object.keys(obj);
+   console.log(keys); // 输出：["name", "age", "gender"]
+   ```
+
+2. **使用 for...in 循环**：
+   - 使用 for...in 循环遍历对象的属性，然后将每个属性添加到数组中。
+   ```javascript
+   const obj = {
+     name: 'John',
+     age: 30,
+     gender: 'male'
+   };
+   
+   const keys = [];
+   for (let key in obj) {
+     keys.push(key);
+   }
+   console.log(keys); // 输出：["name", "age", "gender"]
+   ```
+
+这两种方法都可以获取对象的键列表，但要注意，`Object.keys()` 方法只返回对象自身的可枚举属性的键，而不包括继承的属性。而 for...in 循环会遍历对象的自身和继承的可枚举属性。
+
+
+
+### 23. 请问什么是箭头函数以及特性 ？
+
+JavaScript 的箭头函数（Arrow Functions）是 ES6（ECMAScript 2015）中引入的一种新的函数声明语法，它提供了一种更简洁的方式来声明函数，并且改变了函数内部的 `this` 绑定。
+
+箭头函数的基本语法如下：
+
+```javascript
+// 无参数箭头函数
+const func = () => {
+  // 函数体
+};
+
+// 单个参数箭头函数
+const func = param => {
+  // 函数体
+};
+
+// 多个参数箭头函数
+const func = (param1, param2) => {
+  // 函数体
+};
+
+// 简写的箭头函数（如果函数体只有一条语句，则可以省略大括号）
+const func = () => expression;
+
+// 如果函数体有多条语句，则需要使用大括号，并使用 return 显式返回值
+const func = () => {
+  // 逻辑
+  return expression;
+};
+```
+
+箭头函数与传统函数的不同之处在于：
+
+1. **更简洁的语法**：箭头函数的语法更加简洁，特别是在函数体只有一条语句时，可以省略大括号和 `return` 关键字。
+
+2. **没有自己的 `this` 绑定**：箭头函数没有自己的 `this` 绑定，它继承了外部作用域的 `this` 值。这意味着在箭头函数内部访问的 `this` 是定义时所在的作用域的 `this`，而不是执行时的 `this`。
+
+3. **不能作为构造函数**：由于箭头函数没有自己的 `this`，因此不能用作构造函数，也就是说不能使用 `new` 关键字来调用箭头函数。
+
+箭头函数通常用于编写短小的匿名函数或回调函数，以及在函数内部需要访问外部作用域的 `this` 值时。然而，由于箭头函数没有自己的 `this` 绑定，因此不适合用于需要动态绑定 `this` 的场景，例如在对象的方法中。
+
+
+
 
 
 
@@ -1483,6 +1579,12 @@ Generator：
 ### 5. promises中的race method是什么意思？
 
 `Promise.race()` 方法通常用于竞速操作，例如在多个异步操作中只关心第一个完成的情况，或者设置超时功能，等待第一个操作完成。
+
+
+
+### 6. promise 的 finally 怎么实现的？
+
+`finally` 方法是 Promise 的一个实例方法，它在 Promise 完成（无论是 resolve 还是 reject）后始终会执行，无论 Promise 的状态是成功还是失败。
 
 
 
@@ -1684,6 +1786,62 @@ JavaScript 中的主要垃圾回收方法包括：
    - 在某些情况下，将代码封装在函数块中可以提高代码的执行效率，因为它可以减少全局作用域的搜索时间。
 
 综上所述，将 JavaScript 源文件的全部内容封装到一个函数块中可以提高代码的可维护性、可读性和性能，并且可以防止全局作用域污染和意外的行为，是一种良好的编码实践。
+
+
+
+### 4. 如何在页面加载后执行 JavaScript 代码？
+
+在页面加载后执行 JavaScript 代码有多种方法，其中最常见的包括：
+
+1. **使用 window.onload 事件**：
+   - `window.onload` 事件在整个页面（包括其所有内部元素和外部资源）加载完成后触发。你可以将要执行的 JavaScript 代码放在 `window.onload` 事件处理程序中。
+   ```html
+   <script>
+       window.onload = function() {
+           // 在页面加载完成后执行的 JavaScript 代码
+       };
+   </script>
+   ```
+
+2. **使用 DOMContentLoaded 事件**：
+   - `DOMContentLoaded` 事件在页面的 DOM 结构加载完成后触发，此时不需要等待外部资源（如图片、样式表）加载完成。这使得它比 `window.onload` 更早地触发，因此更适合执行不需要等待外部资源加载的 JavaScript 代码。
+   ```html
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           // 在 DOM 结构加载完成后执行的 JavaScript 代码
+       });
+   </script>
+   ```
+
+3. **将 JavaScript 代码放在 body 元素底部**：
+   - 将 JavaScript 代码放在 `<body>` 元素的末尾，这样可以确保 JavaScript 代码在页面的 HTML 内容加载完成后执行，但在外部资源加载完成前执行。
+   ```html
+   <body>
+       <!-- 页面内容 -->
+       
+       <script>
+           // 在页面加载后执行的 JavaScript 代码
+       </script>
+   </body>
+   ```
+
+4. **使用 defer 或 async 属性加载外部脚本**：
+   - 使用 `<script>` 标签的 `defer` 或 `async` 属性来加载外部 JavaScript 文件，可以在页面加载后异步执行脚本。
+   ```html
+   <script defer src="example.js"></script>
+   ```
+   或
+   ```html
+   <script async src="example.js"></script>
+   ```
+
+这些方法都可以在页面加载后执行 JavaScript 代码，你可以根据需要选择其中之一。
+
+
+
+### 5. NoScript标签有什么作用？
+
+如果用户的浏览器不支持JavaScript，或者用户主动禁用了JavaScript，那么被`<noscript>`标签包含的内容会被显示出来。
 
 
 
