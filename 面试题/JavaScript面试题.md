@@ -784,6 +784,22 @@ let myNamedFunctionExpression = function myNamedFunc() {
 
 
 
+### 35. 如何将对象转换为数组？
+
+使用 JavaScript 中的 `Object.values()` 方法。
+
+
+
+### 36. 事件冒泡机制是什么？
+
+事件冒泡机制的特点包括：
+
+1. **由内向外的传播**：事件从触发事件的元素开始向外传播，逐级触发父元素的事件处理程序。
+2. **逐级触发**：在冒泡过程中，每个父元素上相同类型的事件处理程序都会被触发，直到到达根节点。
+3. **可以取消**：在冒泡过程中，可以通过调用 `event.stopPropagation()` 方法来阻止事件继续向上传播，即停止事件冒泡。
+
+
+
 
 
 
@@ -1206,6 +1222,101 @@ isNaN(-Infinity)，结果是false
 
 
 
+### 17. void(0)的作用是什么？
+
+作用是在不改变当前页面的情况下防止浏览器执行默认的行为或跳转到新页面。
+
+具体来说，`void` 是一个操作符，用于指示表达式的返回值为 undefined。在 `void(0)` 中，`(0)` 是一个被 `void` 操作符处理的数字表达式，其结果始终是 undefined。由于它返回 undefined，因此 `void(0)` 可以用来代替 JavaScript 中的 "javascript:void(0)"，在某些情况下用作 HTML 锚点的 href 属性，以防止页面跳转。
+
+例如，在 HTML 中，你可能会看到类似以下的代码：
+
+```html
+<a href="javascript:void(0);" onclick="someFunction()">Click me</a>
+```
+
+这里的 `javascript:void(0);` 用于在用户点击链接时不触发页面跳转，而是执行 `someFunction()` 函数。使用 `void(0)` 的另一个常见场景是在 JavaScript 中的事件处理程序中，当你想要执行某个动作但不需要返回值时使用。
+
+总之，`void(0)` 的作用是在 JavaScript 中生成一个永远返回 undefined 的表达式，用于阻止浏览器执行默认的操作或页面跳转。
+
+
+
+### 18. 如何获得 CheckBox状态？
+
+访问复选框的 `checked` 属性。这个属性返回一个布尔值，表示复选框是否被选中。
+
+例如，假设你有一个 HTML 复选框元素：
+```html
+<input type="checkbox" id="myCheckbox">
+```
+
+你可以使用 JavaScript 来获取它的状态：
+```javascript
+var checkbox = document.getElementById("myCheckbox");
+var isChecked = checkbox.checked;
+
+if (isChecked) {
+    console.log("Checkbox is checked.");
+} else {
+    console.log("Checkbox is not checked.");
+}
+```
+
+在这个例子中，`isChecked` 变量将包含布尔值，表示复选框的状态。如果复选框被选中，`isChecked` 将为 `true`，否则为 `false`。
+
+
+
+### 19. 如何判断当前节点类型？
+
+要判断当前节点的类型，可以使用节点对象的 `nodeType` 属性。`nodeType` 属性返回一个表示节点类型的数字值，通过这个值可以判断节点的类型。
+
+常见的 `nodeType` 值及对应的节点类型如下：
+
+- 元素节点：`nodeType` 的值为 `1`。
+- 文本节点：`nodeType` 的值为 `3`。
+- 注释节点：`nodeType` 的值为 `8`。
+- 文档节点：`nodeType` 的值为 `9`。
+- 文档类型节点：`nodeType` 的值为 `10`。
+
+例如，要判断一个节点是否是元素节点，可以这样写：
+
+```javascript
+if (node.nodeType === 1) {
+    console.log("This node is an element node.");
+}
+```
+
+或者，你也可以使用节点对象的 `nodeType` 属性和相应的常量来判断：
+
+```javascript
+if (node.nodeType === Node.ELEMENT_NODE) {
+    console.log("This node is an element node.");
+}
+```
+
+这样可以提高代码的可读性和可维护性。
+
+
+
+### 20. Document Load 和 DOMContentLoaded 的区别？
+
+文档加载（Document Load）和 DOMContentLoaded 事件都与网页加载和渲染相关，但它们发生的时机和目的略有不同：
+
+1. **文档加载（Document Load）**：
+   - 文档加载指的是浏览器完成解析 HTML 文件并加载了所有外部资源（如图片、样式表、脚本等）后的状态。当整个文档及其依赖资源都已加载完毕时，浏览器触发文档加载事件（通常是 `window` 对象的 `load` 事件）。
+   - 通常情况下，文档加载事件表示整个页面已经完全加载并准备好与用户交互。这时，页面中的所有 DOM 元素和外部资源都已经可用。
+
+2. **DOMContentLoaded 事件**：
+   - DOMContentLoaded 事件在 HTML 文档解析完成并且 DOM 树构建完毕后触发。在这个时刻，页面的文档结构已经完全生成，但可能还有一些外部资源（如图片、样式表、脚本等）尚未加载完成。
+   - DOMContentLoaded 事件的触发表示页面的 DOM 结构已经可以访问和操作，但页面的外部资源可能还在加载中。因此，DOMContentLoaded 事件常用于在页面加载完成后执行 JavaScript 初始化操作，而不需要等待所有外部资源加载完成。
+
+总之，文档加载事件（如 `load` 事件）表示整个页面以及所有资源都已加载完成，而 DOMContentLoaded 事件表示页面的 DOM 结构已经构建完成，但页面的外部资源可能尚未加载完成。DOMContentLoaded 事件常用于执行与 DOM 结构相关的初始化操作，而不需要等待所有外部资源加载完成。
+
+
+
+
+
+
+
 
 
 
@@ -1366,6 +1477,12 @@ Generator：
 
 3. **async/await**：
    - async/await 是 ES8 引入的异步编程新特性，它建立在 Promise 的基础之上，提供了一种更直观、更简洁的编程方式，使异步代码看起来像同步代码一样。
+
+
+
+### 5. promises中的race method是什么意思？
+
+`Promise.race()` 方法通常用于竞速操作，例如在多个异步操作中只关心第一个完成的情况，或者设置超时功能，等待第一个操作完成。
 
 
 
@@ -1546,6 +1663,27 @@ JavaScript 中的主要垃圾回收方法包括：
 ### 2. 举一个闭包会影响垃圾回收的例子？
 
 这种行为有时会导致内存泄漏的问题，特别是在使用闭包的时候需要注意避免循环引用。例如，在事件处理函数中创建了一个闭包，并将该事件处理函数绑定到 DOM 元素上，如果不及时解绑事件处理函数，那么闭包中引用的外部变量将会一直存在，即使 DOM 元素被销毁，也无法被垃圾回收器回收。
+
+
+
+### 3. 封装 JavaScript源文件的全部内容到一个函数块有什么意义？
+
+1. **隔离作用域**：
+   - 将整个 JavaScript 文件的代码放入一个函数块中可以创建一个局部作用域，防止函数内部的变量和函数污染全局命名空间，避免命名冲突和意外修改全局变量。
+
+2. **防止变量提升**：
+   - JavaScript 中的变量提升可能导致意外的行为，将代码封装在函数块中可以避免这种情况。在函数内部声明的变量不会受到变量提升的影响，保证代码的可预测性和可维护性。
+
+3. **创建闭包**：
+   - 将代码封装在函数中可以创建闭包，使得内部变量和函数在函数外部无法直接访问，从而增加了数据的私有性和安全性。
+
+4. **模块化开发**：
+   - 使用 IIFE 可以将代码模块化，使得代码更易于管理、测试和维护。每个模块都可以独立地定义自己的作用域，从而提高代码的可重用性和可扩展性。
+
+5. **优化性能**：
+   - 在某些情况下，将代码封装在函数块中可以提高代码的执行效率，因为它可以减少全局作用域的搜索时间。
+
+综上所述，将 JavaScript 源文件的全部内容封装到一个函数块中可以提高代码的可维护性、可读性和性能，并且可以防止全局作用域污染和意外的行为，是一种良好的编码实践。
 
 
 
