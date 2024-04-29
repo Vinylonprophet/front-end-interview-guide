@@ -849,6 +849,124 @@ let myNamedFunctionExpression = function myNamedFunc() {
 
 
 
+### 38. 简述Set、Map、WeakSet 和 WeakMap 的区别 ？
+
+| 特点                | Set                            | Map                    | WeakSet          | WeakMap            |
+| ------------------- | ------------------------------ | ---------------------- | ---------------- | ------------------ |
+| 类型                | 集合                           | 键值对集合             | 弱引用集合       | 弱引用键值对集合   |
+| 元素唯一性          | 是                             | 键唯一，值可重复       | 是               | 键弱引用，值可重复 |
+| 元素类型            | 任意类型（基本类型和引用类型） | 任意类型（键和值均可） | 引用类型         | 引用类型           |
+| 有序性              | 有序                           | 有序                   | 无序             | 无序               |
+| 可枚举性            | 是                             | 是                     | 否               | 否                 |
+| 键的可直接访问      | 否                             | 否                     | 否               | 否                 |
+| 键/值的个数获取方法 | size 属性                      | size 属性              | 无法获取         | 无法获取           |
+| 主要用途            | 存储唯一值                     | 存储键值对             | 存储对象的弱引用 | 存储对象的弱引用   |
+
+
+
+### 39. 简述ES6 的 class 和构造函数的区别 ？
+
+1. **语法**：
+   - ES6 的 class 是一种语法糖，提供了更加清晰和面向对象的语法，使得创建和继承类更加简洁和易读。
+   - 构造函数是 JavaScript 中传统的创建对象的方式，使用函数来定义对象的结构和行为。
+
+2. **继承机制**：
+   - ES6 的 class 提供了更加直观的继承机制，通过 extends 关键字可以轻松地实现类的继承。
+   - 构造函数通过原型链来实现继承，需要手动设置子类的原型对象指向父类的实例，实现起来较为复杂。
+
+3. **构造函数**：
+   - ES6 的 class 中使用 constructor 方法来定义构造函数，用于初始化实例对象的状态和行为。
+   - 构造函数可以通过函数声明、函数表达式或箭头函数来定义，没有特定的关键字。
+
+4. **静态方法和实例方法**：
+   - ES6 的 class 中可以定义静态方法和实例方法，通过 static 关键字来定义静态方法，直接在类上调用；实例方法则定义在类的原型上。
+   - 构造函数也可以定义静态方法和实例方法，但语法上没有特定的关键字来区分，需要手动判断方法是添加在构造函数上还是原型上。
+
+5. **严格模式**：
+   - 在 ES6 的 class 中，类的所有方法（包括静态方法和实例方法）默认都是严格模式。
+   - 构造函数中，如果没有明确声明使用严格模式，方法执行时将默认使用非严格模式。
+
+综上所述，ES6 的 class 提供了更加现代化和直观的语法来创建和继承类，使得面向对象编程更加容易和优雅。与传统的构造函数相比，class 更符合人们对于面向对象编程的直觉和需求。
+
+
+
+### 40. class的本质是构造函数吗？
+
+是的，ES6 中的 class 本质上还是构造函数。尽管 class 语法提供了更加清晰和面向对象的语法，但在 JavaScript 引擎内部，class 仍然是基于原型和构造函数的实现。
+
+在 JavaScript 中，class 声明只是一种语法糖，它实际上是构造函数的一种简洁写法，提供了更加直观和易读的方式来定义对象的结构和行为。当使用 class 声明一个类时，实际上是在创建一个构造函数，并将类中定义的方法添加到该构造函数的原型对象上。
+
+下面是一个使用 class 声明类的简单示例：
+
+```javascript
+class MyClass {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    greet() {
+        console.log(`Hello, ${this.name}!`);
+    }
+}
+
+const obj = new MyClass('World');
+obj.greet(); // 输出: Hello, World!
+```
+
+上述代码实际上等价于以下使用构造函数的写法：
+
+```javascript
+function MyClass(name) {
+    this.name = name;
+}
+
+MyClass.prototype.greet = function() {
+    console.log(`Hello, ${this.name}!`);
+};
+
+const obj = new MyClass('World');
+obj.greet(); // 输出: Hello, World!
+```
+
+因此，虽然 class 语法让 JavaScript 看起来更像传统的面向对象语言，但在底层实现上，class 本质上还是构造函数和原型的组合。
+
+
+
+### 41. 简述如何监听对象属性的改变？
+
+在 JavaScript 中，要监听对象属性的改变，可以使用以下几种方法：
+
+1. **Object.defineProperty()**：
+   - 使用 `Object.defineProperty()` 方法可以定义或修改对象的属性，并在属性的读取或赋值时触发 getter 和 setter 函数。
+   ```javascript
+   const obj = {};
+   Object.defineProperty(obj, 'name', {
+       get() {
+           return this._name;
+       },
+       set(value) {
+           this._name = value;
+           console.log('name属性被修改了');
+       }
+   });
+   obj.name = 'Alice'; // 输出: 'name属性被修改了'
+   ```
+
+2. **Proxy**：
+   - 使用 Proxy 对象可以代理另一个对象并拦截该对象的操作，包括读取和设置属性的操作。
+   ```javascript
+   const obj = {};
+   const handler = {
+       set(target, key, value) {
+           target[key] = value;
+           console.log(`${key}属性被修改了`);
+           return true;
+       }
+   };
+   const proxy = new Proxy(obj, handler);
+   proxy.name = 'Bob'; // 输出: 'name属性被修改了'
+   ```
+
 
 
 
@@ -1533,6 +1651,103 @@ const func = () => {
 
 
 
+### 26. 简述document.write的用法 ？
+
+`document.write()` 是 JavaScript 中的一个方法，用于向文档中写入 HTML 文本或内容。它的基本用法如下：
+
+```javascript
+document.write(text);
+```
+
+其中，text 是要写入文档的 HTML 文本或内容。
+
+`document.write()` 方法会将指定的文本直接写入到当前文档的输出流中。如果在文档加载完成后调用 `document.write()`，它会将新的文本直接写入到文档中，并覆盖掉原来的文档内容。因此，一般不推荐在页面加载完成后再使用 `document.write()`，因为这样会覆盖掉整个文档。
+
+通常情况下，`document.write()` 主要用于在文档加载过程中动态生成 HTML 内容。例如，在脚本中动态生成一些内容，并将其直接写入到文档中：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>document.write Example</title>
+</head>
+<body>
+
+<script>
+document.write('<h1>Hello, World!</h1>');
+</script>
+
+</body>
+</html>
+```
+
+在这个示例中，`document.write()` 方法被用来动态生成一个 `<h1>` 标题，并将其写入到文档中。当浏览器解析到这个脚本时，会立即执行 `document.write()` 方法，将生成的标题直接写入到文档中。
+
+总的来说，`document.write()` 方法是一个比较简单的方法，主要用于在文档加载过程中动态生成 HTML 内容，但在实际开发中需要谨慎使用，避免不必要的副作用。
+
+
+
+### 27. 为什么多次document.write()不会覆盖又覆盖？
+
+`document.write()` 的行为取决于它被调用的时机。
+
+1. **在文档加载过程中**：
+   - 如果 `document.write()` 在文档加载过程中被调用，它会将新的文本直接写入到文档中，并覆盖掉之前的文档内容。每次调用 `document.write()` 都会覆盖前一次写入的内容。
+
+2. **在文档加载完成后**：
+   - 如果 `document.write()` 在文档加载完成后被调用，它会将新的文本写入到文档中的当前位置。每次调用 `document.write()` 都会在之前的文本后面追加新的内容。
+
+因此，如果 `document.write()` 在文档加载过程中被多次调用，每次调用都会覆盖掉之前的文档内容；但如果在文档加载完成后调用，每次调用都会在文档末尾追加新的内容，而不会覆盖掉之前的内容。
+
+
+
+### 28. 怎么识别是文档加载完还是加载过程中？
+
+要识别文档是否已经加载完成，可以通过检查 `document.readyState` 属性。这个属性表示当前文档的加载状态，有以下几个可能的值：
+
+- `"loading"`：文档正在加载。
+- `"interactive"`：文档已经完成加载，正在解析。
+- `"complete"`：文档已经完全加载完成。
+
+你可以在 JavaScript 中监听 `DOMContentLoaded` 事件来检测文档何时完成解析，而在 `load` 事件中检测文档何时完全加载完成。这样，你就可以根据 `document.readyState` 的值来判断文档加载的状态。
+
+以下是一个示例：
+
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        console.log('Document parsing is complete.');
+    } else {
+        console.log('Document is still loading.');
+    }
+});
+
+window.addEventListener('load', function() {
+    if (document.readyState === 'complete') {
+        console.log('Document is fully loaded.');
+    } else {
+        console.log('Document is still loading.');
+    }
+});
+```
+
+在这个示例中，我们监听了 `DOMContentLoaded` 和 `load` 事件，并在事件处理函数中检查 `document.readyState` 的值。根据文档加载的状态输出不同的信息。
+
+`window.onload` 事件是当整个页面及所有依赖资源（例如图片、样式表等）都加载完成后触发的事件。与 `DOMContentLoaded` 事件不同，`window.onload` 等待页面中所有资源加载完成后才会触发，包括图片、样式表、脚本等。
+
+因此，使用 `window.onload` 事件来检测文档是否加载完成是非常可靠的方法。以下是一个示例：
+
+```javascript
+window.onload = function() {
+    console.log('Document and all resources are fully loaded.');
+};
+```
+
+在这个示例中，当整个文档及其所有依赖资源都加载完成后，`window.onload` 事件被触发，然后执行指定的事件处理函数。
+
+
+
 
 
 
@@ -1591,6 +1806,43 @@ this 的绑定和函数声明的位置没有任何关系，只取决于函数的
    - `apply` 和 `call`：常用于立即调用函数，并指定函数的执行上下文和参数。`apply` 适用于参数以**数组形式**存在的情况，而 `call` 适用于参数以**单独列举**的情况。
 
 总的来说，`bind`、`apply` 和 `call` 都是用于修改函数执行上下文的方法，它们的主要区别在于参数传递方式、返回值和使用场景。
+
+
+
+### 3. 自己如何实现一个bind？
+
+实现一个简单的 `bind` 方法可以帮助理解函数的 `this` 绑定机制。
+
+`bind` 方法用于创建一个新函数，并将指定的对象绑定为新函数的上下文（即函数内部的 `this` 指向指定的对象）。下面是一个简单的 `bind` 方法的实现：
+
+```javascript
+Function.prototype.myBind = function(context) {
+    const fn = this; // 当前函数
+    const args = Array.prototype.slice.call(arguments, 1); // 获取除第一个参数（context）外的其他参数
+
+    return function() {
+        const bindArgs = Array.prototype.slice.call(arguments); // 获取新函数的参数
+        return fn.apply(context, args.concat(bindArgs)); // 将原函数的参数和新函数的参数合并，并以指定的上下文调用原函数
+    };
+};
+```
+
+使用示例：
+
+```javascript
+const person = {
+    name: 'Alice'
+};
+
+function greet(message) {
+    console.log(`${message}, ${this.name}!`);
+}
+
+const boundGreet = greet.myBind(person, 'Hello');
+boundGreet(); // 输出: Hello, Alice!
+```
+
+在上面的实现中，`myBind` 方法通过原型链将 `bind` 方法添加到 `Function.prototype` 上，从而使所有函数实例都可以调用 `bind` 方法。在返回的新函数内部，通过闭包的方式保存了原函数 `fn` 和绑定的上下文 `context`，然后调用 `fn.apply(context, args.concat(bindArgs))` 来将原函数的参数和新函数的参数合并，并以指定的上下文调用原函数。
 
 
 
@@ -1708,6 +1960,12 @@ Generator：
 
 
 
+### 7. Promise 构造函数是同步执行还是异步执行，那么 then 方法呢 ？
+
+Promise 构造函数是同步执行的，而 then 方法是异步执行的。
+
+
+
 
 
 
@@ -1794,6 +2052,14 @@ HTTP 响应状态码表示服务器对请求的处理结果，分为以下几类
 
 
 
+
+
+
+
+
+
+
+
 ## 场景
 
 ### 1. 手写防抖和节流，同时他们的区别是什么？
@@ -1867,7 +2133,7 @@ JavaScript 中可以表示的最大数值为 `Number.MAX_VALUE`，约为 1.79769
 如果后台发送了一个超过 JavaScript 能表示的最大数值的数字，通常情况下会导致该数字被表示成 `Infinity`。在处理这种情况时，可以考虑以下几种方式：
 
 1. **使用科学计数法发送数据**：如果可能的话，将超过最大数值的数字表示成科学计数法形式，以便 JavaScript 能够正确解析。
-   
+
 2. **对数据进行分段处理**：如果超出最大数值的数字是作为一个整体来使用的，可以将其拆分成多个较小的数值进行处理，然后再进行合并或计算。
 
 3. **进行数据截断或舍入**：根据具体的业务需求，可以将超出范围的数字截断或进行舍入处理，使其落在 JavaScript 能够表示的范围内。
@@ -1875,6 +2141,287 @@ JavaScript 中可以表示的最大数值为 `Number.MAX_VALUE`，约为 1.79769
 4. **使用库或工具进行处理**：可以使用第三方库或工具来处理超出范围的数字，这些库通常提供了更灵活和高效的处理方式，可以更好地应对各种情况。
 
 
+
+### 4. 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
+
+**深度优先思想：**
+
+```javascript
+function deepCopyDFS(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        // 如果不是对象或者为null，直接返回原始值
+        return obj;
+    }
+
+    let newObj = Array.isArray(obj) ? [] : {};
+    
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            newObj[key] = deepCopyDFS(obj[key]);
+        }
+    }
+    
+    return newObj;
+}
+```
+
+深度优先思想的拷贝函数会递归地遍历对象的所有属性，并深度拷贝每个属性的值。如果属性值是对象，则继续递归地拷贝，直到遇到基本类型或 null。
+
+**广度优先思想：**
+
+```javascript
+function deepCopyBFS(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        // 如果不是对象或者为null，直接返回原始值
+        return obj;
+    }
+
+    let queue = [obj]; // 使用队列存储待拷贝的对象
+    let cloned = {}; // 存储已经拷贝过的对象
+
+    while (queue.length > 0) {
+        let current = queue.shift();
+        let keys = Object.keys(current);
+
+        for (let key of keys) {
+            let value = current[key];
+            if (typeof value === 'object' && value !== null && !cloned[value]) {
+                // 如果属性值是对象且没有被拷贝过，则将其放入队列中
+                queue.push(value);
+                cloned[value] = Array.isArray(value) ? [] : {}; // 初始化拷贝对象
+            }
+            cloned[current][key] = value;
+        }
+    }
+
+    return cloned[obj];
+}
+```
+
+广度优先思想的拷贝函数会按层级逐步拷贝对象的属性值，首先拷贝第一层属性值，然后逐层深入拷贝子对象的属性值，直到所有的属性值都被拷贝完成。
+
+
+
+### 5. 简述拖拽功能的实现 ？
+
+拖拽功能的实现通常涉及以下几个步骤：
+
+1. **注册事件监听器**：
+   - 首先，需要为要拖拽的元素注册事件监听器，通常包括 mousedown、mousemove 和 mouseup 事件。
+
+2. **处理鼠标按下事件**：
+   - 当鼠标按下时，记录下鼠标按下时的坐标和被拖拽元素的初始位置。
+
+3. **处理鼠标移动事件**：
+   - 当鼠标移动时，计算鼠标移动的距离，并更新被拖拽元素的位置。
+
+4. **处理鼠标释放事件**：
+   - 当鼠标释放时，清除事件监听器，完成拖拽操作。
+
+下面是一个简单的拖拽功能实现的示例代码：
+
+HTML：
+```html
+<div id="draggable" style="width: 100px; height: 100px; background-color: red;"></div>
+```
+
+JavaScript：
+```javascript
+const draggableElement = document.getElementById('draggable');
+let isDragging = false;
+let offsetX, offsetY;
+
+draggableElement.addEventListener('mousedown', (event) => {
+    isDragging = true;
+    offsetX = event.clientX - draggableElement.getBoundingClientRect().left;
+    offsetY = event.clientY - draggableElement.getBoundingClientRect().top;
+});
+
+document.addEventListener('mousemove', (event) => {
+    if (isDragging) {
+        const x = event.clientX - offsetX;
+        const y = event.clientY - offsetY;
+        draggableElement.style.left = `${x}px`;
+        draggableElement.style.top = `${y}px`;
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+});
+```
+
+在这个示例中，当鼠标按下时，记录下鼠标按下时的坐标和被拖拽元素的初始位置；当鼠标移动时，计算鼠标移动的距离，并更新被拖拽元素的位置；当鼠标释放时，清除事件监听器，完成拖拽操作。
+
+
+
+### 6. 简述怎么控制一次加载一张图片，加载完后再加载下一张 ？
+
+要实现一次加载一张图片，并在加载完一张图片后再加载下一张，可以使用 JavaScript 中的图片预加载技术和事件监听机制。下面是一种实现方式：
+
+1. **准备图片资源**：
+   - 首先，将所有需要加载的图片资源的 URL 存储在一个数组中。
+
+2. **预加载图片**：
+   - 使用 JavaScript 动态创建图片对象，并为每张图片添加 onload 事件监听器。
+   - 每张图片加载完成后，在 onload 事件处理函数中检查是否还有未加载的图片，若有，则加载下一张图片。
+
+下面是一个实现示例：
+
+```javascript
+const imageUrls = ['image1.jpg', 'image2.jpg', 'image3.jpg'];
+let currentIndex = 0;
+
+function preloadImage() {
+    const image = new Image();
+    image.onload = function() {
+        console.log(`Image ${currentIndex + 1} loaded`);
+        currentIndex++;
+        if (currentIndex < imageUrls.length) {
+            preloadImage();
+        } else {
+            console.log('All images loaded');
+        }
+    };
+    image.src = imageUrls[currentIndex];
+}
+
+preloadImage();
+```
+
+在这个示例中，imageUrls 数组存储了需要加载的图片资源的 URL。preloadImage 函数用于预加载图片，它动态创建图片对象，并为每张图片添加 onload 事件监听器。每张图片加载完成后，在 onload 事件处理函数中，检查是否还有未加载的图片，若有，则加载下一张图片。当所有图片都加载完成后，输出 "All images loaded"。
+
+**实际例子：**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Preloading Example</title>
+</head>
+<body>
+
+<div id="image-container"></div>
+
+<script>
+const imageUrls = ['image1.jpg', 'image2.jpg', 'image3.jpg'];
+let currentIndex = 0;
+
+function preloadImage() {
+    const image = new Image();
+    image.onload = function() {
+        document.getElementById('image-container').appendChild(image);
+        console.log(`Image ${currentIndex + 1} loaded`);
+        currentIndex++;
+        if (currentIndex < imageUrls.length) {
+            preloadImage();
+        } else {
+            console.log('All images loaded');
+        }
+    };
+    image.src = imageUrls[currentIndex];
+}
+
+preloadImage();
+</script>
+
+</body>
+</html>
+```
+
+
+
+### 7. 实现所有对象的深度克隆 （ 包装对象Date 对象 ，正则对象）？
+
+要实现 JavaScript 中所有对象的深度克隆，包括包装对象（如 Date 对象）和正则对象，可以使用递归和一些特殊处理来处理不同类型的对象。下面是一个实现深度克隆的示例函数：
+
+```javascript
+function deepClone(obj) {
+    // 如果是基本类型或 null，则直接返回
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    // 如果是日期对象，则创建一个新的日期对象
+    if (obj instanceof Date) {
+        return new Date(obj.getTime());
+    }
+
+    // 如果是正则对象，则创建一个新的正则对象
+    if (obj instanceof RegExp) {
+        return new RegExp(obj);
+    }
+
+    // 如果是数组，则递归地克隆数组的每个元素
+    if (Array.isArray(obj)) {
+        return obj.map(item => deepClone(item));
+    }
+
+    // 如果是对象，则递归地克隆对象的每个属性
+    const clonedObj = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            clonedObj[key] = deepClone(obj[key]);
+        }
+    }
+    return clonedObj;
+}
+```
+
+这个 deepClone 函数接受一个对象作为参数，返回该对象的深度克隆副本。
+
+在函数体内部，首先检查对象的类型。如果是基本类型或 null，则直接返回。如果是日期对象，则创建一个新的日期对象，复制原日期对象的时间。如果是正则对象，则创建一个新的正则对象，复制原正则对象的模式和标志。如果是数组，则递归地克隆数组的每个元素。如果是对象，则递归地克隆对象的每个属性，并将克隆后的属性添加到新的对象中。
+
+这样，通过递归调用 deepClone 函数，就可以实现对 JavaScript 中所有对象的深度克隆。
+
+
+
+### 8. 简述  JS  的全排列 ？
+
+在 JavaScript 中，可以使用递归的方式来实现全排列（Permutation）算法。全排列是一种将给定数组中的元素重新排列，使得所有可能的排列组合都被列举出来的算法。
+
+下面是一个简单的 JavaScript 函数，用于生成给定数组的全排列：
+
+```javascript
+function permute(nums) {
+    const result = [];
+
+    function backtrack(current, remaining) {
+        if (remaining.length === 0) {
+            result.push(current);
+            return;
+        }
+
+        for (let i = 0; i < remaining.length; i++) {
+            const nextCurrent = current.concat(remaining[i]);
+            const nextRemaining = remaining.slice(0, i).concat(remaining.slice(i + 1));
+            backtrack(nextCurrent, nextRemaining);
+        }
+    }
+
+    backtrack([], nums);
+    return result;
+}
+```
+
+这个 permute 函数接受一个数组 nums 作为参数，返回该数组的全排列。
+
+在函数内部，定义了一个 backtrack 函数，用于递归地生成全排列。backtrack 函数接受两个参数：当前已生成的排列（current）和剩余待排列的元素（remaining）。
+
+如果剩余待排列的元素为空数组，则将当前已生成的排列添加到结果数组中，然后返回。否则，遍历剩余待排列的元素，将每个元素依次加入当前排列，并递归地生成下一轮排列。
+
+通过递归调用 backtrack 函数，不断地生成排列，直到所有可能的排列都被生成完成。最终，返回结果数组，其中包含了给定数组的所有全排列。
+
+下面是一个使用示例：
+
+```javascript
+const nums = [1, 2, 3];
+console.log(permute(nums)); // 输出所有全排列：[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+```
+
+这样，通过递归生成全排列的算法，可以很方便地获取给定数组的所有排列组合。
 
 
 
@@ -2126,3 +2673,61 @@ parentList.addEventListener('click', function(event) {
 ```
 
 在这个示例中，我们只需将事件监听器绑定到父元素 `ul` 上，然后通过事件冒泡机制，监听到每个 `li` 元素上的点击事件，从而实现了对子元素的事件处理，而无需为每个 `li` 元素单独绑定事件处理程序。
+
+
+
+### 3. 简述JavaScript修饰器 ？
+
+JavaScript 修饰器是一种特殊的语法，用于修改类的行为。修饰器可以用来装饰类、方法、属性等，以便添加额外的功能或修改现有功能。修饰器最常用于面向对象编程中，特别是在框架和库中用于实现元编程和装饰模式。
+
+修饰器在 JavaScript 中处于实验性阶段，并不是标准的 ECMAScript 特性，目前主要由 Babel 等工具提供支持。
+
+修饰器有两种类型：类修饰器和方法/属性修饰器。
+
+**类修饰器：**
+
+类修饰器是一个函数，接收一个参数，即被修饰的类。它可以在类被声明时进行装饰，用于修改类的行为或元数据。类修饰器可以用来添加静态属性、实例属性、方法等。
+
+```javascript
+function log(target) {
+    target.log = function(message) {
+        console.log(message);
+    };
+}
+
+@log
+class MyClass {
+    static log(message) {
+        console.log(message);
+    }
+}
+
+MyClass.log('Hello'); // 输出: Hello
+```
+
+**方法/属性修饰器：**
+
+方法/属性修饰器是一个函数，接收三个参数：目标对象、属性名（或方法名）、修饰符描述符（PropertyDescriptor）。它可以用于修改属性的行为，比如添加 getter/setter、日志记录、权限控制等。
+
+```javascript
+function readonly(target, name, descriptor) {
+    descriptor.writable = false;
+    return descriptor;
+}
+
+class MyClass {
+    @readonly
+    method() {
+        console.log('This method is readonly');
+    }
+}
+
+const obj = new MyClass();
+obj.method(); // 正常调用
+obj.method = function() {
+    console.log('This method is not allowed to be modified');
+};
+obj.method(); // 报错: Cannot assign to read only property
+```
+
+修饰器是一种强大的元编程工具，在框架和库中被广泛应用，用于实现切面编程、依赖注入、数据验证等功能。
