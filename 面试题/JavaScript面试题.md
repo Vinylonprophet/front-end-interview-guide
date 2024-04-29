@@ -801,6 +801,56 @@ let myNamedFunctionExpression = function myNamedFunc() {
 
 
 
+### 37. 数组去重的方式有哪些？
+
+1. **使用Set数据结构**：
+   - Set是一种集合类型，其中的元素是唯一的，可以利用这个特性实现数组去重。
+   ```javascript
+   let arr = [1, 2, 2, 3, 3, 4, 5, 5];
+   let uniqueArr = [...new Set(arr)];
+   console.log(uniqueArr); // [1, 2, 3, 4, 5]
+   ```
+
+2. **利用indexOf或includes方法**：
+   - 遍历原数组，判断新数组中是否已经包含当前元素，若不包含则添加到新数组中。
+   ```javascript
+   let arr = [1, 2, 2, 3, 3, 4, 5, 5];
+   let uniqueArr = [];
+   arr.forEach(item => {
+       if (!uniqueArr.includes(item)) {
+           uniqueArr.push(item);
+       }
+   });
+   console.log(uniqueArr); // [1, 2, 3, 4, 5]
+   ```
+
+3. **使用filter方法**：
+   - 利用filter方法和indexOf或includes方法实现去重。
+   ```javascript
+   let arr = [1, 2, 2, 3, 3, 4, 5, 5];
+   let uniqueArr = arr.filter((item, index, array) => {
+       return array.indexOf(item) === index;
+   });
+   console.log(uniqueArr); // [1, 2, 3, 4, 5]
+   ```
+
+4. **利用reduce方法**：
+   - 使用reduce方法遍历原数组，将不重复的元素添加到新数组中。
+   ```javascript
+   let arr = [1, 2, 2, 3, 3, 4, 5, 5];
+   let uniqueArr = arr.reduce((prev, curr) => {
+       if (!prev.includes(curr)) {
+           prev.push(curr);
+       }
+       return prev;
+   }, []);
+   console.log(uniqueArr); // [1, 2, 3, 4, 5]
+   ```
+
+
+
+
+
 
 
 
@@ -1409,7 +1459,77 @@ const func = () => {
 
 
 
+### 24. new 一个构造函数，如果函数返回 return {} 、 return null ， return 1 ， return true 会发生什么情况 ？
 
+1. 如果构造函数返回一个对象（使用 `return {}` 或类似的方式返回一个新创建的对象），那么 `new` 操作将返回该对象，而不是新创建的实例对象。
+   
+   ```javascript
+   function Example() {
+       return {};
+   }
+   
+   let instance = new Example();
+   console.log(instance); // 输出 {}
+   ```
+
+2. 如果构造函数返回 `null`，那么 `new` 操作将忽略该返回值，返回的仍然是新创建的实例对象。
+
+   ```javascript
+   function Example() {
+       return null;
+   }
+
+   let instance = new Example();
+   console.log(instance instanceof Example); // 输出 true
+   ```
+
+3. 如果构造函数返回一个非对象的值，如 `1` 或 `true`，那么 `new` 操作将忽略该返回值，返回的仍然是新创建的实例对象。
+
+   ```javascript
+   function Example() {
+       return 1;
+   }
+   
+   let instance = new Example();
+   console.log(instance instanceof Example); // 输出 true
+   ```
+
+
+
+### 25. 如何判断一个对象是不是空对象 ？
+
+1. **使用Object.keys()方法**：
+   ```javascript
+   function isEmpty(obj) {
+       return Object.keys(obj).length === 0;
+   }
+   ```
+
+2. **使用for...in循环**：
+   ```javascript
+   function isEmpty(obj) {
+       for (let key in obj) {
+           if (obj.hasOwnProperty(key)) {
+               return false;
+           }
+       }
+       return true;
+   }
+   ```
+
+3. **使用Object.getOwnPropertyNames()方法**：
+   ```javascript
+   function isEmpty(obj) {
+       return Object.getOwnPropertyNames(obj).length === 0;
+   }
+   ```
+
+4. **使用JSON.stringify()方法**：
+   ```javascript
+   function isEmpty(obj) {
+       return JSON.stringify(obj) === '{}';
+   }
+   ```
 
 
 
@@ -1735,6 +1855,24 @@ HTTP 响应状态码表示服务器对请求的处理结果，分为以下几类
    
    // element 应该在不需要时被清除
    ```
+
+
+
+### 3. 简述Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办 ？
+
+在 JavaScript 中，`Number` 类型使用双精度浮点数来表示所有数字。双精度浮点数使用 64 位（8 字节）来存储，其中 1 位用于符号位（0 表示正数，1 表示负数），11 位用于指数部分，剩下的 52 位用于尾数（即有效数字部分）。
+
+JavaScript 中可以表示的最大数值为 `Number.MAX_VALUE`，约为 1.7976931348623157e+308，最小的数值为 `Number.MIN_VALUE`，约为 5e-324。超出这个范围的数字将被表示成 `Infinity`（正无穷大）或 `-Infinity`（负无穷大）。
+
+如果后台发送了一个超过 JavaScript 能表示的最大数值的数字，通常情况下会导致该数字被表示成 `Infinity`。在处理这种情况时，可以考虑以下几种方式：
+
+1. **使用科学计数法发送数据**：如果可能的话，将超过最大数值的数字表示成科学计数法形式，以便 JavaScript 能够正确解析。
+   
+2. **对数据进行分段处理**：如果超出最大数值的数字是作为一个整体来使用的，可以将其拆分成多个较小的数值进行处理，然后再进行合并或计算。
+
+3. **进行数据截断或舍入**：根据具体的业务需求，可以将超出范围的数字截断或进行舍入处理，使其落在 JavaScript 能够表示的范围内。
+
+4. **使用库或工具进行处理**：可以使用第三方库或工具来处理超出范围的数字，这些库通常提供了更灵活和高效的处理方式，可以更好地应对各种情况。
 
 
 
